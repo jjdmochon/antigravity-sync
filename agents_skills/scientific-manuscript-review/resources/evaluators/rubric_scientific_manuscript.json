@@ -1,0 +1,22 @@
+{
+  "name": "Scientific Manuscript Rubric",
+  "version": "1.0.0",
+  "metrics": {
+    "logical_coherence": {
+      "weight": 0.25,
+      "description": "Evaluates transition clarity, sequential experiment logic, and clear narrative funnel."
+    },
+    "scientific_rigor": {
+      "weight": 0.30,
+      "description": "Checks for proper controls, p-values, N-values, and correct statistical comparisons."
+    },
+    "balanced_claims": {
+      "weight": 0.25,
+      "description": "Assesses if conclusions match data and if hedging language is used appropriately (especially for exploratory data)."
+    },
+    "format_and_style": {
+      "weight": 0.20,
+      "description": "Verifies citation completeness, abbreviation consistency, and target journal standard compliance."
+    }
+  }
+}

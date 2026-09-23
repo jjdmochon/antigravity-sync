@@ -1,0 +1,40 @@
+# --- Secretos: nunca al repositorio ---
+.env
+*.env
+*.pem
+*.key
+**/mcp_config.json.bak
+**/mcp_config.json.disabled
+**/oauth_creds.json
+**/.credentials.json
+
+# --- Datos locales de cada equipo (rutas absolutas, proyectos, estado) ---
+config/projects/
+config/sidecars/
+config/skills/
+config/skills.bak-*/
+config/.migrated
+
+# --- Esquema antiguo y copias de seguridad ---
+archive/
+claude_skills/
+*.bak
+*.bak-*
+*.bak_*
+*.orig
+
+# --- Basura de Drive / SO / entornos ---
+desktop.ini
+Thumbs.db
+.DS_Store
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+node_modules/
+
+# --- GIF de demostración pesados (docs de terceros) ---
+agents_skills/**/docs/*.gif

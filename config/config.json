@@ -1,0 +1,83 @@
+{
+  "plugins": {
+    "chrome-devtools-plugin": {
+      "enabled": true
+    },
+    "gemini-api": {
+      "enabled": true
+    },
+    "k-dense-skills": {
+      "enabled": true
+    },
+    "modern-web-guidance-plugin": {
+      "enabled": true
+    }
+  },
+  "userSettings": {
+    "artifactReviewMode": "ARTIFACT_REVIEW_MODE_TURBO",
+    "autoExecutionPolicy": "CASCADE_COMMANDS_AUTO_EXECUTION_EAGER",
+    "enableTerminalSandbox": false,
+    "globalPermissionGrants": {
+      "allow": [
+        "read_file(C:\\Users\\Usuario\\.gemini)",
+        "read_file(C:\\Users\\Usuario\\.claude)",
+        "read_file(I:\\Mi unidad\\Developer UGR\\ClaudeScientificSkills)",
+        "command(powershell -Command \"\n\\$geminiSkills = Get-ChildItem 'C:\\Users\\Usuario\\.gemini\\skills' -Directory | Select-Object -ExpandProperty Name\n\\$kdenseSkills = Get-ChildItem 'C:\\Users\\Usuario\\.gemini\\config\\plugins\\k-dense-skills\\skills' -Directory | Select-Object -ExpandProperty Name\n\\$scienceSkills = Get-ChildItem 'C:\\Users\\Usuario\\.gemini\\config\\plugins\\science\\skills' -Directory | Select-Object -ExpandProperty Name\n\\$claudeSkills = Get-ChildItem 'C:\\Users\\Usuario\\.claude\\skills' -Directory | Select-Object -ExpandProperty Name\n\nWrite-Host 'Total in .gemini\\skills:' \\$geminiSkills.Count\nWrite-Host 'Total in k-dense-skills:' \\$kdenseSkills.Count\nWrite-Host 'Total in science:' \\$scienceSkills.Count\nWrite-Host 'Total in .claude\\skills:' \\$claudeSkills.Count\n\n\\$diff = \\$geminiSkills | Where-Object { \\$_ -notin \\$kdenseSkills -and \\$_ -notin \\$scienceSkills }\nWrite-Host 'In .gemini\\skills but NOT in k-dense or science:'\n\\$diff\n\")",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\analyze_skills.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\check_missing.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\parse_skills.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\check_other.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\generate_full_mapping.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\find_missing.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\build_catalog.py)",
+        "write_file(C:\\Users\\Usuario\\.gemini\\GEMINI.md)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\generate_artifact.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\build_complete_catalog.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\analyze_user_history.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\check_brain_details.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\deep_scan.py)",
+        "write_file(C:\\Users\\Usuario\\.gemini\\config\\plugins\\juanjo-omni-agent\\skills\\juanjo-copilot\\SKILL.md)",
+        "write_file(C:\\Users\\Usuario\\.gemini\\config\\plugins\\juanjo-omni-agent\\rules\\agent_protocol.md)",
+        "write_file(C:\\Users\\Usuario\\.gemini\\config\\plugins\\k-dense-skills\\skills\\juanjo-copilot\\SKILL.md)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\inspect_installed_tools.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\fast_inspect.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\search_specific_tools.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\build_global_unique_list.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\build_subagent_templates.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\add_template_8.py)",
+        "command(python -m pip freeze \u003e C:\\Users\\Usuario\\.gemini\\requirements.txt)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\build_migration_scripts.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\build_migration_guide.py)",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\36ef5897-329f-4a1a-9b4d-21d29a770b14\\scratch\\update_mcp_migration.py)",
+        "command(python -c \"\nimport urllib.request, json\n\ncompounds = [\n    'Gefitinib', 'Erlotinib', 'Lapatinib',\n    'Afatinib', 'Dacomitinib', 'Neratinib',\n    'Osimertinib', 'Mobocertinib', 'Lazertinib', 'Aumolertinib',\n    'EAI045', 'BLU-945', 'BBT-176', 'JBJ-0487', 'CH7233163'\n]\n\nresults = {}\nfor name in compounds:\n    try:\n        url = f'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{name}/property/MolecularWeight,XLogP,TPSA,HBondDonorCount,HBondAcceptorCount,RotatableBondCount,CanonicalSMILES,IsomericSMILES/JSON'\n        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})\n        with urllib.request.urlopen(req) as resp:\n            data = json.loads(resp.read().decode())\n            props = data['PropertyTable']['Properties'][0]\n            results[name] = props\n    except Exception as e:\n        results[name] = {'error': str(e)}\n\nprint(json.dumps(results, indent=2))\n\")",
+        "command(python C:\\Users\\Usuario\\.gemini\\antigravity\\brain\\b4a3b604-697a-453d-9eea-297ab2c96215\\scratch\\generate_db.py)",
+        "read_file(I:\\Mi unidad\\Developer UGR\\mir451 mir1246\\analysis)",
+        "read_file(I:\\Mi unidad\\Developer UGR\\mir451 mir1246)",
+        "command(Get-ChildItem -Recurse -File | Select-Object FullName, Length)",
+        "command(Get-ChildItem -Path \"..\" -Recurse -Directory -Filter \"*data*\" | Select-Object FullName)",
+        "command(powershell -Command \"Get-ChildItem -Path .. -Filter *.csv -Recurse | Select-Object FullName\")",
+        "command(python -c \"import openpyxl; wb = openpyxl.load_workbook('i:/Mi unidad/Developer UGR/mir451 mir1246/DAILY UPDATE_miR451a and miR1246 📈.xlsx', data_only=True); print('Sheets:', wb.sheetnames)\")",
+        "command(python -c \"import pandas as pd; df = pd.read_excel('i:/Mi unidad/Developer UGR/mir451 mir1246/DAILY UPDATE_miR451a and miR1246 📈.xlsx', header=None); print('Shape:', df.shape); print(df.iloc[:20, :15])\")",
+        "command(python -c \"import numpy, scipy, pandas, sklearn, matplotlib; print('All core scientific packages available')\")",
+        "command(python -c \"import torch; print('Torch available:', torch.__version__)\")",
+        "command(python scripts/generate_data_and_standards.py)",
+        "command(python scripts/dcl_calibration_analysis.py)",
+        "command(python scripts/cross_platform_normalization_analysis.py)",
+        "command(pwsh -Command \"Get-ChildItem 'C:\\Users\\Usuario\\.gemini'; Get-ChildItem 'I:\\Mi unidad\\Antigravity-Sync'\")",
+        "command(pwsh -Command \"Get-ChildItem 'C:\\Users\\Usuario\\.gemini\\GEMINI.md', 'C:\\Users\\Usuario\\.gemini\\GLOBAL_AGENTS_AND_TOOLS.md', 'C:\\Users\\Usuario\\.gemini\\SUBAGENTS_TEMPLATES.md' | Select-Object Name, LastWriteTime, Length\")",
+        "read_url(ai.studio)",
+        "read_url(antigravity.google)",
+        "read_url(boe.es)",
+        "read_url(pubchem.ncbi.nlm.nih.gov)",
+        "read_url(github.com)",
+        "read_url(hdl.handle.net)",
+        "read_url(dompe.com)"
+      ]
+    },
+    "nonWorkspaceFileAccessPolicy": "AGENT_SETTING_POLICY_ALLOW",
+    "queuedMessageDeliveryStrategy": "MESSAGE_DELIVERY_STRATEGY_WHEN_IDLE",
+    "remoteControlEnabled": true,
+    "remoteControlHostname": "desktop-9u8rfcu-distant-spark",
+    "themeMode": "THEME_MODE_LIGHT"
+  }
+}

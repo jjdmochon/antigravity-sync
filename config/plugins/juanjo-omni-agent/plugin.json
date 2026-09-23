@@ -1,0 +1,9 @@
+{
+  "name": "juanjo-omni-agent",
+  "version": "1.0.0",
+  "description": "Personalized Scientific & Academic AI Copilot tailored to UGR teaching, DestiNA Genomics, PNA/GDL, KRT10, ISO compliance, and fast-mode proactive development.",
+  "author": {
+    "name": "Juanjo"
+  },
+  "license": "MIT"
+}

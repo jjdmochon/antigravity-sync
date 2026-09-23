@@ -89,6 +89,38 @@ if (Test-Path "$driveSyncDir\claude_agents") {
     robocopy "$driveSyncDir\claude_agents" "$claudeAgentsDir" /MIR /XD @xd /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
 }
 
+# 6. Claude Code: MCP de ambito usuario. Idempotente: solo añade los que falten.
+if (Get-Command claude -ErrorAction SilentlyContinue) {
+    $mcps = [ordered]@{
+        "gemini-api-docs" = @("--transport", "http", "gemini-api-docs", "https://gemini-api-docs-mcp.dev")
+        "chrome-devtools" = @("chrome-devtools", "--", "npx", "-y", "chrome-devtools-mcp@latest")
+        "tooluniverse"    = @("tooluniverse", "--", "uvx", "--from", "tooluniverse", "tooluniverse-smcp-stdio")
+    }
+    foreach ($name in $mcps.Keys) {
+        claude mcp get $name *> $null
+        if ($LASTEXITCODE -ne 0) {
+            claude mcp add --scope user @($mcps[$name]) *> $null
+            Write-Host "  [+] MCP '$name' registrado en Claude Code." -ForegroundColor Green
+        }
+    }
+} else {
+    Write-Host "  [!] Claude Code no esta instalado. Instalalo y vuelve a ejecutar sync-pull:" -ForegroundColor Yellow
+    Write-Host "      irm https://claude.ai/install.ps1 | iex" -ForegroundColor Yellow
+}
+
+# 7. GitHub: git usa la sesion de GitHub CLI (sin tokens en las URL de los remotos).
+if (Get-Command gh -ErrorAction SilentlyContinue) {
+    gh auth status *> $null
+    if ($LASTEXITCODE -eq 0) {
+        gh auth setup-git *> $null
+        Write-Host "  [+] git enlazado con la sesion de GitHub CLI." -ForegroundColor Green
+    } else {
+        Write-Host "  [!] GitHub CLI sin sesion. Ejecuta 'gh auth login' y luego vuelve a ejecutar sync-pull." -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "  [!] GitHub CLI no esta instalado: winget install GitHub.cli" -ForegroundColor Yellow
+}
+
 $n = (Get-ChildItem $agentsSkillsDir -Directory -ErrorAction SilentlyContinue).Count
 Write-Host "[SYNC-PULL] Completado: $n skills disponibles en Claude, Gemini y Antigravity." -ForegroundColor Green
 Write-Host "            Recuerda definir TYPESAFE_API_KEY y demas claves en ~\.env en este equipo." -ForegroundColor DarkGray

@@ -121,6 +121,13 @@ if (Get-Command gh -ErrorAction SilentlyContinue) {
     Write-Host "  [!] GitHub CLI no esta instalado: winget install GitHub.cli" -ForegroundColor Yellow
 }
 
+# 8. ffmpeg: lo usan /brag (voz, musica, silencedetect) y las skills de audio/video. No viaja por Drive.
+if ((Get-Command ffmpeg -ErrorAction SilentlyContinue) -and (Get-Command ffprobe -ErrorAction SilentlyContinue)) {
+    Write-Host "  [+] ffmpeg y ffprobe disponibles en el PATH." -ForegroundColor Green
+} else {
+    Write-Host "  [!] ffmpeg no esta instalado: winget install --id Gyan.FFmpeg -e   (reinicia la terminal despues)" -ForegroundColor Yellow
+}
+
 $n = (Get-ChildItem $agentsSkillsDir -Directory -ErrorAction SilentlyContinue).Count
 Write-Host "[SYNC-PULL] Completado: $n skills disponibles en Claude, Gemini y Antigravity." -ForegroundColor Green
 Write-Host "            Recuerda definir TYPESAFE_API_KEY y demas claves en ~\.env en este equipo." -ForegroundColor DarkGray

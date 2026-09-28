@@ -38,3 +38,6 @@ node_modules/
 
 # --- GIF de demostración pesados (docs de terceros) ---
 agents_skills/**/docs/*.gif
+
+# --- Volcado de skills por sesion que genera la app de Claude (no forma parte del sync) ---
+agents_skills/synced/

@@ -1,5 +1,0 @@
-"**Selected parameters and performance (50k, epoch 5).**",1044
-"The selected parameters were _α_ = 3, _τ_ = 0_._11, and _γ_ = 4. Using these fixed parameters,",1045
-"five-fold cross-validation gave a micro-F1 of0_._57_±_0_._03, micro-precision of0_._79_±_0_._02, and micro-",1046
-recall of0_._44_±_0_._03. Per-IRES scores for this checkpoint are reported in Table 1: F10_._54_±_0_._21,1047
-"(median0_._60), precision0_._73_±_0_._22(median0_._80), and recall0_._44_±_0_._19(median0_._48).",1048

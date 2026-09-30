@@ -1,7 +1,0 @@
-**Binary Structure Filtering**,1008
-Binary filtering and structure prediction consisted of the following algorithm:,1009
-**Algorithm 1: Binary structure filtering from a dependency map.**,1010
-"**Input:** dependency map_M ∈_R<sup>_N×N_</sup>; thresholds_τ, γ, α_.",1011
-"**Output:** binary contact matrix_B ∈{_0_,_1_}_<sup>_N×N_</sup>.",1012
-"1. Normalize: _M _<sup>_′ _</sup>_←_clip(_M/_20_,_0_,_1).",1013
-"2. Symmetrize: _M _<sup>_′ _</sup>_←_max(_M _<sup>_′_</sup>_, M _<sup>_′⊤_</sup>).",1014

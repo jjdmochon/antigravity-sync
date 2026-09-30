@@ -1,8 +1,0 @@
-**Unconstrained thermodynamic structure prediction**,1070
-"We used`Fold`from RNAstructure version 6.4 to generate thermodynamics predictions of the 95
-sequences<sup>21</sup>. Each sequence was folded at 310.15 K (37 <sup>_◦_</sup>C) using the minimum-free-energy","1071
-1072"
-structure. The rest of the parameters were default parameters. No DMS reactivities or base-pair,1073
-"constraints were given to the RNAstructure. The predicted structures of each sequence were
-converted to binary pairing matrix and evaluated with the same methodology described above.","1074
-1075"

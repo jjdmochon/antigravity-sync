@@ -1,5 +1,0 @@
-**eFold structure prediction**,1065
-We used eFold released model weights for each of the 95 sequences to predict their secondary,1066
-structure<sup>23</sup>. The default post-processing and code of eFold was used. All the sequences were,1067
-"converted to the RNA alphabet, no DMS reactivities were fed to the model. The evaluation of",1068
-"precision, recall, and F1 were done using the same methodology as prior.",1069

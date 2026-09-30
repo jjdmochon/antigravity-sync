@@ -1,0 +1,44 @@
+**Lead contact**,535
+"Requests for further information and resources should be directed to and will be fulfilled by the
+lead contact, Silvi Rouskin (silvi@hms.harvard.edu).","536
+537"
+**Materials availability**,538
+Plasmids generated in this study are available upon request from the lead contact.,539
+**Data and code availability**,540
+"• DMS-MaPseq and polysome profiling sequencing data have been deposited at GEO and
+are publicly available as of the date of publication under accession number GEO: GSE34725
+(DMS-MaPseq) and GSE347508 (poysome profiling). Albatross dependency maps for ap-
+proximately 75,000 IRESes are available at`https://albatrossrna.org`, and DMS-MaPseq
+derived structure models are available at`https://www.rnandria.org`.
+• All original code used for training is available at`https://github.com/rouskinlab/albatros`
+• Albatross model weights, and the sequence datasets are archived at Zenodo: `https://`
+`doi.org/10.5281/zenodo.22920917`.
+• Any additional information required to reanalyze the data reported in this paper is available
+from the lead contact upon request.","541
+5542
+543
+544
+545
+`s`546
+547
+548
+549
+550"
+**ACKNOWLEDGMENTS**,551
+"We thank Julien Gagneur for providing insight and suggestions for applying dependency map-
+ping to a new context. We further thank M´elissa L´eger-Abraham for allowing us to use the gra-
+dient station in her lab. Additionally, we thank Olivier Pourqui´e for providing the UMNSAH/DF1
+cells.
+A. S. was partially supported by the National Institute of Allergy and Infectious Diseases
+Training Grant NIHT21AI007245-40. A. S. and P. B. were partially supported by the Giovanni
+Armenise Foundation. This research was supported by the the Giovanni Armenise Foundation,
+Massachusetts Consortium on Pathogen Readiness, Massachusetts Life Sciences Center, and
+the Advanced Research Projects Agency for Health.","552
+553
+554
+555
+556
+557
+558
+559
+560"

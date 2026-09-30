@@ -25,8 +25,8 @@ $agentsSkillsDir = "$userProfile\.agents\skills"   # <- unica copia canonica
 $claudeSkillsDir = "$claudeDir\skills"
 $geminiSkillsDir = "$configDir\skills"
 
-$excludeDirs  = @(".venv", "venv", ".git", "__pycache__", ".pytest_cache", "node_modules", ".ruff_cache")
-$excludeFiles = @("desktop.ini", "*.pyc", "*.pyo", "Thumbs.db", ".DS_Store")
+$excludeDirs  = @(".venv", "venv", ".git", "__pycache__", ".pytest_cache", "node_modules", ".ruff_cache", "*.bak*")
+$excludeFiles = @("desktop.ini", "*.pyc", "*.pyo", "Thumbs.db", ".DS_Store", "*.bak*")
 
 function Ensure-SkillsJunction {
     <#

@@ -382,6 +382,8 @@
 | **`tooluniverse-target-research`** | 9-pathway comprehensive drug target intelligence and druggability profiling. |
 | **`tooluniverse-variant-analysis`** | High-throughput VCF parsing, variant annotation, and clinical filtering. |
 | **`tooluniverse-variant-interpretation`** | ACMG-guided clinical variant interpretation and pathogenicity scoring. |
+| **`paper2agent`** | Convert scientific papers (PDF, spreadsheets, figures) and code into reviewed agent skills and MCP servers. |
+| **`albatross-rna-paper`** | Structured reading package, figures, and datasets for Albatross RNA Language Model & IRES structural biology (Sychla et al., bioRxiv 2026). |
 
 ---
 

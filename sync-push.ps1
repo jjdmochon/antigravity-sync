@@ -27,8 +27,8 @@ $geminiSkillsDir = "$configDir\skills"
 
 # Basura que no debe viajar a Drive: entornos virtuales con rutas absolutas del
 # equipo origen, historial git, cachés, y los desktop.ini que genera Drive.
-$excludeDirs  = @(".venv", "venv", ".git", "__pycache__", ".pytest_cache", "node_modules", ".ruff_cache")
-$excludeFiles = @("desktop.ini", "*.pyc", "*.pyo", "Thumbs.db", ".DS_Store")
+$excludeDirs  = @(".venv", "venv", ".git", "__pycache__", ".pytest_cache", "node_modules", ".ruff_cache", "*.bak*")
+$excludeFiles = @("desktop.ini", "*.pyc", "*.pyo", "Thumbs.db", ".DS_Store", "*.bak*")
 
 function Ensure-SkillsJunction {
     <#

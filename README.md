@@ -101,8 +101,13 @@ llevan rutas absolutas del equipo origen): `.venv`, `.git`, `__pycache__`, `node
 
 ### Después de un `sync-pull` en un equipo nuevo
 
-Las claves de API no viajan por Drive. Hay que crear `~\.env` en el equipo destino con,
-al menos, `TYPESAFE_API_KEY` (motor Jev) y `ALPHAGENOME_API_KEY`.
+Las claves de API no viajan por Drive. Copia `.env.example` a `~\.env` en el equipo destino y
+rellena los valores (`TYPESAFE_API_KEY`, `ALPHAGENOME_API_KEY`, `GOOGLE_API_KEY`; la plantilla
+dice de dónde sale cada una). `sync-pull` compara `~\.env` con la plantilla y avisa de las que
+falten o estén vacías, sin mostrar nunca los valores.
+
+Las skills de Jev se ejecutan con `py -3.13` (`typesafe-sdk`, `python-dotenv`, `python-docx`,
+`pymupdf`). `sync-pull` avisa si falta Python 3.13 o alguno de esos paquetes.
 
 ---
 

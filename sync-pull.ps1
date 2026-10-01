@@ -163,7 +163,40 @@ if ((Get-Command ffmpeg -ErrorAction SilentlyContinue) -and (Get-Command ffprobe
     Write-Host "  [!] ffmpeg no esta instalado: winget install --id Gyan.FFmpeg -e   (reinicia la terminal despues)" -ForegroundColor Yellow
 }
 
+# 12. Claves de API: ~\.env frente a la plantilla .env.example. Solo nombres, nunca valores.
+$envTemplate = "$driveSyncDir\.env.example"
+$envLocal    = "$userProfile\.env"
+if (Test-Path $envTemplate) {
+    $wanted = @(Get-Content $envTemplate | Where-Object { $_ -match '^\s*([A-Z0-9_]+)\s*=' } | ForEach-Object { $Matches[1] })
+    $have = @{}
+    if (Test-Path $envLocal) {
+        foreach ($l in Get-Content $envLocal) {
+            if ($l -match '^\s*([A-Z0-9_]+)\s*=\s*(.*)$') { $have[$Matches[1]] = $Matches[2].Trim().Trim('"').Trim("'") }
+        }
+    }
+    $faltan = @($wanted | Where-Object { -not $have[$_] })
+    if (-not (Test-Path $envLocal)) {
+        Write-Host "  [!] No existe $envLocal. Copia la plantilla y rellenala:" -ForegroundColor Yellow
+        Write-Host "      Copy-Item '$envTemplate' '$envLocal'" -ForegroundColor Yellow
+    } elseif ($faltan.Count -gt 0) {
+        Write-Host "  [!] Faltan o estan vacias en ~\.env: $($faltan -join ', ') (ver .env.example)." -ForegroundColor Yellow
+    } else {
+        Write-Host "  [+] ~\.env tiene las $($wanted.Count) claves de la plantilla." -ForegroundColor Green
+    }
+}
+
+# 13. Python 3.13 con las dependencias de Jev (las skills llaman a `py -3.13`).
+py -3.13 -c "import typesafe_sdk, dotenv, docx, fitz" *> $null
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "  [+] Python 3.13 con typesafe-sdk, python-dotenv, python-docx y pymupdf." -ForegroundColor Green
+} else {
+    py -3.13 -c "pass" *> $null
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "  [!] Falta Python 3.13: winget install --id Python.Python.3.13 -e --scope user" -ForegroundColor Yellow
+    }
+    Write-Host "  [!] Dependencias de Jev: py -3.13 -m pip install --user typesafe-sdk==0.7.1 python-dotenv python-docx pymupdf" -ForegroundColor Yellow
+}
+
 $nCore = (Get-ChildItem $agentsSkillsDir -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -ne "synced" }).Count
 $nLib  = (Get-ChildItem $libraryDir -Directory -ErrorAction SilentlyContinue).Count
 Write-Host "[SYNC-PULL] Completado: $nCore skills en el nucleo y $nLib en la biblioteca (via skill-catalog)." -ForegroundColor Green
-Write-Host "            Recuerda definir TYPESAFE_API_KEY y demas claves en ~\.env en este equipo." -ForegroundColor DarkGray

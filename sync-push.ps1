@@ -31,9 +31,40 @@ $geminiSkillsDir = "$configDir\skills"
 $excludeDirs  = @(".venv", "venv", ".git", "__pycache__", ".pytest_cache", "node_modules", ".ruff_cache", "*.bak*")
 $excludeFiles = @("desktop.ini", "*.pyc", "*.pyo", "Thumbs.db", ".DS_Store", "*.bak*")
 $localOnlyCore = @("synced", "skill-catalog")
+# Datos propios de cada equipo dentro de config (los mismos que excluye .gitignore): rutas
+# absolutas de workspaces y estado local. No suben: sync-pull tampoco los trae.
+$localOnlyConfigDirs  = @("projects", "sidecars")
+$localOnlyConfigFiles = @(".migrated")
 # Por encima de este numero de skills en el nucleo, el equipo sigue en el esquema antiguo
 # (todo cargado) y un push desharia la separacion nucleo/biblioteca en Drive.
 $maxCoreSkills = 70
+
+function Copy-ToDrive {
+    <#
+      Sube un fichero a Drive salvo que la copia de Drive sea distinta y mas reciente (cambio del
+      otro equipo aun sin sync-pull): en ese caso no se toca y se avisa. Antes se copiaba siempre
+      con -Force y un equipo desactualizado pisaba el CLAUDE.md o GEMINI.md bueno.
+    #>
+    param([string]$Source, [string]$Dest)
+    if (Test-Path -LiteralPath $Dest) {
+        if ((Get-FileHash -LiteralPath $Source).Hash -eq (Get-FileHash -LiteralPath $Dest).Hash) { return }
+        if ((Get-Item -LiteralPath $Dest).LastWriteTimeUtc -gt (Get-Item -LiteralPath $Source).LastWriteTimeUtc) {
+            Write-Host "  [!] $Dest es mas reciente en Drive: no se sube. Haz sync-pull y repite." -ForegroundColor Yellow
+            return
+        }
+    }
+    Copy-Item -LiteralPath $Source -Destination $Dest -Force
+}
+
+function Sync-ConfigToDrive {
+    <#
+      Sube config sin purga y con /XO: no pisa en Drive la version mas reciente que subio el otro
+      equipo, y no sube projects\, sidecars\ ni .migrated. Antes era /MIR: un equipo con un
+      config.json antiguo sustituia el de Drive. Lo que se borre aqui no se borra en Drive.
+    #>
+    param([string]$Source, [string]$Dest, [string[]]$ExcludeDirs, [string[]]$ExcludeFiles)
+    robocopy $Source $Dest /E /XO /XD skills @localOnlyConfigDirs @ExcludeDirs /XF @ExcludeFiles @localOnlyConfigFiles /NP /NFL /NDL /R:1 /W:1 | Out-Null
+}
 
 function Ensure-SkillsJunction {
     param([string]$Link, [string]$Target)
@@ -83,12 +114,12 @@ Ensure-SkillsJunction -Link $geminiSkillsDir -Target $agentsSkillsDir
 
 # 1. Ficheros maestros de configuracion
 foreach ($master in @("$geminiDir\GEMINI.md", "$claudeDir\CLAUDE.md")) {
-    if (Test-Path $master) { Copy-Item $master "$driveSyncDir\" -Force }
+    if (Test-Path $master) { Copy-ToDrive $master (Join-Path $driveSyncDir (Split-Path $master -Leaf)) }
 }
 # Catalogos fechados: GLOBAL_AGENTS_AND_TOOLS_<fecha>.md y SUBAGENTS_TEMPLATES_<fecha>.md.
-Get-ChildItem "$geminiDir" -File -Filter "GLOBAL_AGENTS_AND_TOOLS_*.md" | Copy-Item -Destination "$driveSyncDir\" -Force
-Get-ChildItem "$geminiDir" -File -Filter "SUBAGENTS_TEMPLATES_*.md"     | Copy-Item -Destination "$driveSyncDir\" -Force
-Get-ChildItem "$geminiDir" -File -Filter "CHEMBIO_MEDCHEM_TOOLKIT_*.md" | Copy-Item -Destination "$driveSyncDir\" -Force
+foreach ($pattern in @("GLOBAL_AGENTS_AND_TOOLS_*.md", "SUBAGENTS_TEMPLATES_*.md", "CHEMBIO_MEDCHEM_TOOLKIT_*.md")) {
+    Get-ChildItem "$geminiDir" -File -Filter $pattern | ForEach-Object { Copy-ToDrive $_.FullName (Join-Path $driveSyncDir $_.Name) }
+}
 
 # 2. Config, nucleo, biblioteca y agentes
 $xd = @(); foreach ($d in $excludeDirs)  { $xd += $d }
@@ -97,7 +128,7 @@ $xf = @(); foreach ($f in $excludeFiles) { $xf += $f }
 & "$driveSyncDir\build-skill-catalog.ps1"
 
 if (Test-Path $configDir) {
-    robocopy "$configDir" "$driveSyncDir\config" /MIR /XD skills @xd /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
+    Sync-ConfigToDrive -Source $configDir -Dest "$driveSyncDir\config" -ExcludeDirs $xd -ExcludeFiles $xf
 }
 robocopy "$agentsSkillsDir" "$driveSyncDir\agents_skills" /MIR /XD @xd @localOnlyCore /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
 if (Test-Path $libraryDir) {

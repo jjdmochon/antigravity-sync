@@ -65,15 +65,16 @@ function Copy-FromDrive {
     Copy-Item -LiteralPath $Source -Destination $Dest -Force
 }
 
-function Sync-ConfigFromDrive {
+function Sync-FromDrive {
     <#
-      Trae config de Drive sin purga y con /XO: no borra lo que solo exista en este equipo ni pisa
-      ficheros locales mas recientes. Antes era /MIR, que devolvia config.json a la version de
-      Drive aunque la local fuera de hoy, y traia projects\ con la letra de unidad del otro equipo.
+      Trae una carpeta de Drive sin purga y con /XO: no borra lo que solo exista en este equipo ni
+      pisa ficheros locales mas recientes. Lo usan config y claude_agents. Antes ambas iban con /MIR,
+      que devolvia config.json a la version de Drive aunque la local fuera de hoy y borraba los
+      subagentes que solo existian en este equipo.
     #>
     param([string]$Source, [string]$Dest, [string[]]$ExcludeDirs, [string[]]$ExcludeFiles)
-    $cfgArgs = @($Source, $Dest, "/E", "/XO", "/XD", "skills") + $localOnlyConfigDirs + $ExcludeDirs +
-               @("/XF") + $ExcludeFiles + $localOnlyConfigFiles + @("/R:1", "/W:1")
+    if (-not (Test-Path -LiteralPath $Dest)) { New-Item -ItemType Directory -Force -Path $Dest | Out-Null }
+    $cfgArgs = @($Source, $Dest, "/E", "/XO", "/XD") + $ExcludeDirs + @("/XF") + $ExcludeFiles + @("/R:1", "/W:1")
     # Pasada en seco (/L) para apartar antes las copias locales que Drive va a sustituir.
     # /NC /NS dejan solo la ruta completa: no depende del idioma de robocopy.
     $incoming = robocopy @cfgArgs /L /NJH /NJS /NDL /NC /NS /FP /NP | ForEach-Object { $_.Trim() } |
@@ -129,7 +130,8 @@ foreach ($pattern in @("GLOBAL_AGENTS_AND_TOOLS_*.md", "SUBAGENTS_TEMPLATES_*.md
 $xd = @(); foreach ($d in $excludeDirs)  { $xd += $d }
 $xf = @(); foreach ($f in $excludeFiles) { $xf += $f }
 if (Test-Path "$driveSyncDir\config") {
-    Sync-ConfigFromDrive -Source "$driveSyncDir\config" -Dest $configDir -ExcludeDirs $xd -ExcludeFiles $xf
+    Sync-FromDrive -Source "$driveSyncDir\config" -Dest $configDir `
+        -ExcludeDirs (@("skills") + $localOnlyConfigDirs + $xd) -ExcludeFiles ($xf + $localOnlyConfigFiles)
 }
 
 # 3. Junctions ANTES de espejar, para que .claude\skills y .gemini\config\skills nunca
@@ -165,10 +167,10 @@ if (Test-Path "$driveSyncDir\agents_skills") {
 # 7. Catalogo de la biblioteca (rutas de este equipo).
 & "$driveSyncDir\build-skill-catalog.ps1"
 
-# 8. Agentes
+# 8. Agentes: sin purga, asi que un subagente que solo exista en este equipo se conserva.
+#    Para retirar uno, borralo en los dos equipos (sync-push lo quita de Drive).
 if (Test-Path "$driveSyncDir\claude_agents") {
-    if (-not (Test-Path $claudeAgentsDir)) { New-Item -ItemType Directory -Force -Path $claudeAgentsDir | Out-Null }
-    robocopy "$driveSyncDir\claude_agents" "$claudeAgentsDir" /MIR /XD @xd /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
+    Sync-FromDrive -Source "$driveSyncDir\claude_agents" -Dest $claudeAgentsDir -ExcludeDirs $xd -ExcludeFiles $xf
 }
 
 # 9. Claude Code: MCP de ambito usuario. Idempotente: solo añade los que falten.

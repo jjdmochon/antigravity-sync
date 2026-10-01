@@ -81,13 +81,19 @@ que no eran esos workspaces se quedaban sin skills. Ahora:
 **Salvaguardas de los scripts.**
 - `sync-pull` no borra skills: lo que deja de ser núcleo se mueve a la biblioteca; la biblioteca
   se copia sin purga y con `/XO` (no pisa ficheros locales más recientes).
-- `sync-pull` tampoco pisa la configuración local (desde 2026-10-01). `config\` se trae sin purga
-  y con `/XO`, y nunca trae `config\projects`, `config\sidecars` ni `.migrated`, que llevan rutas y
-  letras de unidad de cada equipo. `CLAUDE.md`, `GEMINI.md` y los catálogos fechados siguen la misma
-  regla: si la copia local es más reciente, se queda y el script avisa; si Drive la sustituye, la
-  local se guarda antes como `<fichero>.bak-<fecha>`.
+- `sync-pull` tampoco pisa la configuración local (desde 2026-10-01). `config\` y `claude_agents\`
+  se traen sin purga y con `/XO`. Nunca se traen `config\projects`, `config\sidecars` ni `.migrated`,
+  porque llevan rutas y letras de unidad de cada equipo. `CLAUDE.md`, `GEMINI.md` y los catálogos
+  fechados siguen la misma regla. Si la copia local es más reciente, se queda y el script avisa. Si
+  Drive la sustituye, la local se guarda antes como `<fichero>.bak-<fecha>`.
+- `sync-push` es el espejo: `config\` sube sin purga y con `/XO`, sin `projects`, `sidecars` ni
+  `.migrated`. `CLAUDE.md`, `GEMINI.md` y los catálogos no suben si la versión de Drive es más
+  reciente, que es un cambio del otro equipo que aún no ha llegado; en ese caso avisa: `sync-pull` y repite.
 - `sync-push` se niega a subir si el núcleo local tiene más de 70 skills (equipo sin migrar) o si
   Drive tiene skills de biblioteca que este equipo no tiene. En ambos casos: `sync-pull` primero.
+- **Retirar un plugin de `config\`:** como nada purga, bórralo en los dos equipos y en
+  `config\plugins` de Drive. **Retirar un subagente:** bórralo en los dos equipos; `sync-push` lo
+  quita de Drive.
 
 Los SKILL.md duplicados dentro de `config\plugins\*` están desactivados (`SKILL.md.disabled`)
 porque Antigravity los cargaba además de los del núcleo. El MCP `claude-skills` de

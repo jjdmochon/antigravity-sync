@@ -81,6 +81,11 @@ que no eran esos workspaces se quedaban sin skills. Ahora:
 **Salvaguardas de los scripts.**
 - `sync-pull` no borra skills: lo que deja de ser núcleo se mueve a la biblioteca; la biblioteca
   se copia sin purga y con `/XO` (no pisa ficheros locales más recientes).
+- `sync-pull` tampoco pisa la configuración local (desde 2026-10-01). `config\` se trae sin purga
+  y con `/XO`, y nunca trae `config\projects`, `config\sidecars` ni `.migrated`, que llevan rutas y
+  letras de unidad de cada equipo. `CLAUDE.md`, `GEMINI.md` y los catálogos fechados siguen la misma
+  regla: si la copia local es más reciente, se queda y el script avisa; si Drive la sustituye, la
+  local se guarda antes como `<fichero>.bak-<fecha>`.
 - `sync-push` se niega a subir si el núcleo local tiene más de 70 skills (equipo sin migrar) o si
   Drive tiene skills de biblioteca que este equipo no tiene. En ambos casos: `sync-pull` primero.
 

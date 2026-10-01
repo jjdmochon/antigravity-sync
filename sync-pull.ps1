@@ -32,6 +32,61 @@ $excludeFiles = @("desktop.ini", "*.pyc", "*.pyo", "Thumbs.db", ".DS_Store", "*.
 # Carpetas del nucleo que no viajan: synced lo escribe la app de Claude en cada equipo y
 # skill-catalog se regenera aqui mismo a partir de la biblioteca local.
 $localOnlyCore = @("synced", "skill-catalog")
+# Datos propios de cada equipo dentro de config (los mismos que excluye .gitignore): rutas
+# absolutas de workspaces y estado local. No se traen de Drive: llevan la letra de unidad del
+# otro equipo (I: alli, K: aqui) y romperian los workspaces de este.
+$localOnlyConfigDirs  = @("projects", "sidecars")
+$localOnlyConfigFiles = @(".migrated")
+$stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+
+function Backup-LocalCopy {
+    # Aparta la copia local como <nombre>.bak-<fecha> antes de que Drive la sustituya.
+    param([string]$Path)
+    $backup = "$Path.bak-$stamp"
+    Copy-Item -LiteralPath $Path -Destination $backup -Force
+    Write-Host "  [!] Drive sustituye $Path. La version local queda en $(Split-Path $backup -Leaf)." -ForegroundColor Yellow
+}
+
+function Copy-FromDrive {
+    <#
+      Copia un fichero de Drive sin pisar cambios locales. Si la copia local es distinta y mas
+      reciente (cambios aun sin sync-push), no se toca; si Drive es mas reciente, la local se
+      aparta como .bak-<fecha> antes de sustituirla. Antes se copiaba siempre con -Force.
+    #>
+    param([string]$Source, [string]$Dest)
+    if (Test-Path -LiteralPath $Dest) {
+        if ((Get-FileHash -LiteralPath $Source).Hash -eq (Get-FileHash -LiteralPath $Dest).Hash) { return }
+        if ((Get-Item -LiteralPath $Dest).LastWriteTimeUtc -gt (Get-Item -LiteralPath $Source).LastWriteTimeUtc) {
+            Write-Host "  [!] $Dest es mas reciente que el de Drive: no se toca. Si es el bueno, haz sync-push." -ForegroundColor Yellow
+            return
+        }
+        Backup-LocalCopy $Dest
+    }
+    Copy-Item -LiteralPath $Source -Destination $Dest -Force
+}
+
+function Sync-ConfigFromDrive {
+    <#
+      Trae config de Drive sin purga y con /XO: no borra lo que solo exista en este equipo ni pisa
+      ficheros locales mas recientes. Antes era /MIR, que devolvia config.json a la version de
+      Drive aunque la local fuera de hoy, y traia projects\ con la letra de unidad del otro equipo.
+    #>
+    param([string]$Source, [string]$Dest, [string[]]$ExcludeDirs, [string[]]$ExcludeFiles)
+    $cfgArgs = @($Source, $Dest, "/E", "/XO", "/XD", "skills") + $localOnlyConfigDirs + $ExcludeDirs +
+               @("/XF") + $ExcludeFiles + $localOnlyConfigFiles + @("/R:1", "/W:1")
+    # Pasada en seco (/L) para apartar antes las copias locales que Drive va a sustituir.
+    # /NC /NS dejan solo la ruta completa: no depende del idioma de robocopy.
+    $incoming = robocopy @cfgArgs /L /NJH /NJS /NDL /NC /NS /FP /NP | ForEach-Object { $_.Trim() } |
+                Where-Object { $_.StartsWith($Source, [System.StringComparison]::OrdinalIgnoreCase) }
+    foreach ($src in $incoming) {
+        $local = Join-Path $Dest $src.Substring($Source.Length).TrimStart([char]92)
+        if ((Test-Path -LiteralPath $local) -and
+            (Get-FileHash -LiteralPath $src).Hash -ne (Get-FileHash -LiteralPath $local).Hash) {
+            Backup-LocalCopy $local
+        }
+    }
+    robocopy @cfgArgs /NP /NFL /NDL | Out-Null
+}
 
 function Ensure-SkillsJunction {
     <#
@@ -62,19 +117,19 @@ Write-Host "[SYNC-PULL] Actualizando Claude y Gemini desde Google Drive (Antigra
 foreach ($dir in @($claudeDir, $geminiDir, $configDir)) {
     if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Force -Path $dir | Out-Null }
 }
-if (Test-Path "$driveSyncDir\GEMINI.md")                   { Copy-Item "$driveSyncDir\GEMINI.md" "$geminiDir\" -Force }
-if (Test-Path "$driveSyncDir\CLAUDE.md")                   { Copy-Item "$driveSyncDir\CLAUDE.md" "$claudeDir\" -Force }
+if (Test-Path "$driveSyncDir\GEMINI.md") { Copy-FromDrive "$driveSyncDir\GEMINI.md" (Join-Path $geminiDir "GEMINI.md") }
+if (Test-Path "$driveSyncDir\CLAUDE.md") { Copy-FromDrive "$driveSyncDir\CLAUDE.md" (Join-Path $claudeDir "CLAUDE.md") }
 # Catalogos fechados (GLOBAL_AGENTS_AND_TOOLS_<fecha>.md, SUBAGENTS_TEMPLATES_<fecha>.md).
 # Las versiones antiguas se archivan en archive\ y en ~\.gemini\archive\.
-Get-ChildItem "$driveSyncDir" -File -Filter "GLOBAL_AGENTS_AND_TOOLS_*.md" | Copy-Item -Destination "$geminiDir\" -Force
-Get-ChildItem "$driveSyncDir" -File -Filter "SUBAGENTS_TEMPLATES_*.md"     | Copy-Item -Destination "$geminiDir\" -Force
-Get-ChildItem "$driveSyncDir" -File -Filter "CHEMBIO_MEDCHEM_TOOLKIT_*.md" | Copy-Item -Destination "$geminiDir\" -Force
+foreach ($pattern in @("GLOBAL_AGENTS_AND_TOOLS_*.md", "SUBAGENTS_TEMPLATES_*.md", "CHEMBIO_MEDCHEM_TOOLKIT_*.md")) {
+    Get-ChildItem "$driveSyncDir" -File -Filter $pattern | ForEach-Object { Copy-FromDrive $_.FullName (Join-Path $geminiDir $_.Name) }
+}
 
-# 2. Config (sin tocar skills, que es junction)
+# 2. Config (sin tocar skills, que es junction; ni projects\ ni sidecars\, que son de cada equipo)
 $xd = @(); foreach ($d in $excludeDirs)  { $xd += $d }
 $xf = @(); foreach ($f in $excludeFiles) { $xf += $f }
 if (Test-Path "$driveSyncDir\config") {
-    robocopy "$driveSyncDir\config" "$configDir" /MIR /XD skills @xd /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
+    Sync-ConfigFromDrive -Source "$driveSyncDir\config" -Dest $configDir -ExcludeDirs $xd -ExcludeFiles $xf
 }
 
 # 3. Junctions ANTES de espejar, para que .claude\skills y .gemini\config\skills nunca

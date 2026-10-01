@@ -1,4 +1,4 @@
-﻿# =====================================================================
+# =====================================================================
 # Antigravity Sync - Setup para Equipo Secundario (PC B)
 # =====================================================================
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -48,6 +48,7 @@ Set-Content -Path "$geminiDir\GEMINI.md" -Value $geminiMdContent -Encoding UTF8
 # Usan %USERPROFILE% y $HOME, asi que no hace falta reescribir rutas.
 Get-ChildItem "$driveSyncDir" -File -Filter "GLOBAL_AGENTS_AND_TOOLS_*.md" | Copy-Item -Destination "$geminiDir\" -Force
 Get-ChildItem "$driveSyncDir" -File -Filter "SUBAGENTS_TEMPLATES_*.md"     | Copy-Item -Destination "$geminiDir\" -Force
+Get-ChildItem "$driveSyncDir" -File -Filter "CHEMBIO_MEDCHEM_TOOLKIT_*.md" | Copy-Item -Destination "$geminiDir\" -Force
 Write-Host "  -> GEMINI.md y catalogos de agentes, subagentes y herramientas instalados." -ForegroundColor Green
 
 # 2. Sincronizar / Enlazar carpeta config

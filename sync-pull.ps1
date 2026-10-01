@@ -68,6 +68,7 @@ if (Test-Path "$driveSyncDir\CLAUDE.md")                   { Copy-Item "$driveSy
 # Las versiones antiguas se archivan en archive\ y en ~\.gemini\archive\.
 Get-ChildItem "$driveSyncDir" -File -Filter "GLOBAL_AGENTS_AND_TOOLS_*.md" | Copy-Item -Destination "$geminiDir\" -Force
 Get-ChildItem "$driveSyncDir" -File -Filter "SUBAGENTS_TEMPLATES_*.md"     | Copy-Item -Destination "$geminiDir\" -Force
+Get-ChildItem "$driveSyncDir" -File -Filter "CHEMBIO_MEDCHEM_TOOLKIT_*.md" | Copy-Item -Destination "$geminiDir\" -Force
 
 # 2. Config (sin tocar skills, que es junction)
 $xd = @(); foreach ($d in $excludeDirs)  { $xd += $d }

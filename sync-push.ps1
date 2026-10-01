@@ -88,6 +88,7 @@ foreach ($master in @("$geminiDir\GEMINI.md", "$claudeDir\CLAUDE.md")) {
 # Catalogos fechados: GLOBAL_AGENTS_AND_TOOLS_<fecha>.md y SUBAGENTS_TEMPLATES_<fecha>.md.
 Get-ChildItem "$geminiDir" -File -Filter "GLOBAL_AGENTS_AND_TOOLS_*.md" | Copy-Item -Destination "$driveSyncDir\" -Force
 Get-ChildItem "$geminiDir" -File -Filter "SUBAGENTS_TEMPLATES_*.md"     | Copy-Item -Destination "$driveSyncDir\" -Force
+Get-ChildItem "$geminiDir" -File -Filter "CHEMBIO_MEDCHEM_TOOLKIT_*.md" | Copy-Item -Destination "$driveSyncDir\" -Force
 
 # 2. Config, nucleo, biblioteca y agentes
 $xd = @(); foreach ($d in $excludeDirs)  { $xd += $d }

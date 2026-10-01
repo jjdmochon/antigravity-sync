@@ -32,4 +32,5 @@ For complex multi-step pipelines or parallel exploration, spawn dedicated subage
 ## 5. Master Directory & Catalog Reference
 - **Global Tools & Agents Catalog**: [GLOBAL_AGENTS_AND_TOOLS_2026-10-01.md](GLOBAL_AGENTS_AND_TOOLS_2026-10-01.md)
 - **Parallel Subagent Execution Templates**: [SUBAGENTS_TEMPLATES_2026-10-01.md](SUBAGENTS_TEMPLATES_2026-10-01.md)
+- **Chemical Biology & Medicinal Chemistry Toolkit** (what to use and how to call it per workspace): [CHEMBIO_MEDCHEM_TOOLKIT_2026-10-01.md](CHEMBIO_MEDCHEM_TOOLKIT_2026-10-01.md)
 - **Skill Library (on demand)**: core skills load automatically from `~/.agents/skills`; ~140 domain skills (ToolUniverse, AlphaGenome, biomedical databases, GCP/BigQuery, UGR teaching) live in `~/.agents/skill-library`. When a needed skill is not loaded, read the index in the `skill-catalog` skill and then the library `SKILL.md`. Never skip `jev-system-one` stages 0 and 4: it is a core skill available in every workspace.

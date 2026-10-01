@@ -73,8 +73,8 @@ que no eran esos workspaces se quedaban sin skills. Ahora:
   `skill-pack.ps1 list | status | disable <pack>`.
 - **Workspaces de Drive** (`Developer`, `Developer UGR`): desde 2026-10-01 no llevan copias de
   skills en `.agents\skills` ni `.claude\skills`. Sus 84 skills propias (BioNeMo/NIM, Complexa,
-  KERMT, K-Dense, diseño…) pasaron a la biblioteca; las 143 copias quedan apartadas en
-  `<workspace>\_skills-retired-20261001\` por si hubiera que recuperar algo.
+  KERMT, K-Dense, diseño…) pasaron a la biblioteca; las 143 copias antiguas se borraron
+  (Drive las conserva 30 días en su papelera).
 
 **Salvaguardas de los scripts.**
 - `sync-pull` no borra skills: lo que deja de ser núcleo se mueve a la biblioteca; la biblioteca

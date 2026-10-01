@@ -124,7 +124,10 @@ if (Get-Command claude -ErrorAction SilentlyContinue) {
     foreach ($name in $mcps.Keys) {
         claude mcp get $name *> $null
         if ($LASTEXITCODE -ne 0) {
-            $out = claude mcp add --scope user @($mcps[$name]) 2>&1
+            # Splatting real (@mcpArgs), no @(...): si claude es el shim claude.ps1 de npm,
+            # @(...) le llega como un unico argumento y el add falla con "unknown option".
+            $mcpArgs = $mcps[$name]
+            $out = claude mcp add --scope user @mcpArgs 2>&1
             if ($LASTEXITCODE -eq 0) {
                 Write-Host "  [+] MCP '$name' registrado en Claude Code." -ForegroundColor Green
             } else {

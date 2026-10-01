@@ -95,6 +95,13 @@ que no eran esos workspaces se quedaban sin skills. Ahora:
   (`(Get-Item <fichero>).LastWriteTime = Get-Date`).
 - `sync-push` se niega a subir si el núcleo local tiene más de 70 skills (equipo sin migrar) o si
   Drive tiene skills de biblioteca que este equipo no tiene. En ambos casos: `sync-pull` primero.
+- **Registro de la última sincronización** (`~\.agents\sync-manifest.txt`, de `sync-manifest.ps1`).
+  `sync-pull` y `sync-push` guardan la lista de ficheros de núcleo y biblioteca que este equipo
+  conoce en Drive. `sync-push` solo borra en Drive lo que está en esa lista, es decir, lo que
+  borraste aquí. Si Drive tiene ficheros que llegaron después (el otro equipo los subió y aún no
+  hiciste `sync-pull`), aborta y los enumera. No compara fechas, porque robocopy conserva la original
+  y una skill descomprimida de un zip llega con fechas antiguas. Un equipo sin registro debe hacer
+  `sync-pull` una vez antes de su primer `sync-push`.
 - **Retirar un plugin de `config\`:** como nada purga, bórralo en los dos equipos y en
   `config\plugins` de Drive. **Retirar un subagente:** bórralo en los dos equipos; `sync-push` lo
   quita de Drive.

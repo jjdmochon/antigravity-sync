@@ -26,6 +26,8 @@ $libraryDir      = "$userProfile\.agents\skill-library"   # biblioteca: bajo dem
 $archiveDir      = "$userProfile\.agents\skill-archive"
 $claudeSkillsDir = "$claudeDir\skills"
 $geminiSkillsDir = "$configDir\skills"
+$manifestPath    = "$userProfile\.agents\sync-manifest.txt"  # lo que este equipo conoce de Drive (ver sync-manifest.ps1)
+. "$driveSyncDir\sync-manifest.ps1"
 
 $excludeDirs  = @(".venv", "venv", ".git", "__pycache__", ".pytest_cache", "node_modules", ".ruff_cache", "*.bak*")
 $excludeFiles = @("desktop.ini", "*.pyc", "*.pyo", "Thumbs.db", ".DS_Store", "*.bak*")
@@ -142,6 +144,11 @@ foreach ($dir in @($agentsSkillsDir, $libraryDir, $archiveDir)) {
 Ensure-SkillsJunction -Link $claudeSkillsDir -Target $agentsSkillsDir
 Ensure-SkillsJunction -Link $geminiSkillsDir -Target $agentsSkillsDir
 
+# Foto de nucleo y biblioteca en Drive ANTES de copiar: lo que llegue durante el pull no cuenta
+# como conocido y sync-push no podra borrarlo hasta el siguiente sync-pull.
+$driveSnapshot = Get-SyncedFiles -CoreRoot "$driveSyncDir\agents_skills" -LibraryRoot "$driveSyncDir\skill_library" `
+                     -LocalOnlyCore $localOnlyCore -ExcludeDirs $excludeDirs -ExcludeFiles $excludeFiles
+
 # 4. Biblioteca primero (sin purga: nunca borra skills locales que Drive no tenga).
 if (Test-Path "$driveSyncDir\skill_library") {
     robocopy "$driveSyncDir\skill_library" "$libraryDir" /E /XO /XD @xd /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
@@ -163,6 +170,7 @@ foreach ($dir in Get-ChildItem $agentsSkillsDir -Directory -Force -ErrorAction S
 if (Test-Path "$driveSyncDir\agents_skills") {
     robocopy "$driveSyncDir\agents_skills" "$agentsSkillsDir" /MIR /XO /XD @xd @localOnlyCore /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
 }
+Save-SyncManifest -Path $manifestPath -Entries $driveSnapshot -Origin "sync-pull"
 
 # 7. Catalogo de la biblioteca (rutas de este equipo).
 & "$driveSyncDir\build-skill-catalog.ps1"

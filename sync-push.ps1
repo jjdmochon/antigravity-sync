@@ -25,6 +25,8 @@ $agentsSkillsDir = "$userProfile\.agents\skills"          # nucleo: se carga sie
 $libraryDir      = "$userProfile\.agents\skill-library"   # biblioteca: bajo demanda (skill-catalog)
 $claudeSkillsDir = "$claudeDir\skills"
 $geminiSkillsDir = "$configDir\skills"
+$manifestPath    = "$userProfile\.agents\sync-manifest.txt"  # lo que este equipo conoce de Drive (ver sync-manifest.ps1)
+. "$driveSyncDir\sync-manifest.ps1"
 
 # Basura que no debe viajar a Drive: entornos virtuales con rutas absolutas del
 # equipo origen, historial git, cachés, y los desktop.ini que genera Drive.
@@ -108,6 +110,25 @@ if ($missing.Count -gt 0) {
     Write-Host "            ($(($missing | Select-Object -First 5) -join ', ')...). Ejecuta antes sync-pull." -ForegroundColor Red
     exit 1
 }
+# Borrados en Drive: /MIR solo puede quitar lo que ya estaba en Drive en la ultima sincronizacion
+# de este equipo (lo borraste aqui). Lo que llego despues es del otro equipo y aun no lo tienes.
+$known = Read-SyncManifest $manifestPath
+if ($null -eq $known) {
+    Write-Host "[SYNC-PUSH] ABORTADO: este equipo no tiene registro de sincronizacion ($manifestPath)." -ForegroundColor Red
+    Write-Host "            Ejecuta antes sync-pull, que lo crea." -ForegroundColor Red
+    exit 1
+}
+$driveFiles = Get-SyncedFiles -CoreRoot "$driveSyncDir\agents_skills" -LibraryRoot "$driveSyncDir\skill_library" `
+                  -LocalOnlyCore $localOnlyCore -ExcludeDirs $excludeDirs -ExcludeFiles $excludeFiles
+$localFiles = Get-SyncedFiles -CoreRoot $agentsSkillsDir -LibraryRoot $libraryDir `
+                  -LocalOnlyCore $localOnlyCore -ExcludeDirs $excludeDirs -ExcludeFiles $excludeFiles
+$unknown = @(Get-UnknownPurges -DriveFiles $driveFiles -LocalFiles $localFiles -Known $known)
+if ($unknown.Count -gt 0) {
+    Write-Host "[SYNC-PUSH] ABORTADO: Drive tiene $($unknown.Count) ficheros que llegaron despues de tu ultima" -ForegroundColor Red
+    Write-Host "            sincronizacion y este push los borraria. Ejecuta antes sync-pull." -ForegroundColor Red
+    $unknown | Select-Object -First 5 | ForEach-Object { Write-Host "            - $_" -ForegroundColor Red }
+    exit 1
+}
 
 Ensure-SkillsJunction -Link $claudeSkillsDir -Target $agentsSkillsDir
 Ensure-SkillsJunction -Link $geminiSkillsDir -Target $agentsSkillsDir
@@ -140,6 +161,9 @@ if (Test-Path $libraryDir) {
     $nestedDup = "$libraryDir\tooluniverse-antibody-engineering\ClaudeScientificSkills"
     robocopy "$libraryDir" "$driveSyncDir\skill_library" /MIR /XO /XD @xd "$nestedDup" /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
 }
+# Tras el push, Drive tiene lo mismo que este equipo: eso pasa a ser lo conocido. Lo que haya
+# llegado del otro equipo durante el push no esta en la lista y queda protegido.
+Save-SyncManifest -Path $manifestPath -Entries $localFiles -Origin "sync-push"
 if (Test-Path $claudeAgentsDir) {
     robocopy "$claudeAgentsDir" "$driveSyncDir\claude_agents" /MIR /XD @xd /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
 }

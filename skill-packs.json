@@ -1,16 +1,83 @@
 {
   "_comment": "Packs de skills de la biblioteca (~/.agents/skill-library). Cada patron es una expresion regular sobre el nombre de la carpeta. Se activan por workspace con skill-pack.ps1.",
   "biomed": [
-    "-database$", "^literature-search-", "^ncbi-", "^embl-", "^encode-", "^ucsc-", "^foldseek-",
-    "^protein-", "^alphafold-", "^pymol$", "^scienceskillscommon$", "^analytical-chemistry-qc$"
+    "-database$",
+    "^literature-search-",
+    "^ncbi-",
+    "^embl-",
+    "^encode-",
+    "^ucsc-",
+    "^foldseek-",
+    "^protein-",
+    "^alphafold-",
+    "^pymol$",
+    "^scienceskillscommon$",
+    "^analytical-chemistry-qc$"
   ],
-  "tooluniverse": [ "^tooluniverse-", "^setup-tooluniverse$", "^create-tooluniverse-skill$" ],
-  "tooluniverse-dev": [ "^devtu-" ],
-  "genomics": [ "^alphagenome", "^albatross-", "^predictingthepast$" ],
+  "tooluniverse": [
+    "^tooluniverse-",
+    "^setup-tooluniverse$",
+    "^create-tooluniverse-skill$"
+  ],
+  "tooluniverse-dev": [
+    "^devtu-"
+  ],
+  "genomics": [
+    "^alphagenome",
+    "^albatross-",
+    "^predictingthepast$"
+  ],
   "gcp-data": [
-    "^bigquery", "^bigtable", "^gcp-", "^gcs-", "^google-cloud", "^gcloud-", "^dataform", "^dbt-",
-    "^data-autocleaning$", "^schema-mapping$", "^federate-", "^discovering-gcp", "^developing-with-bigquery$",
-    "^building-data-apps$", "^enforcing-resource-attribution$", "^notebook-guidance$"
+    "^bigquery",
+    "^bigtable",
+    "^gcp-",
+    "^gcs-",
+    "^google-cloud",
+    "^gcloud-",
+    "^dataform",
+    "^dbt-",
+    "^data-autocleaning$",
+    "^schema-mapping$",
+    "^federate-",
+    "^discovering-gcp",
+    "^developing-with-bigquery$",
+    "^building-data-apps$",
+    "^enforcing-resource-attribution$",
+    "^notebook-guidance$"
   ],
-  "ugr": [ "^qfdos-", "^ugr-" ]
+  "ugr": [
+    "^qfdos-",
+    "^ugr-"
+  ],
+  "bionemo": [
+    "-nim$",
+    "^complexa-",
+    "^kermt-",
+    "^parabricks$",
+    "^cuequivariance$",
+    "^nvmolkit",
+    "^genomics-workflow-acceleration$",
+    "^drug-discovery-pipeline$",
+    "^msa-structure"
+  ],
+  "sci-python": [
+    "^(adaptyv|arboreto|bioservices|cellxgene-census|cobrapy|datacommons-client|deeptools|diffdock|esm|etetoolkit|gget|geniml|gtars|hypogenic|hypothesis-generation|imaging-data-commons|lamindb|markitdown|matchms|modal|neuropixels-analysis|pathml|pennylane|pufferlib|pyhealth|pymoo|research-lookup)$"
+  ],
+  "design": [
+    "^brand-book",
+    "^briefing-trailer",
+    "^claymation",
+    "^muller-brockmann",
+    "^nyc-subway",
+    "^nyt-data-viz",
+    "^veo-",
+    "^vignelli",
+    "^glyph$"
+  ],
+  "business": [
+    "^airtable",
+    "^business-simulation",
+    "^landscaping",
+    "^iso-"
+  ]
 }

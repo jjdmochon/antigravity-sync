@@ -49,14 +49,14 @@ Cada skill tiene **una sola copia real** en cada equipo, en uno de dos niveles:
 ~\.agents\skills          <- NÚCLEO: se carga siempre (~44 skills, ~18 KB de descripciones)
 ~\.claude\skills          -> junction al núcleo
 ~\.gemini\config\skills   -> junction al núcleo
-~\.agents\skill-library   <- BIBLIOTECA: ~143 skills que no se cargan solas
+~\.agents\skill-library   <- BIBLIOTECA: ~227 skills que no se cargan solas
 ~\.agents\skill-archive   <- retiradas (ClaudeScientificSkills, _legacy-flat-md, rescates .bak)
 ```
 
 | En Drive | Local | Qué es |
 | :--- | :--- | :--- |
 | `agents_skills\` | `~\.agents\skills` | Núcleo: juanjo-copilot, jev-system-one, humanizers, no-ai-slop, watermarks-remover, document-pipeline, `tooluniverse` (router)… |
-| `skill_library\` | `~\.agents\skill-library` | ToolUniverse, AlphaGenome, Albatross, bases de datos, literatura, GCP/BigQuery, UGR |
+| `skill_library\` | `~\.agents\skill-library` | ToolUniverse, AlphaGenome, Albatross, BioNeMo/NIM, bases de datos, literatura, Python científico, GCP/BigQuery, ISO, diseño, UGR |
 
 **Por qué.** Con las 185 skills cargadas, Antigravity superaba el *Customization token budget*
 y truncaba skills al azar. Con solo 42 globales y copias por workspace (30/09), las carpetas
@@ -69,7 +69,12 @@ que no eran esos workspaces se quedaban sin skills. Ahora:
 - **Packs por workspace** (opcional, solo en carpetas locales, no en Drive):
   `skill-pack.ps1 enable <pack>` crea junctions a la biblioteca en `<ws>\.agents\skills` y
   `<ws>\.claude\skills`. Packs en `skill-packs.json`: `biomed`, `tooluniverse`, `tooluniverse-dev`,
-  `genomics`, `gcp-data`, `ugr`. `skill-pack.ps1 list | status | disable <pack>`.
+  `genomics`, `gcp-data`, `ugr`, `bionemo`, `sci-python`, `design`, `business`.
+  `skill-pack.ps1 list | status | disable <pack>`.
+- **Workspaces de Drive** (`Developer`, `Developer UGR`): desde 2026-10-01 no llevan copias de
+  skills en `.agents\skills` ni `.claude\skills`. Sus 84 skills propias (BioNeMo/NIM, Complexa,
+  KERMT, K-Dense, diseño…) pasaron a la biblioteca; las 143 copias quedan apartadas en
+  `<workspace>\_skills-retired-20261001\` por si hubiera que recuperar algo.
 
 **Salvaguardas de los scripts.**
 - `sync-pull` no borra skills: lo que deja de ser núcleo se mueve a la biblioteca; la biblioteca
@@ -106,7 +111,7 @@ Claude Code (`claude`, instalado en `~\.local\bin\claude.exe`) usa las mismas pi
 | Pieza | Ruta en Claude | Origen |
 | :--- | :--- | :--- |
 | Skills de núcleo (~44) | `~\.claude\skills` → junction a `~\.agents\skills` | `agents_skills\` |
-| Biblioteca (~143) | `~\.agents\skill-library`, vía `skill-catalog` | `skill_library\` |
+| Biblioteca (~227) | `~\.agents\skill-library`, vía `skill-catalog` | `skill_library\` |
 | Subagentes | `~\.claude\agents\*.md` | `claude_agents\` |
 | Instrucciones globales | `~\.claude\CLAUDE.md` | `CLAUDE.md` |
 

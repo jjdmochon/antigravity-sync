@@ -38,6 +38,9 @@ function Get-Family {
         '^alphagenome|^albatross'                                       { return 'Genomica y modelos de secuencia (AlphaGenome, Albatross)' }
         '-database$|^literature-search|^ncbi|^embl|^encode|^ucsc|^foldseek|^protein-|^alphafold|^pymol|^predictingthepast|^scienceskillscommon' { return 'Bases de datos, literatura y estructura' }
         '^bigquery|^bigtable|^gcp|^gcs|^google-cloud|^gcloud|^dataform|^dbt|^data-|^schema-|^federate|^discovering-gcp|^developing-with|^building-data|^enforcing|^notebook' { return 'Google Cloud, BigQuery y datos' }
+        '-nim$|^complexa-|^kermt-|^parabricks$|^cuequivariance$|^nvmolkit|^genomics-workflow-acceleration$|^drug-discovery-pipeline$|^msa-structure' { return 'NVIDIA BioNeMo, NIM y diseno de proteinas' }
+        '^brand-book|^briefing-trailer|^claymation|^muller-brockmann|^nyc-subway|^nyt-data-viz|^veo-|^vignelli|^airtable|^business-simulation|^landscaping' { return 'Diseno, comunicacion y negocio' }
+        '^iso-'                                                         { return 'Calidad e ISO' }
         '^qfdos|^ugr'                                                   { return 'Docencia UGR' }
         default                                                         { return 'Otras' }
     }
@@ -73,7 +76,7 @@ Set-Content -LiteralPath "$catalogDir\references\index.md" -Value $index -Encodi
 $skill = @"
 ---
 name: skill-catalog
-description: Index of $($entries.Count) extra skills kept out of the context budget (ToolUniverse, AlphaGenome, Albatross, biomedical databases, literature search, PDB/UniProt/Ensembl, Google Cloud/BigQuery, UGR teaching). Use whenever a task needs a skill that is not in the loaded list, before saying a capability is missing.
+description: Index of $($entries.Count) extra skills kept out of the context budget (ToolUniverse, AlphaGenome, Albatross, NVIDIA BioNeMo/NIM protein design, biomedical databases, literature search, scientific Python tools, Google Cloud/BigQuery, ISO 13485, design/branding, UGR teaching). Use whenever a task needs a skill that is not in the loaded list, before saying a capability is missing.
 ---
 
 # Skill Catalog (biblioteca bajo demanda)

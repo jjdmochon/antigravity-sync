@@ -44,11 +44,11 @@ $userPlaceholder = [System.Environment]::UserName
 $geminiMdContent = (Get-Content "$driveSyncDir\GEMINI.md" -Raw) -replace 'C:\\Users\\[^\\]+\\\.gemini', "$geminiDir"
 Set-Content -Path "$geminiDir\GEMINI.md" -Value $geminiMdContent -Encoding UTF8
 
-$catalogContent = (Get-Content "$driveSyncDir\GLOBAL_AGENTS_AND_TOOLS.md" -Raw) -replace 'C:\\Users\\[^\\]+\\\.gemini', "$geminiDir"
-Set-Content -Path "$geminiDir\GLOBAL_AGENTS_AND_TOOLS.md" -Value $catalogContent -Encoding UTF8
-
-Copy-Item "$driveSyncDir\SUBAGENTS_TEMPLATES.md" "$geminiDir\" -Force
-Write-Host "  -> GEMINI.md, GLOBAL_AGENTS_AND_TOOLS.md y SUBAGENTS_TEMPLATES.md instalados." -ForegroundColor Green
+# Catalogos fechados (GLOBAL_AGENTS_AND_TOOLS_<fecha>.md, SUBAGENTS_TEMPLATES_<fecha>.md).
+# Usan %USERPROFILE% y $HOME, asi que no hace falta reescribir rutas.
+Get-ChildItem "$driveSyncDir" -File -Filter "GLOBAL_AGENTS_AND_TOOLS_*.md" | Copy-Item -Destination "$geminiDir\" -Force
+Get-ChildItem "$driveSyncDir" -File -Filter "SUBAGENTS_TEMPLATES_*.md"     | Copy-Item -Destination "$geminiDir\" -Force
+Write-Host "  -> GEMINI.md y catalogos de agentes, subagentes y herramientas instalados." -ForegroundColor Green
 
 # 2. Sincronizar / Enlazar carpeta config
 Write-Host "`n[2/4] Configurando carpeta de plugins y skills (config)..." -ForegroundColor Yellow

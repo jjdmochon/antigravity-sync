@@ -82,12 +82,12 @@ Ensure-SkillsJunction -Link $claudeSkillsDir -Target $agentsSkillsDir
 Ensure-SkillsJunction -Link $geminiSkillsDir -Target $agentsSkillsDir
 
 # 1. Ficheros maestros de configuracion
-foreach ($pair in @(@("$geminiDir\GEMINI.md"),
-                    @("$claudeDir\CLAUDE.md"),
-                    @("$geminiDir\GLOBAL_AGENTS_AND_TOOLS.md"),
-                    @("$geminiDir\SUBAGENTS_TEMPLATES.md"))) {
-    if (Test-Path $pair[0]) { Copy-Item $pair[0] "$driveSyncDir\" -Force }
+foreach ($master in @("$geminiDir\GEMINI.md", "$claudeDir\CLAUDE.md")) {
+    if (Test-Path $master) { Copy-Item $master "$driveSyncDir\" -Force }
 }
+# Catalogos fechados: GLOBAL_AGENTS_AND_TOOLS_<fecha>.md y SUBAGENTS_TEMPLATES_<fecha>.md.
+Get-ChildItem "$geminiDir" -File -Filter "GLOBAL_AGENTS_AND_TOOLS_*.md" | Copy-Item -Destination "$driveSyncDir\" -Force
+Get-ChildItem "$geminiDir" -File -Filter "SUBAGENTS_TEMPLATES_*.md"     | Copy-Item -Destination "$driveSyncDir\" -Force
 
 # 2. Config, nucleo, biblioteca y agentes
 $xd = @(); foreach ($d in $excludeDirs)  { $xd += $d }

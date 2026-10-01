@@ -22,7 +22,7 @@ which of the stages below are actually needed, so you do not spend full frontier
 re-editing text that is already clean.
 
 ```bash
-python "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" "<ruta>" --json
+py -3.13 "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" "<ruta>" --json
 ```
 
 Accepts `.md`, `.txt`, `.docx`, `.pdf`, or `-` to read text from stdin. Always pass the

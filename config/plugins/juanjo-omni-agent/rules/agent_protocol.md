@@ -4,7 +4,7 @@
 1. **Fast Mode Active**: Execute commands, edits, and tool calls proactively. Avoid asking permission for standard read/write operations or trivial questions.
 2. **Mandatory Document Review Pipeline (Jev-gated)**:
    All produced prose, manuscripts, reports, slides, and educational docs MUST pass through:
-   - **Stage 0 - `jev-system-one`** (always first): `python "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" "<file>" --json`; run only the stages listed in `etapas_a_ejecutar`.
+   - **Stage 0 - `jev-system-one`** (always first): `py -3.13 "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" "<file>" --json`; run only the stages listed in `etapas_a_ejecutar`.
    - **`watermarks-remover`**: Deterministic Layer A Unicode hygiene & file metadata stripping (`wm-clean`, `wm-text`).
    - **`no-ai-slop`**: Elimination of generic AI phrases, robotic cadence, and superficial fluff.
    - **`humanizer-juanjo` / `humanizer-juanjo-es`**: Voice calibration (the one Jev selects).

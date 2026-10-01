@@ -64,7 +64,7 @@ skill `jev-system-one` is installed in every workspace, so stages 0 and 4 always
 
 0. **Jev triage gate (always first)** — run the gatekeeper on the file (never on pasted text):
    ```
-   python "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" "<ruta>" --json
+   py -3.13 "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" "<ruta>" --json
    ```
    Read `etapas_a_ejecutar` and run **only** those stages. If `quality_gate_passed` is already
    `true`, report that no changes are needed and stop. Use the `humanizer_skill` it returns.

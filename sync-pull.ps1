@@ -64,8 +64,10 @@ foreach ($dir in @($claudeDir, $geminiDir, $configDir)) {
 }
 if (Test-Path "$driveSyncDir\GEMINI.md")                   { Copy-Item "$driveSyncDir\GEMINI.md" "$geminiDir\" -Force }
 if (Test-Path "$driveSyncDir\CLAUDE.md")                   { Copy-Item "$driveSyncDir\CLAUDE.md" "$claudeDir\" -Force }
-if (Test-Path "$driveSyncDir\GLOBAL_AGENTS_AND_TOOLS.md")  { Copy-Item "$driveSyncDir\GLOBAL_AGENTS_AND_TOOLS.md" "$geminiDir\" -Force }
-if (Test-Path "$driveSyncDir\SUBAGENTS_TEMPLATES.md")      { Copy-Item "$driveSyncDir\SUBAGENTS_TEMPLATES.md" "$geminiDir\" -Force }
+# Catalogos fechados (GLOBAL_AGENTS_AND_TOOLS_<fecha>.md, SUBAGENTS_TEMPLATES_<fecha>.md).
+# Las versiones antiguas se archivan en archive\ y en ~\.gemini\archive\.
+Get-ChildItem "$driveSyncDir" -File -Filter "GLOBAL_AGENTS_AND_TOOLS_*.md" | Copy-Item -Destination "$geminiDir\" -Force
+Get-ChildItem "$driveSyncDir" -File -Filter "SUBAGENTS_TEMPLATES_*.md"     | Copy-Item -Destination "$geminiDir\" -Force
 
 # 2. Config (sin tocar skills, que es junction)
 $xd = @(); foreach ($d in $excludeDirs)  { $xd += $d }

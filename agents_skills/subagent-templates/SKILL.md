@@ -4,14 +4,15 @@ description: >-
   Library of copy-paste parallel-subagent task patterns for common research/dev workflows
   (multi-omics dossiers, biomarker validation, PNA probe design, single-cell drug repurposing,
   UGR courseware, ISO audits, literature/patent surveys, builder+auditor loops, document
-  provenance pipelines). Imported from the Gemini CLI global SUBAGENTS_TEMPLATES.md. Use when the
+  provenance pipelines, AlphaGenome swarms, Albatross IRES analysis, BioNeMo NIM binder design).
+  Mirrors SUBAGENTS_TEMPLATES_2026-10-01.md. Use when the
   user asks to "spawn subagents", "run this in parallel", or references one of these templates by
   name/number.
 ---
 
 # Subagent Execution Templates
 
-Imported from `~/.gemini/SUBAGENTS_TEMPLATES.md` (Gemini CLI global templates), adapted to Claude
+Mirrors `~/.gemini/SUBAGENTS_TEMPLATES_2026-10-01.md` (the full catalogue, 19 templates), adapted to Claude
 Code's `Agent` tool. Where Gemini's prompt says "spawn subagents", issue multiple `Agent` tool
 calls **in the same message** so they run in parallel, then synthesize the results yourself.
 
@@ -20,8 +21,13 @@ calls **in the same message** so they run in parallel, then synthesize the resul
 2. Call `Agent` once per numbered subagent, all in one message block (parallel execution).
 3. Consolidate the returned reports into the requested deliverable.
 4. For domain lookups (ClinVar, gnomAD, AlphaFold, ChEMBL, PubChem, PubMed, etc.) prefer the
-   matching installed Claude skill (see `~/.claude/skills/*-database`, `tooluniverse-*`) inside
-   each subagent's task rather than freehand web search.
+   connected MCP servers (PubMed, ChEMBL, Open Targets, Clinical Trials) or the matching skill over
+   freehand web search. Most domain skills live in the library, not in the loaded core: write the
+   path into the subagent prompt (`~/.agents/skill-library/<name>/SKILL.md`) or tell it to consult
+   `skill-catalog`. A subagent never sees a library skill on its own.
+5. Use the named subagents when they fit: `document-reviewer` (Jev-gated review),
+   `albatross-expert` (Albatross / IRES), `juanjo-copilot` (persona + pipeline). Add
+   `isolation: "worktree"` to any subagent that edits files.
 
 ---
 
@@ -117,18 +123,51 @@ Do not mark the task complete until the Auditor certifies a 100% pass rate.
 Flow: Builder → initial output → spawn Auditor → adversarial audit suite → if findings, back to
 Builder; if certified, produce `audit_report.md` + final deliverables.
 
-## Template 9 — Document Production & Provenance Review Pipeline
-Publication-grade manuscripts/reports/courseware with a human, non-AI-sounding voice. See the
-[juanjo-copilot](../juanjo-copilot/SKILL.md) skill for the full 3-stage pipeline this maps to.
+## Template 9 — Document Production & Jev-Governed Review Pipeline
+Publication-grade manuscripts/reports/courseware with a human voice, certified by Jev. Maps to
+the pipeline in the [juanjo-copilot](../juanjo-copilot/SKILL.md) skill. Shortcut: delegate stages
+0–4 to the `document-reviewer` subagent.
 
 ```
-Draft [DOCUMENT]. Then run the review pipeline via subagents:
+Draft [DOCUMENT] to disk. Then run the review pipeline via subagents:
+0. Jev triage: py -3.13 "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" "<file>" --json
+   Run only the stages in etapas_a_ejecutar.
 1. Builder: draft the full text with exact data and structured formatting.
-2. Provenance & Metadata: strip invisible Unicode/tracking markers and container metadata.
-3. Slop Purge & Voice: apply the humanizer skill, then humanizer-juanjo or humanizer-juanjo-es to
-   match the target voice.
-Deliver the finalized document to disk.
+2. Provenance & Metadata: remove-ai-marks / watermarks-remover (invisible Unicode, container metadata).
+3. Slop Purge & Voice: no-ai-slop, then the humanizer Jev selected (humanizer-juanjo or -es).
+4. Certification: re-run the gatekeeper; sign-off requires quality_gate_passed == true.
+If the engine reads "fallo-abierto (sin Jev)", run every stage and report the document as uncertified.
 ```
+
+## Template 15 — AlphaGenome Variant Impact Swarm
+
+```
+Spawn 3 subagents in parallel for variant [chr:pos:ref>alt]:
+1. AlphaGenome: read ~/.agents/skill-library/alphagenome-variant-impact-score and
+   alphagenome-atlas-website-links; return AVI scores and Atlas links.
+2. Clinical & population: clinvar-database, dbsnp-database, gnomad-database (library).
+3. Structure: alphafold-database-fetch-and-analyze (library); residue pLDDT and local context.
+Compile reports/variants/[VARIANT_ID].md.
+```
+
+## Template 18 — Albatross IRES & RNA Conformation Analysis
+
+```
+Delegate to the albatross-expert subagent: read ~/.agents/skill-library/albatross-rna-paper and
+answer [QUESTION about an IRES / sequence / DMS-MaPseq result], citing figure and table numbers.
+```
+
+## Template 19 — BioNeMo NIM Protein Binder Design
+
+```
+Run subagents in order (each step feeds the next) for target [PDB / chain / hotspot]:
+1. Structure: openfold3-nim or pdb-database. 2. Backbones: rfdiffusion-nim.
+3. Sequences: proteinmpnn-nim. 4. Validation: boltz2-nim co-folding, rank by interface confidence.
+Each reads its SKILL.md from ~/.agents/skill-library. Write reports/binders/[TARGET]_candidates.md.
+```
+
+Templates 10–14 and 16–17 (test remediation, telemetry, circuit breaker, interviewer, visual
+studio, Aeneas/Ithaca, Magika) are in `~/.gemini/SUBAGENTS_TEMPLATES_2026-10-01.md`.
 
 ---
 

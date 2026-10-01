@@ -15,7 +15,9 @@ Este directorio mantiene sincronizados todos tus agentes, reglas, configuracione
    *(Si en tu segundo PC la unidad de Google Drive es `G:` o `D:`, adapta la letra de la unidad)*.
 
 **¿Qué hace este script en el segundo PC?**
-- Instala `GEMINI.md`, `GLOBAL_AGENTS_AND_TOOLS.md` y `SUBAGENTS_TEMPLATES.md`.
+- Instala `GEMINI.md` y los catálogos fechados `GLOBAL_AGENTS_AND_TOOLS_<fecha>.md` y
+  `SUBAGENTS_TEMPLATES_<fecha>.md` (vigentes: `_2026-10-01`). Al publicar una versión nueva,
+  mueve la anterior a `archive\` y actualiza los enlaces de `GEMINI.md`.
 - Sincroniza la carpeta global `config` con los **236 skills y plugins**.
 - Clona y configura `watermarks-remover`.
 - Habilita los comandos globales (`wm-clean`, `wm-inspect`, `wm-score`, `sync-push`, `sync-pull`).

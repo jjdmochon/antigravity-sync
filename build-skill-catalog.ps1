@@ -12,7 +12,9 @@ $catalogDir  = "$userProfile\.agents\skills\skill-catalog"
 function Get-SkillDescription {
     param([string]$SkillMd)
     $text = Get-Content -LiteralPath $SkillMd -Raw -Encoding UTF8 -ErrorAction SilentlyContinue
-    if (-not $text -or $text -notmatch '(?s)^﻿?---\r?\n(.*?)\r?\n---') { return "" }
+    # \uFEFF y no el caracter literal: PowerShell 5.1 lee este .ps1 (sin BOM) como ANSI y el BOM
+    # literal se convertia en tres caracteres basura, con lo que ninguna descripcion entraba en el indice.
+    if (-not $text -or $text -notmatch '(?s)^\uFEFF?---\r?\n(.*?)\r?\n---') { return "" }
     $lines = $Matches[1] -split '\r?\n'
     for ($i = 0; $i -lt $lines.Count; $i++) {
         if ($lines[$i] -match '^description:\s*(.*)$') {

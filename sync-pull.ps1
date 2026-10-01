@@ -163,6 +163,16 @@ if ((Get-Command ffmpeg -ErrorAction SilentlyContinue) -and (Get-Command ffprobe
     Write-Host "  [!] ffmpeg no esta instalado: winget install --id Gyan.FFmpeg -e   (reinicia la terminal despues)" -ForegroundColor Yellow
 }
 
+# 11b. onetake (biblioteca) renderiza con Playwright + Chromium desde Python. Solo aviso: es opcional.
+if (Test-Path "$libraryDir\onetake") {
+    py -3.13 -c "import playwright, numpy, scipy, PIL, matplotlib" *> $null
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "  [+] onetake: Python 3.13 con playwright, numpy, scipy, Pillow y matplotlib." -ForegroundColor Green
+    } else {
+        Write-Host "  [!] onetake necesita: py -3.13 -m pip install --user playwright numpy scipy pillow matplotlib fonttools brotli; py -3.13 -m playwright install chromium" -ForegroundColor Yellow
+    }
+}
+
 # 12. Claves de API: ~\.env frente a la plantilla .env.example. Solo nombres, nunca valores.
 $envTemplate = "$driveSyncDir\.env.example"
 $envLocal    = "$userProfile\.env"

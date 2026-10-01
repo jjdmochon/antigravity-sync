@@ -72,7 +72,8 @@
     "^nyt-data-viz",
     "^veo-",
     "^vignelli",
-    "^glyph$"
+    "^glyph$",
+    "^onetake$"
   ],
   "business": [
     "^airtable",

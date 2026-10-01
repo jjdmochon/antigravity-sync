@@ -112,5 +112,5 @@ Example: *"Plantilla 5 para QF1 Tema 3"* (simulator, quiz and study guide in par
 ## Shortcuts
 
 - Not sure which tool fits: *"Consulta skill-catalog y dime qué skill sirve para…"*
-- Full catalogue (227 library skills): `~\.gemini\GLOBAL_AGENTS_AND_TOOLS_2026-10-01.md`
+- Full catalogue (228 library skills): `~\.gemini\GLOBAL_AGENTS_AND_TOOLS_2026-10-01.md`
 - Subagent templates (19): `~\.gemini\SUBAGENTS_TEMPLATES_2026-10-01.md`

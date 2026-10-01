@@ -14,7 +14,7 @@
 | Layer | Path | Content | Loaded |
 | :--- | :--- | :--- | :--- |
 | Core | `~\.agents\skills` (also `~\.claude\skills`, `~\.gemini\config\skills` via junctions) | 43 skills: persona, Jev pipeline, writing, orchestration, routers | Always |
-| Library | `~\.agents\skill-library` | 227 domain skills | On demand, via `skill-catalog` |
+| Library | `~\.agents\skill-library` | 228 domain skills | On demand, via `skill-catalog` |
 | Archive | `~\.agents\skill-archive` | Retired collections (ClaudeScientificSkills, legacy flat files) | Never |
 
 - **Why two layers.** Loading every skill overflowed Antigravity's *Customization token budget* and
@@ -198,7 +198,7 @@ skills are read on demand.
 
 | Skill | Purpose |
 | :--- | :--- |
-| `skill-catalog` | Index of 227 extra skills kept out of the context budget (ToolUniverse, AlphaGenome, Albatross, NVIDIA BioNeMo/NIM protein design, biomedical databases, literature sea... |
+| `skill-catalog` | Index of 228 extra skills kept out of the context budget (ToolUniverse, AlphaGenome, Albatross, NVIDIA BioNeMo/NIM protein design, biomedical databases, literature sea... |
 | `tooluniverse` | Router skill for ToolUniverse tasks. First checks if specialized tooluniverse skills (54 skills covering disease/drug/target research, clinical decision support, genom... |
 | `find-skills` | Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest i... |
 
@@ -247,7 +247,7 @@ skills are read on demand.
 | `google-antigravity-sdk` | Design, implement, and debug autonomous AI agents and multi-agent systems using the Google Antigravity (AGY) SDK. ACTIVATE this skill when the user wants to create, co... |
 | `android-cli` | Provides instructions for installing and using the `android` CLI. The `android` command-line tool is a critical tool for Android development and helps you create new A... |
 
-### 6.2 Library (227 skills, on demand via `skill-catalog`)
+### 6.2 Library (228 skills, on demand via `skill-catalog`)
 
 #### Databases, literature & structure (52)
 
@@ -312,7 +312,7 @@ skills are read on demand.
 | :--- | :--- |
 | `iso-13485-certification` | Comprehensive toolkit for preparing ISO 13485 certification documentation for medical device Quality Management Systems. Use when users need help with ISO 13485 QMS do... |
 
-#### Design, communication & business (11)
+#### Design, communication & business (12)
 
 | Skill | Purpose |
 | :--- | :--- |
@@ -325,6 +325,7 @@ skills are read on demand.
 | `muller-brockmann-grid-systems` | Build editorial/magazine/report webpages on a GENUINE Müller-Brockmann modular grid (International Typographic Style) — not a decorative one. Encodes the discipline (c... |
 | `nyc-subway-campaign` | End-to-end method to visualize a full NYC subway (MTA) out-of-home ad campaign for any brand: lock a vivid brand identity, create a canonical logo asset FIRST and reus... |
 | `nyt-data-viz` | NYT-discipline data visualization. Applies the design rules of The New York Times graphics desk + Upshot — color, typography, annotation, chart-type selection — to mak... |
+| `onetake` | Short product or skill motion films (10–30 s, narrated feature demos up to ~60 s) in one continuous take: measured moves, UI rebuilt from screenshots, shutter motion blur, 4K60 and a continuity oracle. Noncommercial licence: UGR only, never DestiNA. |
 | `veo-hyperframes` | End-to-end production pipeline for creating polished launch videos using Veo 3.1 video generation and Hyperframes motion graphics overlays. Built around the Text Zone... |
 | `vignelli-canon-design-system` | Massimo Vignelli's complete design discipline — distilled from The Vignelli Canon (his own book). Encodes the Intangibles (semantics, discipline, appropriateness, time... |
 

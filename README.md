@@ -51,7 +51,7 @@ Cada skill tiene **una sola copia real** en cada equipo, en uno de dos niveles:
 ~\.agents\skills          <- NÚCLEO: se carga siempre (~44 skills, ~18 KB de descripciones)
 ~\.claude\skills          -> junction al núcleo
 ~\.gemini\config\skills   -> junction al núcleo
-~\.agents\skill-library   <- BIBLIOTECA: ~227 skills que no se cargan solas
+~\.agents\skill-library   <- BIBLIOTECA: ~228 skills que no se cargan solas
 ~\.agents\skill-archive   <- retiradas (ClaudeScientificSkills, _legacy-flat-md, rescates .bak)
 ```
 
@@ -118,7 +118,7 @@ Claude Code (`claude`, instalado en `~\.local\bin\claude.exe`) usa las mismas pi
 | Pieza | Ruta en Claude | Origen |
 | :--- | :--- | :--- |
 | Skills de núcleo (~44) | `~\.claude\skills` → junction a `~\.agents\skills` | `agents_skills\` |
-| Biblioteca (~227) | `~\.agents\skill-library`, vía `skill-catalog` | `skill_library\` |
+| Biblioteca (~228) | `~\.agents\skill-library`, vía `skill-catalog` | `skill_library\` |
 | Subagentes | `~\.claude\agents\*.md` | `claude_agents\` |
 | Instrucciones globales | `~\.claude\CLAUDE.md` | `CLAUDE.md` |
 

@@ -96,9 +96,9 @@ Para insertar insignias de farmacóforo o propiedades ADMET en materiales didác
 ## 4. Script de Soporte Local
 
 Puedes invocar directamente el script auxiliar ubicado en:
-`K:/Mi unidad/Classroom/2627 QFDOS E/.agents/skills/glyph/scripts/render_glyph.py`
+`scripts/render_glyph.py`, dentro de la carpeta de esta skill (en este equipo: `~/.agents/skill-library/glyph/scripts/render_glyph.py`; usa `py -3.13`, que tiene RDKit).
 
 Sintaxis CLI:
 ```bash
-python .agents/skills/glyph/scripts/render_glyph.py --smiles "CC(=O)Oc1ccccc1C(=O)O" --out "Imagenes/aspirina.svg" --name "Aspirina"
+py -3.13 "$HOME/.agents/skill-library/glyph/scripts/render_glyph.py" --smiles "CC(=O)Oc1ccccc1C(=O)O" --out "Imagenes/aspirina.svg" --name "Aspirina"
 ```

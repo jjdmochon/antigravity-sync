@@ -130,12 +130,15 @@ $xf = @(); foreach ($f in $excludeFiles) { $xf += $f }
 if (Test-Path $configDir) {
     Sync-ConfigToDrive -Source $configDir -Dest "$driveSyncDir\config" -ExcludeDirs $xd -ExcludeFiles $xf
 }
-robocopy "$agentsSkillsDir" "$driveSyncDir\agents_skills" /MIR /XD @xd @localOnlyCore /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
+# Nucleo y biblioteca: /MIR para que se propaguen borrados y cambios de nivel, y /XO para que un
+# equipo desactualizado no pise en Drive un fichero que el otro edito despues. Antes era /MIR a
+# secas: el fichero local mas antiguo sustituia al de Drive.
+robocopy "$agentsSkillsDir" "$driveSyncDir\agents_skills" /MIR /XO /XD @xd @localOnlyCore /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
 if (Test-Path $libraryDir) {
     # El duplicado anidado de ClaudeScientificSkills es identico al archivado y nadie lo
     # referencia: 39 MB que no tienen por que viajar.
     $nestedDup = "$libraryDir\tooluniverse-antibody-engineering\ClaudeScientificSkills"
-    robocopy "$libraryDir" "$driveSyncDir\skill_library" /MIR /XD @xd "$nestedDup" /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
+    robocopy "$libraryDir" "$driveSyncDir\skill_library" /MIR /XO /XD @xd "$nestedDup" /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
 }
 if (Test-Path $claudeAgentsDir) {
     robocopy "$claudeAgentsDir" "$driveSyncDir\claude_agents" /MIR /XD @xd /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null

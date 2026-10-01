@@ -89,6 +89,10 @@ que no eran esos workspaces se quedaban sin skills. Ahora:
 - `sync-push` es el espejo: `config\` sube sin purga y con `/XO`, sin `projects`, `sidecars` ni
   `.migrated`. `CLAUDE.md`, `GEMINI.md` y los catálogos no suben si la versión de Drive es más
   reciente, que es un cambio del otro equipo que aún no ha llegado; en ese caso avisa: `sync-pull` y repite.
+  El núcleo y la biblioteca suben con `/MIR /XO`: se propagan los borrados y los cambios de nivel,
+  pero un fichero local más antiguo no sustituye al de Drive. Consecuencia: si restauras a mano una
+  versión antigua de un fichero conservando su fecha, `sync-push` no la sube; tócala antes
+  (`(Get-Item <fichero>).LastWriteTime = Get-Date`).
 - `sync-push` se niega a subir si el núcleo local tiene más de 70 skills (equipo sin migrar) o si
   Drive tiene skills de biblioteca que este equipo no tiene. En ambos casos: `sync-pull` primero.
 - **Retirar un plugin de `config\`:** como nada purga, bórralo en los dos equipos y en

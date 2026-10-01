@@ -38,6 +38,10 @@ node_modules/
 
 # --- GIF de demostración pesados (docs de terceros) ---
 agents_skills/**/docs/*.gif
+skill_library/**/docs/*.gif
+
+# --- skill-catalog se regenera en cada equipo (rutas locales) ---
+agents_skills/skill-catalog/
 
 # --- Volcado de skills por sesion que genera la app de Claude (no forma parte del sync) ---
 agents_skills/synced/

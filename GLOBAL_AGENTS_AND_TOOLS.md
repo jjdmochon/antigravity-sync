@@ -1,7 +1,7 @@
 # 🌐 Global Master Catalog: Agents, Skills & Installed Open-Source Tools
 
 > [!NOTE]
-> **Global Access**: This master reference is stored globally at `C:\Users\Juanjo\.gemini\GLOBAL_AGENTS_AND_TOOLS.md` and registered in [GEMINI.md](file:///C:/Users/Juanjo/.gemini/GEMINI.md). You can reference and execute any tool or agent listed here from **any folder or workspace** on your machine.
+> **Global Access**: This master reference is stored globally at `%USERPROFILE%\.gemini\GLOBAL_AGENTS_AND_TOOLS.md` and registered in [GEMINI.md](GEMINI.md). You can reference and execute any tool or agent listed here from **any folder or workspace** on your machine.
 
 ---
 

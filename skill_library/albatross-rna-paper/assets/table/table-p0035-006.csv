@@ -1,0 +1,16 @@
+**Albatross-Constrained Thermodynamic Structure Prediction**,1076
+"The base pairs generated from Albatross with standard parameters were given as hard con-
+straints to RNAstructure`Fold`version 6.4<sup>21</sup>. The predictions given to the thermodynamic model
+were restricted to AU, GC, and GU pairs. The sequences were then folded at 310.15 K (37 <sup>_◦_</sup>C)
+using the constrained minimum-free-energy structure without DMS reactivities.","1077
+1078
+1079
+1080"
+**Family-Wide Structure Maps**,1081
+"Across the full set of binary maps, we observed a mean of 71.5 base pairs per map, a median of
+78, and a maximum of 171. After substring-containment deduplication of the 500k pool, 75,229
+root sequences were retained and used for the family-wide structural analyses. These structures
+can be found on`https://albatrossrna.org`.","1082
+1083
+1084
+1085"

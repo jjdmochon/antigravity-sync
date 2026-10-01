@@ -1,7 +1,7 @@
 # 🚀 Global Subagent Orchestration, Interactive UI & Process Governance Templates
 
 > [!NOTE]
-> **Global Reference**: This template guide is stored globally at `C:\Users\Juanjo\.gemini\SUBAGENTS_TEMPLATES.md` and registered in [GEMINI.md](file:///C:/Users/Juanjo/.gemini/GEMINI.md). You can reference, customize, or trigger any of these subagent patterns from **any folder or workspace** on your machine.
+> **Global Reference**: This template guide is stored globally at `%USERPROFILE%\.gemini\SUBAGENTS_TEMPLATES.md` and registered in [GEMINI.md](GEMINI.md). You can reference, customize, or trigger any of these subagent patterns from **any folder or workspace** on your machine.
 
 ---
 

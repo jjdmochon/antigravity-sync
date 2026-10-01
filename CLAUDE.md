@@ -52,12 +52,16 @@ Whenever any document, manuscript, report, presentation, syllabus, or web copy i
 
 ## 4. Global Skills Library & Discovery
 
-You have access to a library of 300+ custom scientific and engineering skills stored in `C:\Users\Juanjo\.claude\skills` and `C:\Users\Juanjo\.agents\skills`.
+Skills are split in two tiers to stay within the context budget (paths relative to `%USERPROFILE%` / `$HOME`; never hardcode a user name):
+
+- **Core** (`~\.agents\skills`, also visible as `~\.claude\skills` and `~\.gemini\config\skills`): ~44 always-loaded skills — `juanjo-copilot`, `jev-system-one`, the humanizers, `no-ai-slop`, `watermarks-remover`, `document-pipeline`, `tooluniverse` (router), `skill-catalog`, etc.
+- **Library** (`~\.agents\skill-library`): ~140 domain skills (ToolUniverse, AlphaGenome, Albatross, biomedical databases, literature search, Google Cloud/BigQuery, UGR teaching). Not auto-loaded, but available from **any** folder.
 
 ### Skill Discovery & Usage:
 Whenever the user uses a trigger (like `/graphify`, `/humanize`, etc.) or asks for a task that requires specialized scientific tools:
-1. Search and inspect the appropriate skill folder in `C:\Users\Juanjo\.claude\skills` or call the `find_helpful_skills` tool from the `claude-skills` MCP server.
-2. Read the corresponding `SKILL.md` and follow its specific workflows.
+1. If the skill is loaded, invoke it with the Skill tool.
+2. Otherwise open `skill-catalog` (index at `~\.agents\skills\skill-catalog\references\index.md`), then read `~\.agents\skill-library\<name>\SKILL.md` and follow its workflow. Never report a capability as missing without checking the catalog.
+3. For PubMed, ChEMBL, Open Targets and ClinicalTrials.gov prefer the connected claude.ai MCP servers; the equivalent library skills are a fallback.
 
 ### Core Available Skills & Tool Suites:
 - **Google DeepMind Science Skills Suite (40 skills)**:

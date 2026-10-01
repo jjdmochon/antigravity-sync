@@ -1,0 +1,11 @@
+**Filter Parameter Selection (5-fold cross-validation)**,1035
+"In order to select the best set of parameters, we ran a 5-fold cross validation with a grid search
+on the 95 DMS-MaPseq-constrained IRES structures.","1036
+1037"
+The 5-fold cross validation ran under the following settings: The 95 reference sequences,1038
+"were split using `KFold` with _K_ = 5, `shuffle=True`, and `random`
+`state=42`. For each fold, true",1039
+"positives, false positives, and false negatives were aggregated across the held-out sequences,",1040
+and a micro-F1 score was computed. We then reported the mean and standard deviation across,1041
+"folds. The grid search covered_α ∈{_3_, . . . ,_8_}_,_τ ∈_[0_,_0_._20], and_γ ∈{_3_,_4_,_5_}_, with micro-F1 used",1042
+as the metric to evaluate each parameter combination.,1043

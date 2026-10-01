@@ -41,18 +41,45 @@ Las configuraciones sincronizadas residen en el **Global Customizations Root** (
 
 ---
 
-## 📁 4. Estructura de las skills (desde 2026-09-21)
+## 📁 4. Estructura de las skills (desde 2026-10-01: núcleo + biblioteca)
 
-Hay **una sola copia canónica** de las skills en cada equipo:
+Cada skill tiene **una sola copia real** en cada equipo, en uno de dos niveles:
 
 ```
-~\.agents\skills          <- copia real, canónica (139 skills)
-~\.claude\skills          -> junction a la anterior
-~\.gemini\config\skills   -> junction a la anterior
+~\.agents\skills          <- NÚCLEO: se carga siempre (~44 skills, ~18 KB de descripciones)
+~\.claude\skills          -> junction al núcleo
+~\.gemini\config\skills   -> junction al núcleo
+~\.agents\skill-library   <- BIBLIOTECA: ~143 skills que no se cargan solas
+~\.agents\skill-archive   <- retiradas (ClaudeScientificSkills, _legacy-flat-md, rescates .bak)
 ```
 
-Editar en cualquiera de las tres rutas es equivalente: escriben en el mismo sitio. En
-Drive las skills viajan **solo** en `agents_skills\`.
+| En Drive | Local | Qué es |
+| :--- | :--- | :--- |
+| `agents_skills\` | `~\.agents\skills` | Núcleo: juanjo-copilot, jev-system-one, humanizers, no-ai-slop, watermarks-remover, document-pipeline, `tooluniverse` (router)… |
+| `skill_library\` | `~\.agents\skill-library` | ToolUniverse, AlphaGenome, Albatross, bases de datos, literatura, GCP/BigQuery, UGR |
+
+**Por qué.** Con las 185 skills cargadas, Antigravity superaba el *Customization token budget*
+y truncaba skills al azar. Con solo 42 globales y copias por workspace (30/09), las carpetas
+que no eran esos workspaces se quedaban sin skills. Ahora:
+
+- La skill **`skill-catalog`** (núcleo) indexa la biblioteca. En **cualquier carpeta**, el agente
+  lee el índice y abre `~\.agents\skill-library\<nombre>\SKILL.md`. La generan `sync-pull` y
+  `sync-push` con `build-skill-catalog.ps1`; no viaja por Drive porque lleva rutas locales.
+- **Mover una skill entre niveles** = mover su carpeta entre `skills` y `skill-library` y hacer `sync-push`.
+- **Packs por workspace** (opcional, solo en carpetas locales, no en Drive):
+  `skill-pack.ps1 enable <pack>` crea junctions a la biblioteca en `<ws>\.agents\skills` y
+  `<ws>\.claude\skills`. Packs en `skill-packs.json`: `biomed`, `tooluniverse`, `tooluniverse-dev`,
+  `genomics`, `gcp-data`, `ugr`. `skill-pack.ps1 list | status | disable <pack>`.
+
+**Salvaguardas de los scripts.**
+- `sync-pull` no borra skills: lo que deja de ser núcleo se mueve a la biblioteca; la biblioteca
+  se copia sin purga y con `/XO` (no pisa ficheros locales más recientes).
+- `sync-push` se niega a subir si el núcleo local tiene más de 70 skills (equipo sin migrar) o si
+  Drive tiene skills de biblioteca que este equipo no tiene. En ambos casos: `sync-pull` primero.
+
+Los SKILL.md duplicados dentro de `config\plugins\*` están desactivados (`SKILL.md.disabled`)
+porque Antigravity los cargaba además de los del núcleo. El MCP `claude-skills` de
+`~\.gemini\antigravity-ide\mcp_config.json` está en `"disabled": true` por el mismo motivo.
 
 Antes de esa fecha las tres eran carpetas reales independientes y llevaban meses
 divergiendo en silencio, porque los scripts solo creaban el junction si la ruta no
@@ -78,7 +105,8 @@ Claude Code (`claude`, instalado en `~\.local\bin\claude.exe`) usa las mismas pi
 
 | Pieza | Ruta en Claude | Origen |
 | :--- | :--- | :--- |
-| Skills (180) | `~\.claude\skills` → junction a `~\.agents\skills` | `agents_skills\` |
+| Skills de núcleo (~44) | `~\.claude\skills` → junction a `~\.agents\skills` | `agents_skills\` |
+| Biblioteca (~143) | `~\.agents\skill-library`, vía `skill-catalog` | `skill_library\` |
 | Subagentes | `~\.claude\agents\*.md` | `claude_agents\` |
 | Instrucciones globales | `~\.claude\CLAUDE.md` | `CLAUDE.md` |
 

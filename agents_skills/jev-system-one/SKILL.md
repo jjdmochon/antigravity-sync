@@ -29,10 +29,10 @@ Motor de decisiones estructuradas de ultrabaja latencia impulsado por **Jev (Typ
 
 ```bash
 # Salida estándar en texto:
-python "C:\Users\Juanjo\.agents\skills\jev-system-one\scripts\jev_router.py" "¿Cómo diseñar sondas SMART para detectar miR-122?"
+python "$HOME/.agents/skills/jev-system-one/scripts/jev_router.py" "¿Cómo diseñar sondas SMART para detectar miR-122?"
 
 # Salida en JSON para consumo directo por otros agentes:
-python "C:\Users\Juanjo\.agents\skills\jev-system-one\scripts\jev_router.py" "Prepara el examen de QFDOS tema 4" --json
+python "$HOME/.agents/skills/jev-system-one/scripts/jev_router.py" "Prepara el examen de QFDOS tema 4" --json
 ```
 
 ## Gatekeeper del pipeline documental
@@ -41,13 +41,13 @@ Etapas 0 y 4 de la sección 3 de CLAUDE.md: triaje previo y certificación final
 
 ```bash
 # Triaje: qué etapas necesita realmente el documento
-python "C:\Users\Juanjo\.agents\skills\jev-system-one\scripts\jev_doc_gatekeeper.py" "ruta/documento.md"
+python "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" "ruta/documento.md"
 
 # JSON para subagentes (así lo consume document-reviewer):
-python "C:\Users\Juanjo\.agents\skills\jev-system-one\scripts\jev_doc_gatekeeper.py" "informe.docx" --json
+python "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" "informe.docx" --json
 
 # Texto por stdin:
-echo "texto a auditar" | python "C:\Users\Juanjo\.agents\skills\jev-system-one\scripts\jev_doc_gatekeeper.py" -
+echo "texto a auditar" | python "$HOME/.agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py" -
 ```
 
 Acepta `.md`, `.txt`, `.docx`, `.pdf` y `-` (stdin). Pasa **siempre la ruta del fichero**,

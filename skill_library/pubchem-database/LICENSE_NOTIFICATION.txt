@@ -1,0 +1,7 @@
+PubChem skill - user notification record
+Timestamp (UTC): 2026-08-28
+Notified user to review terms at:
+  https://pubchem.ncbi.nlm.nih.gov/docs/citation-guidelines
+  https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest
+Notification text shown to user: "This task uses the PubChem skill. Please review the
+PubChem citation guidelines and PUG-REST usage policy before relying on retrieved data."

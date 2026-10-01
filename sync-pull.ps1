@@ -118,13 +118,18 @@ if (Get-Command claude -ErrorAction SilentlyContinue) {
     $mcps = [ordered]@{
         "gemini-api-docs" = @("--transport", "http", "gemini-api-docs", "https://gemini-api-docs-mcp.dev")
         "chrome-devtools" = @("chrome-devtools", "--", "npx", "-y", "chrome-devtools-mcp@latest")
-        "tooluniverse"    = @("tooluniverse", "--", "uvx", "--from", "tooluniverse", "tooluniverse-smcp-stdio")
+        # tooluniverse se quito el 2026-10-01: expone cientos de herramientas y su contenido ya
+        # llega por la skill router `tooluniverse` y las sub-skills de la biblioteca.
     }
     foreach ($name in $mcps.Keys) {
         claude mcp get $name *> $null
         if ($LASTEXITCODE -ne 0) {
-            claude mcp add --scope user @($mcps[$name]) *> $null
-            Write-Host "  [+] MCP '$name' registrado en Claude Code." -ForegroundColor Green
+            $out = claude mcp add --scope user @($mcps[$name]) 2>&1
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "  [+] MCP '$name' registrado en Claude Code." -ForegroundColor Green
+            } else {
+                Write-Host "  [!] No se pudo registrar el MCP '$name': $($out | Select-Object -Last 1)" -ForegroundColor Yellow
+            }
         }
     }
 } else {

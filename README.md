@@ -124,8 +124,10 @@ MCP equivalentes a los de Antigravity (se registran una vez por equipo, ámbito 
 ```powershell
 claude mcp add --scope user --transport http gemini-api-docs https://gemini-api-docs-mcp.dev
 claude mcp add --scope user chrome-devtools -- npx -y chrome-devtools-mcp@latest
-claude mcp add --scope user tooluniverse -- uvx --from tooluniverse tooluniverse-smcp-stdio
 ```
+
+El MCP `tooluniverse` ya no se registra (2026-10-01): expone cientos de herramientas y su función
+la cubren la skill router `tooluniverse` y las sub-skills de la biblioteca.
 
 ## 🐙 6. Repositorio GitHub
 

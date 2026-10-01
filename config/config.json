@@ -71,7 +71,8 @@
         "read_url(pubchem.ncbi.nlm.nih.gov)",
         "read_url(github.com)",
         "read_url(hdl.handle.net)",
-        "read_url(dompe.com)"
+        "read_url(dompe.com)",
+        "read_url(www2.chemistry.msu.edu)"
       ]
     },
     "nonWorkspaceFileAccessPolicy": "AGENT_SETTING_POLICY_ALLOW",

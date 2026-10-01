@@ -218,7 +218,9 @@ def extraer_texto(ruta):
         import fitz
         with fitz.open(str(ruta)) as doc:
             return "\n".join(pg.get_text() for pg in doc)
-    return ruta.read_text(encoding="utf-8", errors="replace")
+    t = ruta.read_text(encoding="utf-8", errors="replace")
+    # Limpiar payloads base64 embebidos (data:image/...;base64,...) para evitar muestreo de ruido binario
+    return re.sub(r'data:image/[^;]+;base64,[A-Za-z0-9+/=]+', '[IMAGEN_BASE64]', t)
 
 
 def auditar(texto, ruta, lang=None):

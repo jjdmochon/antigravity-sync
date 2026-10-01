@@ -93,7 +93,7 @@ divergiendo en silencio, porque los scripts solo creaban el junction si la ruta 
 existía y nunca reparaban una carpeta real ya presente. Ahora `sync-push` y `sync-pull`
 detectan ese caso, apartan la carpeta como `.bak-<fecha>` y rehacen el enlace.
 
-`claude_skills\` es del esquema antiguo y ya no se actualiza. Puede moverse a `archive\`.
+`claude_skills\` era del esquema antiguo; desde 2026-10-01 está en `archive\claude_skills\`.
 
 **No se sincronizan** (se excluyen en ambos scripts, y no sirven en otro equipo porque
 llevan rutas absolutas del equipo origen): `.venv`, `.git`, `__pycache__`, `node_modules`,
@@ -135,7 +135,7 @@ la cubren la skill router `tooluniverse` y las sub-skills de la biblioteca.
 
 Esta carpeta es también un repositorio git (`jjdmochon/antigravity-sync`, **privado**).
 `.gitignore` excluye secretos (`*.bak` de MCP con tokens, `.env`), datos locales
-(`config/projects`, `sidecars`) y el esquema antiguo (`archive`, `claude_skills`).
+(`config/projects`, `sidecars`) el esquema antiguo (`archive`, `claude_skills`) y los accesos `*.gdoc` que crea Drive.
 
 ```powershell
 git add -A; git commit -m "sync"; git push

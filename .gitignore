@@ -25,6 +25,7 @@ claude_skills/
 
 # --- Basura de Drive / SO / entornos ---
 desktop.ini
+*.gdoc
 Thumbs.db
 .DS_Store
 .venv/

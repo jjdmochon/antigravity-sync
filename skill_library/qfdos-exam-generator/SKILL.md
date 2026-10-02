@@ -247,7 +247,25 @@ def generate_svg(smiles: str, output_path: str, width: int = 280, height: int = 
 
 ---
 
-## 7. Calibración y Calidad Final (Quality Gate)
+## 7. Bloque SAR y Calibración Cuantitativa con ChEMBL
+
+Para preguntas de Relación Estructura-Actividad (SAR), selectividad de subtipo y relaciones eudísmicas, el agente debe basarse en datos experimentales reales contrastados en **ChEMBL** (`scripts/chembl_qfdos.py` y `scripts/generar_preguntas_sar.py`):
+
+1. **Selectividad de Subtipo Receptor/Enzima**:
+   - Contrastar valores de afinidad Ki o IC50 medidos en subtipos humanos (ej. M1 vs M2/M3 para pirenzepina, beta1 vs beta2 para atenolol/propranolol, COX-1 vs COX-2 para celecoxib).
+   - Justificar las diferencias de afinidad en función de los bolsillos aminoacídicos del receptor (residuos PDB).
+2. **Relación Eudísmica y Estereoquímica Cuantitativa**:
+   - Cuantificar la relación eudísmica real (potencia del eutómero frente al distómero) y vincularla a la regla de Pfeiffer y a la interacción multipuntual de Easson-Stedman.
+3. **Modificaciones Bioisostéricas**:
+   - Evaluar cuantitativamente la variación del pChEMBL y la estabilidad metabólica (ej. éster vs carbamato en colinérgicos).
+4. **Comando de Generación Automatizada**:
+   ```powershell
+   .\.venv\Scripts\python.exe scripts\generar_preguntas_sar.py --tema 1 --modalidad ugr -o "Pregunta tipo tests (examenes)\Tema 1\examen_sar_chembl.md"
+   ```
+
+---
+
+## 8. Calibración y Calidad Final (Quality Gate)
 
 Antes de dar por finalizado un set de examen de QFDOS, el agente debe validar:
 

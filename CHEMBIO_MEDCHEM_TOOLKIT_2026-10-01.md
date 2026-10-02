@@ -2,9 +2,11 @@
 
 **Updated:** 2026-10-01 · companion to [GLOBAL_AGENTS_AND_TOOLS_2026-10-01.md](GLOBAL_AGENTS_AND_TOOLS_2026-10-01.md)
 
-Every name below was checked against the installation on 2026-10-01. **Core** skills load automatically everywhere; **library** skills live in `~\.agents\skill-library` and work from any folder when you name them.
+This guide collects the tools I rely on as a chemical biologist and professor of medicinal chemistry, and every name in it was checked against the installation on 2026-10-01. Core skills load automatically in every folder, while library skills live in `~\.agents\skill-library` and are available anywhere as soon as we name them.
 
 ## How to call things
+
+The way we call a tool depends on where we are working, so the table below covers each case before the domain sections.
 
 | Where you are | How to call it |
 |---|---|
@@ -31,7 +33,7 @@ Every name below was checked against the installation on 2026-10-01. **Core** sk
 | `nvmolkit-usage` | Library | GPU-batched fingerprints and similarity for large libraries. |
 | Wolfram (MCP) | Connector | Physical-chemistry calculations, unit conversion, equilibria. |
 
-Examples: *"Usa ChEMBL para el SAR de inhibidores de [diana] con IC50 < 100 nM"* · *"Dame análogos comprables de este SMILES con zinc-database"*.
+In practice, a request such as *"Usa ChEMBL para el SAR de inhibidores de [diana] con IC50 < 100 nM"* goes straight to the connector, and *"Dame análogos comprables de este SMILES con zinc-database"* pulls the library skill without any further setup.
 
 ## 2. Targets, mechanism, safety & pharmacology
 
@@ -47,7 +49,7 @@ Examples: *"Usa ChEMBL para el SAR de inhibidores de [diana] con IC50 < 100 nM"*
 | `clinpgx-database` | Library | Pharmacogenomics and CPIC dosing guidelines. |
 | Open Targets / Clinical Trials (MCP) | Connector | Target–disease evidence, clinical pipelines. |
 
-Example: *"Usa tooluniverse para validar [diana] en hepatotoxicidad y resume el riesgo de DILI"*.
+For the LiverAce work, *"Usa tooluniverse para validar [diana] en hepatotoxicidad y resume el riesgo de DILI"* lets the router choose the safety and target sub-skills for us.
 
 ## 3. Structure, docking & design
 
@@ -74,7 +76,7 @@ Example: *"Usa tooluniverse para validar [diana] en hepatotoxicidad y resume el 
 | `analytical-chemistry-qc` | Library | Raw ¹H/¹³C NMR and LC-MS processing for PNA syntheses: phasing, deconvolution, UV purity, MS adducts. |
 | `matchms`, `hmdb-database` | Library | MS spectral matching and metabolite identification. |
 
-Example: *"Usa analytical-chemistry-qc sobre la carpeta del FID de Bruker y dame la pureza y los aductos [M+H]+"*.
+On the synthesis side, *"Usa analytical-chemistry-qc sobre la carpeta del FID de Bruker y dame la pureza y los aductos [M+H]+"* takes a raw NMR or LC-MS folder through to a purity figure we can report.
 
 ## 5. Literature, patents & grants
 
@@ -87,7 +89,7 @@ Example: *"Usa analytical-chemistry-qc sobre la carpeta del FID de Bruker y dame
 | `hypothesis-generation` | Library | Testable hypotheses from observations. |
 | `scientific-writing`, `scientific-manuscript-review` | Core | IMRAD manuscripts; peer-review-style critique. |
 
-Example: *"Ejecuta la plantilla 7 sobre sondas PNA para miR-122"* (PubMed, preprints and USPTO in parallel).
+For a prior-art question, *"Ejecuta la plantilla 7 sobre sondas PNA para miR-122"* runs PubMed, the preprint servers and USPTO in parallel and returns a single matrix.
 
 ## 6. Teaching (QFUNO, QFDOS, QO, TRANSMED)
 
@@ -99,7 +101,7 @@ Example: *"Ejecuta la plantilla 7 sobre sondas PNA para miR-122"* (PubMed, prepr
 | `markdown-slides`, `anydoc` | Core | Lecture slides; Word, PowerPoint or PDF to Markdown. |
 | `graphify` | Core | Knowledge graph from a folder of notes or papers. |
 
-Example: *"Plantilla 5 para QF1 Tema 3"* (simulator, quiz and study guide in parallel).
+When preparing a unit, *"Plantilla 5 para QF1 Tema 3"* builds the simulator, the quiz and the study guide in parallel.
 
 ## 7. Documents, quality & ISO
 
@@ -111,6 +113,4 @@ Example: *"Plantilla 5 para QF1 Tema 3"* (simulator, quiz and study guide in par
 
 ## Shortcuts
 
-- Not sure which tool fits: *"Consulta skill-catalog y dime qué skill sirve para…"*
-- Full catalogue (228 library skills): `~\.gemini\GLOBAL_AGENTS_AND_TOOLS_2026-10-01.md`
-- Subagent templates (19): `~\.gemini\SUBAGENTS_TEMPLATES_2026-10-01.md`
+Finally, when it is not clear which tool fits, *"Consulta skill-catalog y dime qué skill sirve para…"* is the quickest way in. The full catalogue of 228 library skills is in `~\.gemini\GLOBAL_AGENTS_AND_TOOLS_2026-10-01.md`, and the 19 subagent templates are in `~\.gemini\SUBAGENTS_TEMPLATES_2026-10-01.md`.

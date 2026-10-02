@@ -188,8 +188,11 @@ if (Test-Path "$driveSyncDir\agents_skills") {
     } else {
         Write-Host "  [!] Sin registro previo: no se propagan borrados del nucleo en este pull." -ForegroundColor Yellow
     }
-    $nuevos = @(Get-SyncTreeFiles -Root $agentsSkillsDir -Prefix "agents_skills" -SkipTopDirs $localOnlyCore `
-                    -ExcludeDirs $excludeDirs -ExcludeFiles $excludeFiles | Where-Object { $driveSnapshot -notcontains $_ })
+    # Get-SyncTreeFiles devuelve la lista como un solo objeto (return ,$out): asignarla antes de
+    # filtrar. Por un pipeline, Where-Object recibia la lista entera y el aviso contaba siempre 1.
+    $coreAhora = Get-SyncTreeFiles -Root $agentsSkillsDir -Prefix "agents_skills" -SkipTopDirs $localOnlyCore `
+                     -ExcludeDirs $excludeDirs -ExcludeFiles $excludeFiles
+    $nuevos = @($coreAhora | ForEach-Object { $_ } | Where-Object { $driveSnapshot -notcontains $_ })
     if ($nuevos.Count -gt 0) {
         Write-Host "  [i] $($nuevos.Count) fichero(s) del nucleo solo en este equipo (se conservan; sync-push los subira)." -ForegroundColor Cyan
     }

@@ -99,3 +99,20 @@ Dependencias: `typesafe-sdk` (0.7.1), `python-dotenv`, `python-docx`, `pymupdf`.
 `python` por defecto en el PATH. Por eso todos los comandos usan `py -3.13`. Con otro
 intérprete el motor responde `fallo-abierto (sin Jev)` aunque la clave esté bien. Para
 comprobarlo: `py -3.13 -c "import typesafe_sdk"`.
+
+## Uso desde la app de escritorio de Claude (MCP local)
+
+La app no ejecuta los scripts de las skills en este equipo, así que Jev se expone como servidor
+MCP: `mcp/jev_mcp_server.py`, registrado como `jev` en
+`%APPDATA%\Claude\claude_desktop_config.json` (lo hace `sync-pull`, paso 14).
+
+| Herramienta | Uso |
+|---|---|
+| `jev_gate_text(texto, lang?)` | Etapas 0 y 4 sobre texto pegado o adjunto en el chat. |
+| `jev_gate_file(ruta, lang?)` | Igual para `.md`, `.txt`, `.docx`, `.pdf`, `.html`, `.tex` del disco (ruta absoluta). |
+| `jev_route(tarea)` | Router de dominio, subagentes y código. |
+
+Devuelven el mismo JSON que `jev_doc_gatekeeper.py --json`. Requiere `mcp>=2` en Python 3.13
+(`py -3.13 -m pip install --user "mcp>=2"`) y reiniciar la app tras el registro. Prueba sin la
+app: `py -3.13 "$HOME/.agents/skills/jev-system-one/mcp/jev_mcp_server.py" --selftest`.
+Solo funciona en la app de escritorio de cada equipo; claude.ai web y el móvil no lo ven.

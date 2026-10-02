@@ -158,6 +158,17 @@ claude mcp add --scope user chrome-devtools -- npx -y chrome-devtools-mcp@latest
 El MCP `tooluniverse` ya no se registra (2026-10-01): expone cientos de herramientas y su función
 la cubren la skill router `tooluniverse` y las sub-skills de la biblioteca.
 
+### App de escritorio de Claude: Jev como MCP local (desde 2026-10-02)
+
+La app de escritorio no ejecuta los scripts de las skills, así que `sync-pull` (paso 14) registra
+en `%APPDATA%\Claude\claude_desktop_config.json` el servidor `jev`
+(`agents_skills\jev-system-one\mcp\jev_mcp_server.py`, con `py -3.13`). Expone
+`jev_gate_text`, `jev_gate_file` y `jev_route`, de modo que la app puede ejecutar las etapas 0 y 4
+del pipeline con las skills de la cuenta (`remove-ai-marks`, `no-ai-slop`, `humanizer-juanjo(-es)`).
+Requiere `mcp>=2` en Python 3.13 y reiniciar la app. Solo afecta a la app de escritorio de cada
+equipo; claude.ai web y el móvil no ven MCP locales. Las skills subidas a la cuenta están en
+`claude_ai_upload\`.
+
 ## 🐙 6. Repositorio GitHub
 
 Esta carpeta es también un repositorio git (`jjdmochon/antigravity-sync`, **privado**).

@@ -166,9 +166,33 @@ foreach ($dir in Get-ChildItem $agentsSkillsDir -Directory -Force -ErrorAction S
     Write-Host "  [>] '$($dir.Name)' ya no es nucleo: movida a $(Split-Path $dest -Parent)" -ForegroundColor Yellow
 }
 
-# 6. Nucleo. /XO no pisa ficheros locales mas recientes (cambios aun sin sync-push).
+# 6. Nucleo. Sin /MIR: /MIR borraba ficheros nuevos de este equipo aun sin sync-push (asi se
+#    perdio jev-system-one\mcp\ el 2026-10-02). Ahora se copia sin purga y con /XO, y solo se
+#    borra en local lo que el registro dice que ya estaba en Drive y Drive ya no tiene, es decir,
+#    lo que el otro equipo borro. Lo nuevo de aqui (fuera del registro) se conserva.
+$knownBefore = Read-SyncManifest -Path $manifestPath
 if (Test-Path "$driveSyncDir\agents_skills") {
-    robocopy "$driveSyncDir\agents_skills" "$agentsSkillsDir" /MIR /XO /XD @xd @localOnlyCore /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
+    robocopy "$driveSyncDir\agents_skills" "$agentsSkillsDir" /E /XO /XD @xd @localOnlyCore /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
+    if ($null -ne $knownBefore) {
+        $driveSet = New-Object 'System.Collections.Generic.HashSet[string]' ([System.StringComparer]::OrdinalIgnoreCase)
+        foreach ($e in $driveSnapshot) { [void]$driveSet.Add($e) }
+        $localCore = Get-SyncTreeFiles -Root $agentsSkillsDir -Prefix "agents_skills" -SkipTopDirs $localOnlyCore `
+                         -ExcludeDirs $excludeDirs -ExcludeFiles $excludeFiles
+        foreach ($rel in $localCore) {
+            if ($knownBefore.Contains($rel) -and -not $driveSet.Contains($rel)) {
+                $full = Join-Path $agentsSkillsDir ($rel.Substring("agents_skills\".Length))
+                Remove-Item -LiteralPath $full -Force -ErrorAction SilentlyContinue
+                Write-Host "  [-] Borrado en el otro equipo: $rel" -ForegroundColor Yellow
+            }
+        }
+    } else {
+        Write-Host "  [!] Sin registro previo: no se propagan borrados del nucleo en este pull." -ForegroundColor Yellow
+    }
+    $nuevos = @(Get-SyncTreeFiles -Root $agentsSkillsDir -Prefix "agents_skills" -SkipTopDirs $localOnlyCore `
+                    -ExcludeDirs $excludeDirs -ExcludeFiles $excludeFiles | Where-Object { $driveSnapshot -notcontains $_ })
+    if ($nuevos.Count -gt 0) {
+        Write-Host "  [i] $($nuevos.Count) fichero(s) del nucleo solo en este equipo (se conservan; sync-push los subira)." -ForegroundColor Cyan
+    }
 }
 Save-SyncManifest -Path $manifestPath -Entries $driveSnapshot -Origin "sync-pull"
 
@@ -261,15 +285,47 @@ if (Test-Path $envTemplate) {
 }
 
 # 13. Python 3.13 con las dependencias de Jev (las skills llaman a `py -3.13`).
-py -3.13 -c "import typesafe_sdk, dotenv, docx, fitz" *> $null
+#     `mcp` (>=2) lo necesita el servidor MCP de Jev para la app de escritorio (paso 14).
+py -3.13 -c "import typesafe_sdk, dotenv, docx, fitz, mcp.server.mcpserver" *> $null
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "  [+] Python 3.13 con typesafe-sdk, python-dotenv, python-docx y pymupdf." -ForegroundColor Green
+    Write-Host "  [+] Python 3.13 con typesafe-sdk, python-dotenv, python-docx, pymupdf y mcp." -ForegroundColor Green
 } else {
     py -3.13 -c "pass" *> $null
     if ($LASTEXITCODE -ne 0) {
         Write-Host "  [!] Falta Python 3.13: winget install --id Python.Python.3.13 -e --scope user" -ForegroundColor Yellow
     }
-    Write-Host "  [!] Dependencias de Jev: py -3.13 -m pip install --user typesafe-sdk==0.7.1 python-dotenv python-docx pymupdf" -ForegroundColor Yellow
+    Write-Host "  [!] Dependencias de Jev: py -3.13 -m pip install --user typesafe-sdk==0.7.1 python-dotenv python-docx pymupdf ""mcp>=2""" -ForegroundColor Yellow
+}
+
+# 14. App de escritorio de Claude: registra el MCP local de Jev (jev_gate_text, jev_gate_file,
+#     jev_route) para que la app pueda ejecutar las etapas 0 y 4 del pipeline. Solo anade la
+#     entrada "jev" si falta o apunta a otra ruta; el resto del fichero no se toca. Copia previa
+#     en claude_desktop_config.json.bak-<fecha>. Reiniciar la app para que lo cargue.
+$desktopCfg = "$env:APPDATA\Claude\claude_desktop_config.json"
+$jevServer  = "$agentsSkillsDir\jev-system-one\mcp\jev_mcp_server.py"
+$pyLauncher = (Get-Command py -ErrorAction SilentlyContinue).Source
+# Con la app abierta, esta reescribe el fichero desde memoria y borra la entrada en segundos.
+$desktopAbierta = @(Get-Process -Name claude -ErrorAction SilentlyContinue |
+    Where-Object { $_.Path -match '\\WindowsApps\\Claude_|\\AnthropicClaude\\|\\Programs\\Claude\\' }).Count -gt 0
+$cfgActual = if (Test-Path $desktopCfg) { (Get-Content $desktopCfg -Raw -Encoding UTF8 | ConvertFrom-Json).mcpServers.jev } else { $null }
+if ($desktopAbierta -and (Test-Path $desktopCfg) -and -not $cfgActual) {
+    Write-Host "  [!] La app de escritorio de Claude esta abierta: cierrala del todo (icono de la bandeja -> Quit)" -ForegroundColor Yellow
+    Write-Host "      y repite sync-pull para registrar el MCP 'jev'. Abierta, la app deshace el cambio." -ForegroundColor Yellow
+} elseif ((Test-Path $desktopCfg) -and (Test-Path $jevServer) -and $pyLauncher) {
+    try {
+        $cfg = Get-Content $desktopCfg -Raw -Encoding UTF8 | ConvertFrom-Json
+        if (-not $cfg.mcpServers) { $cfg | Add-Member -NotePropertyName mcpServers -NotePropertyValue ([pscustomobject]@{}) }
+        $actual = $cfg.mcpServers.jev
+        if (-not $actual -or ($actual.args -join '|') -ne ("-3.13|$jevServer")) {
+            Copy-Item $desktopCfg "$desktopCfg.bak-$(Get-Date -Format 'yyyyMMdd-HHmmss')" -Force
+            $cfg.mcpServers | Add-Member -NotePropertyName jev -Force -NotePropertyValue ([pscustomobject]@{
+                command = $pyLauncher; args = @("-3.13", $jevServer) })
+            [IO.File]::WriteAllText($desktopCfg, ($cfg | ConvertTo-Json -Depth 20), (New-Object Text.UTF8Encoding $false))
+            Write-Host "  [+] MCP 'jev' registrado en la app de escritorio de Claude (reiniciala)." -ForegroundColor Green
+        }
+    } catch {
+        Write-Host "  [!] No se pudo registrar Jev en la app de escritorio: $($_.Exception.Message)" -ForegroundColor Yellow
+    }
 }
 
 $nCore = (Get-ChildItem $agentsSkillsDir -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -ne "synced" }).Count

@@ -200,7 +200,7 @@ skills are read on demand.
 | :--- | :--- |
 | `skill-catalog` | Index of 228 extra skills kept out of the context budget (ToolUniverse, AlphaGenome, Albatross, NVIDIA BioNeMo/NIM protein design, biomedical databases, literature sea... |
 | `tooluniverse` | Router skill for ToolUniverse tasks. First checks if specialized tooluniverse skills (54 skills covering disease/drug/target research, clinical decision support, genom... |
-| `find-skills` | Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest i... |
+| `find-skills-juanjo` | Find a skill: local core and skill-library first, npx skills / skills.sh as fallback; external skills reviewed and installed into skill-library only with approval. |
 
 #### Documents, slides & media
 

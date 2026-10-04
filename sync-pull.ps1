@@ -331,6 +331,65 @@ if ($desktopAbierta -and (Test-Path $desktopCfg) -and -not $cfgActual) {
     }
 }
 
+# 15. Comandos de bin (sync-pull, sync-push, wm-*) accesibles por nombre. Idempotente.
+$binDir = "$geminiDir\antigravity-ide\bin"
+#     a) PATH de usuario de Windows: PowerShell y cmd resuelven los .cmd sin extension.
+if (Test-Path $binDir) {
+    $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+    $entradas = @($userPath -split ';' | Where-Object { $_ } | ForEach-Object { $_.TrimEnd('\') })
+    if ($entradas -notcontains $binDir.TrimEnd('\')) {
+        $nuevo = if ($userPath) { $userPath.TrimEnd(';') + ";$binDir" } else { $binDir }
+        [Environment]::SetEnvironmentVariable('Path', $nuevo, 'User')
+        Write-Host "  [+] $binDir anadido al PATH de usuario (efectivo en terminales nuevas)." -ForegroundColor Green
+    }
+}
+#     b) Git Bash no resuelve .cmd sin extension: alias por cada .cmd, en ~\.bashrc. Se anade un
+#        bloque marcado sin tocar el resto del fichero. LF y sin BOM: con CRLF bash falla.
+$bashrc  = "$userProfile\.bashrc"
+$marcaBash = '# >>> antigravity-bin >>>'
+$actualBash = if (Test-Path $bashrc) { [IO.File]::ReadAllText($bashrc) } else { '' }
+if (-not $actualBash.Contains($marcaBash) -and -not $actualBash.Contains('antigravity-ide/bin')) {
+    $bloque = @'
+# >>> antigravity-bin >>>
+# Herramientas de Antigravity (sync-pull, sync-push, wm-*, watermarks-remover)
+_agy_bin="$HOME/.gemini/antigravity-ide/bin"
+export PATH="$PATH:$_agy_bin"
+# Bash no resuelve .cmd sin extension: un alias por cada .cmd de la carpeta.
+for _f in "$_agy_bin"/*.cmd; do
+  [ -e "$_f" ] && _n="${_f##*/}" && alias "${_n%.cmd}=$_n"
+done
+unset _agy_bin _f _n
+# <<< antigravity-bin <<<
+'@ -replace "`r`n", "`n"
+    $prefijo = if ($actualBash -and -not $actualBash.EndsWith("`n")) { "`n" } else { '' }
+    [IO.File]::AppendAllText($bashrc, $prefijo + $bloque + "`n", (New-Object Text.UTF8Encoding $false))
+    Write-Host "  [+] Alias de bin anadidos a ~\.bashrc." -ForegroundColor Green
+}
+$bashProfile = "$userProfile\.bash_profile"
+$actualProfile = if (Test-Path $bashProfile) { [IO.File]::ReadAllText($bashProfile) } else { '' }
+if (-not $actualProfile.Contains('.bashrc')) {
+    $prefijo = if ($actualProfile -and -not $actualProfile.EndsWith("`n")) { "`n" } else { '' }
+    [IO.File]::AppendAllText($bashProfile, $prefijo + "[ -f ~/.bashrc ] && . ~/.bashrc`n", (New-Object Text.UTF8Encoding $false))
+    Write-Host "  [+] ~\.bash_profile carga ~\.bashrc." -ForegroundColor Green
+}
+
+# 16. find-skills se sustituyo por find-skills-juanjo (2026-10-04). Si el lock de npx skills la
+#     sigue registrando, `npx skills update` la reinstalaria en el nucleo. Copia previa en skill-archive.
+$skillLock = "$userProfile\.agents\.skill-lock.json"
+if (Test-Path $skillLock) {
+    try {
+        $lock = Get-Content $skillLock -Raw -Encoding UTF8 | ConvertFrom-Json
+        if ($lock.skills -and $lock.skills.PSObject.Properties['find-skills']) {
+            Copy-Item $skillLock "$archiveDir\skill-lock.json.bak-$(Get-Date -Format 'yyyyMMdd-HHmmss')" -Force
+            $lock.skills.PSObject.Properties.Remove('find-skills')
+            [IO.File]::WriteAllText($skillLock, ($lock | ConvertTo-Json -Depth 20), (New-Object Text.UTF8Encoding $false))
+            Write-Host "  [-] find-skills retirada de ~\.agents\.skill-lock.json (sustituida por find-skills-juanjo)." -ForegroundColor Yellow
+        }
+    } catch {
+        Write-Host "  [!] No se pudo revisar ~\.agents\.skill-lock.json: $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+}
+
 $nCore = (Get-ChildItem $agentsSkillsDir -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -ne "synced" }).Count
 $nLib  = (Get-ChildItem $libraryDir -Directory -ErrorAction SilentlyContinue).Count
 Write-Host "[SYNC-PULL] Completado: $nCore skills en el nucleo y $nLib en la biblioteca (via skill-catalog)." -ForegroundColor Green

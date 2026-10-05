@@ -139,8 +139,8 @@ Claude Code (`claude`, instalado en `~\.local\bin\claude.exe`) usa las mismas pi
 
 | Pieza | Ruta en Claude | Origen |
 | :--- | :--- | :--- |
-| Skills de núcleo (~44) | `~\.claude\skills` → junction a `~\.agents\skills` | `agents_skills\` |
-| Biblioteca (~228) | `~\.agents\skill-library`, vía `skill-catalog` | `skill_library\` |
+| Skills de núcleo (~38) | `~\.claude\skills` → junction a `~\.agents\skills` | `agents_skills\` |
+| Biblioteca (~235) | `~\.agents\skill-library`, vía `skill-catalog` | `skill_library\` |
 | Subagentes | `~\.claude\agents\*.md` | `claude_agents\` |
 | Instrucciones globales | `~\.claude\CLAUDE.md` | `CLAUDE.md` |
 | Hooks (`doc_gate.py`: Zero-LaTeX + Jev gate) | `~\.claude\hooks` | `claude_hooks\` |

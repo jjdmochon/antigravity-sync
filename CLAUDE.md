@@ -4,8 +4,8 @@ This global configuration applies across all workspaces, folders, and projects f
 
 ---
 
-## 1. Primary Persona & Execution Mode (Fast Mode)
-- **Fast Mode Execution**: Always take direct action, write complete code, run terminal commands, and inspect files autonomously. Avoid conversational fluff, redundant preamble, or asking for permission on standard operations.
+## 1. Primary Persona & Execution Mode (Direct Execution)
+- **Direct Execution**: Always take direct action, write complete code, run terminal commands, and inspect files autonomously. Avoid conversational fluff, redundant preamble, or asking for permission on standard operations. (This is a working style, unrelated to Claude Code's `/fast` toggle.)
 - **Proactive & Autonomous**: Anticipate next steps, implement robust end-to-end solutions, and verify work with automated checks.
 - **Bilingual Executive Voice**:
   - **Spanish**: Composed, natural plural ("estamos avanzando", "tenemos la firma"), clear topical headers ("En cuanto a...", "Respecto a..."), and high technical precision.
@@ -40,7 +40,8 @@ This global configuration applies across all workspaces, folders, and projects f
 ---
 
 ## 3. Mandatory Document Production & Review Pipeline
-Whenever any document, manuscript, report, presentation, syllabus, or web copy is created or edited:
+Applies to **deliverables**: manuscripts, reports, grant texts, presentations, syllabi, exams, and published web copy, whenever they are created or edited. It does not apply to chat replies, code, code comments, READMEs, or configuration files.
+The PostToolUse hook `~\.claude\hooks\doc_gate.py` enforces the mechanical part on `.md` / `.html` / `.txt` files: it blocks raw LaTeX at once and runs the Jev gate in the background (LaTeX, invisible marks, slop). Voice calibration (stage 3) remains a manual step; the hook does not block on it.
 0. **Jev System-1 Gatekeeper & Routing (`jev-system-one` / `jev_doc_gatekeeper.py`)**: Sub-250ms non-autoregressive triage to score AI slop density, raw LaTeX violations, and voice alignment.
 1. **Provenance & Watermarks (`watermarks-remover`)**: Strip invisible Unicode, zero-width tracking markers, homoglyphs, and remove C2PA/EXIF/XMP metadata from files.
 2. **Anti-Slop Audit (`no-ai-slop`)**: Remove AI filler words, formulaic transitions, superficial -ing clauses, rule-of-three cadence, and corporate padding.
@@ -54,8 +55,8 @@ Whenever any document, manuscript, report, presentation, syllabus, or web copy i
 
 Skills are split in two tiers to stay within the context budget (paths relative to `%USERPROFILE%` / `$HOME`; never hardcode a user name):
 
-- **Core** (`~\.agents\skills`, also visible as `~\.claude\skills` and `~\.gemini\config\skills`): ~44 always-loaded skills — `juanjo-copilot`, `jev-system-one`, the humanizers, `no-ai-slop`, `watermarks-remover`, `document-pipeline`, `tooluniverse` (router), `skill-catalog`, etc.
-- **Library** (`~\.agents\skill-library`): ~140 domain skills (ToolUniverse, AlphaGenome, Albatross, biomedical databases, literature search, Google Cloud/BigQuery, UGR teaching). Not auto-loaded, but available from **any** folder.
+- **Core** (`~\.agents\skills`, also visible as `~\.claude\skills` and `~\.gemini\config\skills`): ~38 always-loaded skills — `juanjo-copilot`, `jev-system-one`, the humanizers, `no-ai-slop`, `watermarks-remover`, `document-pipeline`, `tooluniverse` (router), `skill-catalog`, etc.
+- **Library** (`~\.agents\skill-library`): ~235 domain skills (ToolUniverse, AlphaGenome, Albatross, biomedical databases, literature search, Google Cloud/BigQuery, UGR teaching). Not auto-loaded, but available from **any** folder.
 
 ### Skill Discovery & Usage:
 Whenever the user uses a trigger (like `/graphify`, `/humanize`, etc.) or asks for a task that requires specialized scientific tools:
@@ -63,7 +64,7 @@ Whenever the user uses a trigger (like `/graphify`, `/humanize`, etc.) or asks f
 2. Otherwise open `skill-catalog` (index at `~\.agents\skills\skill-catalog\references\index.md`), then read `~\.agents\skill-library\<name>\SKILL.md` and follow its workflow. Never report a capability as missing without checking the catalog.
 3. For PubMed, ChEMBL, Open Targets and ClinicalTrials.gov prefer the connected claude.ai MCP servers; the equivalent library skills are a fallback.
 
-### Core Available Skills & Tool Suites:
+### Notable Skills & Tool Suites (most live in the library; reach them via `skill-catalog`):
 - **Google DeepMind Science Skills Suite (40 skills)**:
   - AlphaGenome (`alphagenome-single-variant-analysis`, `alphagenome-variant-impact-score`, `alphagenome-atlas-website-links`).
   - Structural biology & MSA (`alphafold-database-fetch-and-analyze`, `foldseek-structural-search`, `protein-sequence-msa`, `protein-sequence-similarity-search`, `pymol`).
@@ -78,4 +79,14 @@ Whenever the user uses a trigger (like `/graphify`, `/humanize`, etc.) or asks f
   - Precision oncology, Clinical guidelines, Clinical trials (`clinicaltrials-database`).
 - **Database & Computational Skills**:
   - `magika`, `rdkit`, `datamol`, `scanpy`, `anndata`, `biopython`, `polars`, `dask`, `torch-geometric`, `zarr-python`.
+
+---
+
+## 5. Machines & Sync
+
+- **Two Windows machines** share configuration through `K:\Mi unidad\Antigravity-Sync`, a Google Drive folder that is also the private repo `jjdmochon/antigravity-sync`. The Drive letter can change between machines (`K:`, `I:`, `G:`); the scripts locate it themselves.
+- **`sync-push` / `sync-pull`** (on PATH) move skills (core and library), `~\.claude\agents`, `CLAUDE.md`, `GEMINI.md`, `~\.claude\hooks`, `~\.claude\commands` and the global memory. `settings.json` does not travel whole: only `autoMode`, `skillOverrides` and `hooks`, which `sync-pull` merges through `claude-settings-sync.py`. Run `sync-pull` before editing on a machine and `sync-push` afterwards.
+- **Junctions**: `~\.claude\skills` and `~\.gemini\config\skills` are junctions to `~\.agents\skills`. Never recreate them as real directories.
+- **Moving a skill between tiers** means moving its folder between `~\.agents\skills` and `~\.agents\skill-library`, then running `sync-push`; the catalog regenerates on its own.
+- **Google Drive breaks Node tooling** (npm, Vite, Gradle): sources stay on `K:` / `G:`, while installs and builds run from a local mirror on `C:`.
 

@@ -1,0 +1,50 @@
+{
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: individual user — Dr. Juan José Díaz-Mochón (UGR, Granada; DestiNA Genomica). No corporate IT org.",
+      "**Primary use of Claude Code**: academic teaching material (UGR QFDOS/QFUNO web apps, exams), scientific research (PNA/DCL chemistry, miRNA biomarkers, AlphaGenome, structural biology), grant/document writing, and personal tooling (skills, sync scripts).",
+      "**Source control**: GitHub account `jjdmochon` (personal repos, e.g. jjdmochon/qfdos-2627); pushing to the user's own repos is in scope when the user asks. Other GitHub owners are outside the trust boundary.",
+      "**Repository visibility**: assume private unless the repo is known public; course websites may be public by design.",
+      "**Hosting / deploy targets**: Vercel and GitHub Pages (course sites, teaching web apps). Treat production deploys as outward-facing.",
+      "**Cloud provider(s)**: Google Cloud (gcloud SDK; BigQuery/Vertex for research). No production infrastructure.",
+      "**Trusted working locations**: C:\\Users\\Juanjo (home, ~/.claude, ~/.agents skills and skill-library) and the Google Drive mounts K:\\Mi unidad and G:\\Mi unidad (Classroom/2627 QFDOS E, Developer, Antigravity-Sync, Eulerna-Alphagenome, Thomas project).",
+      "**Sync**: K:\\Mi unidad\\Antigravity-Sync holds sync-push.ps1 / sync-pull.ps1 mirroring skills and config between the user's machines; ~/.claude/skills and ~/.gemini/config/skills are junctions to ~/.agents/skills and must never be replaced by real directories.",
+      "**Google Drive caveat**: Drive-mounted folders are slow and break npm/node_modules/Gradle; builds run from local mirrors on C:.",
+      "**Connected services**: claude.ai connectors for Gmail, Google Calendar, Drive, Docs, Sheets, PubMed, ChEMBL, Open Targets, ClinicalTrials.gov, bioRxiv. Sending email, sharing Drive files or creating calendar events is outward-facing: confirm first.",
+      "**Secrets management**: API keys in ~/.env (loaded via dotenv) and ~/.claude/.credentials.json; never print, copy or transmit them.",
+      "**Sensitive data locations & audiences**: student data (grades, exam keys, Classroom rosters), unpublished research data, patent drafts and DestiNA Genomica confidential material, grant budgets. Never upload to public paste/gist services or third-party sites.",
+      "**Trusted internal domains**: ugr.es, go.ugr.es, the user's own vercel.app / github.io sites, github.com/jjdmochon.",
+      "**Internal package registry**: none; public PyPI/npm, prefer uv/venv over global pip installs.",
+      "**Sensitive remote targets**: any host, bucket or project whose name carries `prod` or `production` as a whole name segment.",
+      "**Protected IaC scopes**: IAM, billing and networking on Google Cloud projects."
+    ]
+  },
+  "skillOverrides": {
+    "anthropic-skills:humanizer-juanjo": "off",
+    "anthropic-skills:humanizer-juanjo-es": "off",
+    "anthropic-skills:no-ai-slop": "off",
+    "anthropic-skills:remove-ai-marks": "off"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$HOME/.claude/hooks/doc_gate.py\" latex",
+            "timeout": 15,
+            "statusMessage": "Zero-LaTeX check"
+          },
+          {
+            "type": "command",
+            "command": "python \"$HOME/.claude/hooks/doc_gate.py\" jev",
+            "timeout": 120,
+            "asyncRewake": true
+          }
+        ]
+      }
+    ]
+  }
+}

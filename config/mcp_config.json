@@ -6,6 +6,27 @@
         "-m",
         "notebooklm.mcp"
       ]
+    },
+    "notebooks": {
+      "command": "node",
+      "args": [
+        "c:\\Users\\Juanjo\\.antigravity-ide\\extensions\\googlecloudtools.datacloud-1.0.0-universal\\mcp_servers\\cli\\mcp_proxy_bundle.js",
+        "notebooks-antigravityide"
+      ]
+    },
+    "visualization": {
+      "command": "node",
+      "args": [
+        "c:\\Users\\Juanjo\\.antigravity-ide\\extensions\\googlecloudtools.datacloud-1.0.0-universal\\mcp_servers\\cli\\mcp_proxy_bundle.js",
+        "visualization-antigravityide"
+      ]
+    },
+    "data-agent-kit": {
+      "command": "node",
+      "args": [
+        "c:\\Users\\Juanjo\\.antigravity-ide\\extensions\\googlecloudtools.datacloud-1.0.0-universal\\mcp_servers\\cli\\mcp_proxy_bundle.js",
+        "dataAgentKit-antigravityide"
+      ]
     }
   }
 }

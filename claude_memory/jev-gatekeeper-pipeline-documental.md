@@ -1,0 +1,34 @@
+---
+name: jev-gatekeeper-pipeline-documental
+description: El Noul de Jev necesita instrucciones enumeradas al detalle; con instrucciones vagas devuelve 0.63 sobre slop evidente y no discrimina
+metadata: 
+  node_type: memory
+  type: project
+  originSessionId: d2c2721d-e51d-4088-adc4-3f2b2d193ed5
+  modified: 2026-09-21T14:02:55.696Z
+---
+
+Las primitivas `Noul` de Jev (TypeSafe AI) son muy sensibles a cómo se redacta
+`instructions`. Medido el 2026-09-21 sobre el mismo texto de slop evidente:
+
+- Instrucción vaga ("¿Contiene muletillas típicas de IA?") → `noul = 0.63`. Inservible:
+  no separa un texto sucio de uno limpio.
+- Instrucción enumerando muletillas concretas, construcciones y patrones, y cerrando con
+  "responde verdadero solo si están presentes de forma marcada" → `0.97` sobre el sucio y
+  `0.03` sobre uno limpio.
+
+El fallo es silencioso: una instrucción floja no da error, solo devuelve probabilidades
+centradas que hacen que la compuerta apruebe cualquier cosa.
+
+**Why:** es un modelo no autoregresivo de clasificación, no un chat. No infiere el criterio
+a partir de una pregunta corta; hay que dárselo explícito.
+
+**How to apply:** al escribir o revisar cualquier `Noul` o `Choice` de Jev, enumerar los
+criterios concretos y validar siempre con un par de contraste (un caso claramente positivo
+y uno claramente negativo) antes de confiar en la salida. Si la separación entre ambos no
+supera ~0.8, la instrucción está mal redactada, no el motor.
+
+Las constantes ya calibradas viven en `jev_doc_gatekeeper.py` (`INSTR_SLOP`, `INSTR_VOZ`,
+`INSTR_LATEX`). Acortarlas rompe la compuerta sin avisar.
+
+Relacionado: [[skills-duplicados-claude-y-agents]]

@@ -26,6 +26,15 @@ $libraryDir      = "$userProfile\.agents\skill-library"   # biblioteca: bajo dem
 $claudeSkillsDir = "$claudeDir\skills"
 $geminiSkillsDir = "$configDir\skills"
 $manifestPath    = "$userProfile\.agents\sync-manifest.txt"  # lo que este equipo conoce de Drive (ver sync-manifest.ps1)
+$claudeHooksDir    = "$claudeDir\hooks"
+$claudeCommandsDir = "$claudeDir\commands"
+$claudeSettings    = "$claudeDir\settings.json"
+# Memoria global de Claude Code: la del proyecto cuya ruta es el perfil (C:\Users\X -> C--Users-X).
+$claudeMemoryDir   = "$claudeDir\projects\$($userProfile -replace '[:\\/]', '-')\memory"
+# Python para claude-settings-sync.py: lanzador py si existe, si no python del PATH.
+$pyExe = $null; $pyPre = @()
+if (Get-Command py -ErrorAction SilentlyContinue) { $pyExe = "py"; $pyPre = @("-3") }
+elseif (Get-Command python -ErrorAction SilentlyContinue) { $pyExe = "python" }
 . "$driveSyncDir\sync-manifest.ps1"
 
 # Basura que no debe viajar a Drive: entornos virtuales con rutas absolutas del
@@ -166,6 +175,22 @@ if (Test-Path $libraryDir) {
 Save-SyncManifest -Path $manifestPath -Entries $localFiles -Origin "sync-push"
 if (Test-Path $claudeAgentsDir) {
     robocopy "$claudeAgentsDir" "$driveSyncDir\claude_agents" /MIR /XD @xd /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
+}
+
+# 2b. Claude Code: hooks, comandos y memoria global. Sin purga y con /XO: lo que solo tenga el
+#     otro equipo no se borra en Drive, y un fichero de Drive mas reciente no se pisa. Para
+#     retirar uno, borralo en los dos equipos y tambien en Drive.
+foreach ($pair in @(@($claudeHooksDir, "claude_hooks"), @($claudeCommandsDir, "claude_commands"), @($claudeMemoryDir, "claude_memory"))) {
+    if (Test-Path $pair[0]) {
+        robocopy $pair[0] "$driveSyncDir\$($pair[1])" /E /XO /XD @xd /XF @xf /NP /NFL /NDL /R:1 /W:1 | Out-Null
+    }
+}
+# settings.json no viaja entero (plugins, tema y permisos son de cada equipo): solo autoMode,
+# skillOverrides y hooks, que sync-pull fusiona en el settings.json del otro equipo.
+if ((Test-Path $claudeSettings) -and $pyExe) {
+    & $pyExe @pyPre "$driveSyncDir\claude-settings-sync.py" export $claudeSettings "$driveSyncDir\claude_settings_shared.json"
+} elseif (-not $pyExe) {
+    Write-Host "  [!] Sin Python: no se exporta la parte compartida de settings.json." -ForegroundColor Yellow
 }
 
 # 3. claude_skills quedo obsoleto: desde que .claude\skills es un junction, las

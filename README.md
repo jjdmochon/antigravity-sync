@@ -143,6 +143,17 @@ Claude Code (`claude`, instalado en `~\.local\bin\claude.exe`) usa las mismas pi
 | Biblioteca (~228) | `~\.agents\skill-library`, vía `skill-catalog` | `skill_library\` |
 | Subagentes | `~\.claude\agents\*.md` | `claude_agents\` |
 | Instrucciones globales | `~\.claude\CLAUDE.md` | `CLAUDE.md` |
+| Hooks (`doc_gate.py`: Zero-LaTeX + Jev gate) | `~\.claude\hooks` | `claude_hooks\` |
+| Comandos (`/albatross`) | `~\.claude\commands` | `claude_commands\` |
+| Memoria global | `~\.claude\projects\C--Users-<usuario>\memory` | `claude_memory\` |
+| Parte común de `settings.json` | `autoMode`, `skillOverrides`, `hooks` | `claude_settings_shared.json` |
+
+Hooks, comandos y memoria viajan sin purga en los dos sentidos (desde 2026-10-05): lo que solo
+exista en un equipo se conserva, y para retirar algo hay que borrarlo en los dos equipos y en Drive.
+`settings.json` **no** viaja entero, porque plugins, tema y permisos son de cada equipo:
+`sync-push` exporta las tres claves comunes con `claude-settings-sync.py export` y `sync-pull`
+las fusiona con `merge` (copia `settings.json.bak-<fecha>` antes de escribir; los hooks se
+fusionan por comando y los que solo existan en ese equipo se conservan).
 
 Skills incorporadas desde los plugins de Antigravity: `gemini-api-dev`, `gemini-interactions-api`,
 `gemini-live-api-dev`, `gemini-omni-flash-api`, `android-cli`, `google-antigravity-sdk`,

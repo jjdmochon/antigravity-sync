@@ -27,6 +27,15 @@ $archiveDir      = "$userProfile\.agents\skill-archive"
 $claudeSkillsDir = "$claudeDir\skills"
 $geminiSkillsDir = "$configDir\skills"
 $manifestPath    = "$userProfile\.agents\sync-manifest.txt"  # lo que este equipo conoce de Drive (ver sync-manifest.ps1)
+$claudeHooksDir    = "$claudeDir\hooks"
+$claudeCommandsDir = "$claudeDir\commands"
+$claudeSettings    = "$claudeDir\settings.json"
+# Memoria global de Claude Code: la del proyecto cuya ruta es el perfil (C:\Users\X -> C--Users-X).
+$claudeMemoryDir   = "$claudeDir\projects\$($userProfile -replace '[:\\/]', '-')\memory"
+# Python para claude-settings-sync.py: lanzador py si existe, si no python del PATH.
+$pyExe = $null; $pyPre = @()
+if (Get-Command py -ErrorAction SilentlyContinue) { $pyExe = "py"; $pyPre = @("-3") }
+elseif (Get-Command python -ErrorAction SilentlyContinue) { $pyExe = "python" }
 . "$driveSyncDir\sync-manifest.ps1"
 
 $excludeDirs  = @(".venv", "venv", ".git", "__pycache__", ".pytest_cache", "node_modules", ".ruff_cache", "*.bak*")
@@ -206,6 +215,22 @@ Save-SyncManifest -Path $manifestPath -Entries $driveSnapshot -Origin "sync-pull
 #    Para retirar uno, borralo en los dos equipos (sync-push lo quita de Drive).
 if (Test-Path "$driveSyncDir\claude_agents") {
     Sync-FromDrive -Source "$driveSyncDir\claude_agents" -Dest $claudeAgentsDir -ExcludeDirs $xd -ExcludeFiles $xf
+}
+
+# 8b. Claude Code: hooks, comandos y memoria global, sin purga y apartando como .bak lo local
+#     que Drive sustituya. Despues, la parte compartida de settings.json (autoMode,
+#     skillOverrides, hooks) se fusiona en el settings.json local, que no viaja entero.
+foreach ($pair in @(@("claude_hooks", $claudeHooksDir), @("claude_commands", $claudeCommandsDir), @("claude_memory", $claudeMemoryDir))) {
+    if (Test-Path "$driveSyncDir\$($pair[0])") {
+        Sync-FromDrive -Source "$driveSyncDir\$($pair[0])" -Dest $pair[1] -ExcludeDirs $xd -ExcludeFiles $xf
+    }
+}
+if (Test-Path "$driveSyncDir\claude_settings_shared.json") {
+    if ($pyExe) {
+        & $pyExe @pyPre "$driveSyncDir\claude-settings-sync.py" merge "$driveSyncDir\claude_settings_shared.json" $claudeSettings
+    } else {
+        Write-Host "  [!] Sin Python: no se fusiona la parte compartida de settings.json." -ForegroundColor Yellow
+    }
 }
 
 # 9. Claude Code: MCP de ambito usuario. Idempotente: solo añade los que falten.

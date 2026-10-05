@@ -237,11 +237,27 @@ if (Test-Path "$driveSyncDir\claude_settings_shared.json") {
 if (Get-Command claude -ErrorAction SilentlyContinue) {
     $mcps = [ordered]@{
         "gemini-api-docs" = @("--transport", "http", "gemini-api-docs", "https://gemini-api-docs-mcp.dev")
-        "chrome-devtools" = @("chrome-devtools", "--", "npx", "-y", "chrome-devtools-mcp@latest")
+        # chrome-devtools va instalado en global y se lanza con node: con `npx -y ...@latest`
+        # consultaba el registro de npm en cada arranque y en Windows agotaba el timeout de
+        # conexion (2026-10-05). La ruta se rellena abajo, tras instalarlo si falta.
+        "chrome-devtools" = $null
         # tooluniverse se quito el 2026-10-01: expone cientos de herramientas y su contenido ya
         # llega por la skill router `tooluniverse` y las sub-skills de la biblioteca.
     }
-    foreach ($name in $mcps.Keys) {
+    $cdtEntry = $null
+    if (Get-Command npm -ErrorAction SilentlyContinue) {
+        $cdtEntry = Join-Path (npm root -g) "chrome-devtools-mcp\build\src\bin\chrome-devtools-mcp.js"
+        if (-not (Test-Path $cdtEntry)) { npm install -g chrome-devtools-mcp@latest *> $null }
+    }
+    if ($cdtEntry -and (Test-Path $cdtEntry)) {
+        $mcps["chrome-devtools"] = @("chrome-devtools", "--", "node", $cdtEntry)
+        # Migrar el registro antiguo con npx al lanzamiento con node.
+        if ((claude mcp get chrome-devtools 2>&1 | Out-String) -match 'npx') { claude mcp remove chrome-devtools -s user *> $null }
+    } else {
+        $mcps.Remove("chrome-devtools")
+        Write-Host "  [!] No se pudo instalar chrome-devtools-mcp (npm install -g chrome-devtools-mcp)." -ForegroundColor Yellow
+    }
+    foreach ($name in @($mcps.Keys)) {
         claude mcp get $name *> $null
         if ($LASTEXITCODE -ne 0) {
             # Splatting real (@mcpArgs), no @(...): si claude es el shim claude.ps1 de npm,

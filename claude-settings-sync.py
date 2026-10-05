@@ -3,8 +3,10 @@
 claude-settings-sync.py - Comparte entre equipos solo la parte comun de ~/.claude/settings.json.
 
 settings.json no viaja entero: lleva estado propio de cada equipo (plugins, tema, permisos,
-migraciones). Viajan tres claves:
+migraciones). Viajan cinco claves:
   autoMode     contexto del clasificador del modo auto (se sustituye entera)
+  statusLine   linea de estado (se sustituye entera)
+  env          variables de entorno (Drive gana en conflicto, lo local se conserva)
   skillOverrides  skills desactivadas u ocultas (Drive gana en conflicto, lo local se conserva)
   hooks        se fusionan por comando: un grupo de Drive sustituye al grupo local que comparta
                alguno de sus comandos; los hooks que solo existan en este equipo se conservan
@@ -21,7 +23,7 @@ import sys
 import time
 from pathlib import Path
 
-SHARED_KEYS = ("autoMode", "skillOverrides", "hooks")
+SHARED_KEYS = ("autoMode", "statusLine", "env", "skillOverrides", "hooks")
 
 
 def load(path):
@@ -49,8 +51,11 @@ def merge(shared_path, settings_path):
     s = load(p) if p.exists() else {}
     new = copy.deepcopy(s)
 
-    if "autoMode" in shared:
-        new["autoMode"] = shared["autoMode"]
+    for key in ("autoMode", "statusLine"):
+        if key in shared:
+            new[key] = shared[key]
+    if "env" in shared:
+        new.setdefault("env", {}).update(shared["env"])
     if "skillOverrides" in shared:
         new.setdefault("skillOverrides", {}).update(shared["skillOverrides"])
     for event, groups in shared.get("hooks", {}).items():
@@ -69,7 +74,7 @@ def merge(shared_path, settings_path):
         shutil.copy2(p, p.with_name("settings.json.bak-" + time.strftime("%Y%m%d-%H%M%S")))
     dump(new, p)
     load(p)  # validar antes de dar por buena la escritura
-    print("  [+] settings.json actualizado con autoMode, skillOverrides y hooks de Drive (copia .bak creada).")
+    print("  [+] settings.json actualizado con la parte compartida de Drive (copia .bak creada).")
 
 
 if __name__ == "__main__":

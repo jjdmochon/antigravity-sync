@@ -20,6 +20,14 @@
       "**Protected IaC scopes**: IAM, billing and networking on Google Cloud projects."
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "python \"$HOME/.claude/hooks/statusline.py\"",
+    "padding": 0
+  },
+  "env": {
+    "MCP_TIMEOUT": "60000"
+  },
   "skillOverrides": {
     "anthropic-skills:humanizer-juanjo": "off",
     "anthropic-skills:humanizer-juanjo-es": "off",

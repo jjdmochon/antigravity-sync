@@ -50,3 +50,6 @@ agents_skills/synced/
 # --- onetake: solo la copia recortada (ver skill_library/onetake/UPSTREAM.md) ---
 skill_library/onetake/assets/
 skill_library/onetake/cases/**/*.mp4
+
+# --- Paquetes de skills sueltos (no se versionan) ---
+dglskill.zip

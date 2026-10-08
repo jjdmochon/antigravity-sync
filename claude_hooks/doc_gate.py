@@ -19,6 +19,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 if sys.platform == "win32":
@@ -36,6 +37,7 @@ SKIP_NAMES = {"readme.md", "claude.md", "skill.md", "memory.md", "agents.md",
               "gemini.md", "changelog.md", "license.md", "contributing.md"}
 
 GATEKEEPER = Path.home() / ".agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py"
+LAST_RESULT = Path.home() / ".claude/state/jev-last.json"
 
 LATEX_PATTERNS = [
     (re.compile(r"\\\(.+?\\\)"), r"\( ... \)"),
@@ -106,10 +108,29 @@ def mode_jev(path):
                       % etapas["1_watermarks"].get("evidencia", []))
     if etapas.get("2_anti_slop", {}).get("ejecutar"):
         fallos.append("slop p=%.2f -> no-ai-slop" % etapas["2_anti_slop"].get("probabilidad", 0))
+    save_last(path, res, fallos)
     if fallos:
         sys.stderr.write("Jev gate RECHAZA %s: %s\n" % (path.name, "; ".join(fallos)))
         return 2
     return 0
+
+
+def save_last(path, res, fallos):
+    """Deja el ultimo veredicto en LAST_RESULT para el mod jev-status de Claude Code."""
+    etapas = res.get("etapas", {})
+    try:
+        LAST_RESULT.parent.mkdir(parents=True, exist_ok=True)
+        LAST_RESULT.write_text(json.dumps({
+            "file": str(path),
+            "time": int(time.time() * 1000),
+            "gate_ok": not fallos,
+            "quality_gate_passed": bool(res.get("quality_gate_passed")),
+            "p_slop": etapas.get("2_anti_slop", {}).get("probabilidad"),
+            "p_voz": etapas.get("3_voz", {}).get("probabilidad"),
+            "fallos": fallos,
+        }, ensure_ascii=False), encoding="utf-8")
+    except OSError:
+        pass
 
 
 def main():

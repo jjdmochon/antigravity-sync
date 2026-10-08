@@ -142,7 +142,7 @@ $xd = @(); foreach ($d in $excludeDirs)  { $xd += $d }
 $xf = @(); foreach ($f in $excludeFiles) { $xf += $f }
 if (Test-Path "$driveSyncDir\config") {
     Sync-FromDrive -Source "$driveSyncDir\config" -Dest $configDir `
-        -ExcludeDirs (@("skills") + $localOnlyConfigDirs + $xd) -ExcludeFiles ($xf + $localOnlyConfigFiles)
+        -ExcludeDirs (@(@("skills") + $localOnlyConfigDirs | ForEach-Object { Join-Path "$driveSyncDir\config" $_ }) + $xd) -ExcludeFiles ($xf + $localOnlyConfigFiles)
 }
 
 # 3. Junctions ANTES de espejar, para que .claude\skills y .gemini\config\skills nunca

@@ -74,7 +74,10 @@ function Sync-ConfigToDrive {
       config.json antiguo sustituia el de Drive. Lo que se borre aqui no se borra en Drive.
     #>
     param([string]$Source, [string]$Dest, [string[]]$ExcludeDirs, [string[]]$ExcludeFiles)
-    robocopy $Source $Dest /E /XO /XD skills @localOnlyConfigDirs @ExcludeDirs /XF @ExcludeFiles @localOnlyConfigFiles /NP /NFL /NDL /R:1 /W:1 | Out-Null
+    # Rutas completas: un nombre suelto en /XD excluye esa carpeta a cualquier profundidad
+    # ("skills" dejaba fuera plugins\*\skills\). Solo deben quedar fuera las de primer nivel.
+    $topLevel = @("skills") + $localOnlyConfigDirs | ForEach-Object { Join-Path $Source $_ }
+    robocopy $Source $Dest /E /XO /XD @topLevel @ExcludeDirs /XF @ExcludeFiles @localOnlyConfigFiles /NP /NFL /NDL /R:1 /W:1 | Out-Null
 }
 
 function Ensure-SkillsJunction {

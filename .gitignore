@@ -46,6 +46,7 @@ agents_skills/skill-catalog/
 
 # --- Volcado de skills por sesion que genera la app de Claude (no forma parte del sync) ---
 agents_skills/synced/
+agents_skills/.trash/
 
 # --- onetake: solo la copia recortada (ver skill_library/onetake/UPSTREAM.md) ---
 skill_library/onetake/assets/

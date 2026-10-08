@@ -40,9 +40,9 @@ elseif (Get-Command python -ErrorAction SilentlyContinue) { $pyExe = "python" }
 
 $excludeDirs  = @(".venv", "venv", ".git", "__pycache__", ".pytest_cache", "node_modules", ".ruff_cache", "*.bak*")
 $excludeFiles = @("desktop.ini", "*.pyc", "*.pyo", "Thumbs.db", ".DS_Store", "*.bak*")
-# Carpetas del nucleo que no viajan: synced lo escribe la app de Claude en cada equipo y
+# Carpetas del nucleo que no viajan: synced y .trash (papelera de skills retiradas) los escribe la app de Claude en cada equipo y
 # skill-catalog se regenera aqui mismo a partir de la biblioteca local.
-$localOnlyCore = @("synced", "skill-catalog")
+$localOnlyCore = @("synced", "skill-catalog", ".trash")
 # Datos propios de cada equipo dentro de config (los mismos que excluye .gitignore): rutas
 # absolutas de workspaces y estado local. No se traen de Drive: llevan la letra de unidad del
 # otro equipo (I: alli, K: aqui) y romperian los workspaces de este.

@@ -1,0 +1,10 @@
+{
+ "sequence (N->C)": "`CACCATTGT_ACACTCCA`",
+ "length": "18-mer",
+ "gamma positions": "[7, 12, 15]",
+ "blank": "*L-Ser* at 10 from N / 9 from C",
+ "formula": "C212H284N100O65",
+ "monoisotopic / average": "5270.199 / 5273.24",
+ "labelled (SMART-C-REX-PEG12-biotin)": "6293.49 (+1020.25)",
+ "found in scan": "reads G9 via CCHO, Tm 61.4 C, rank 6/440"
+}

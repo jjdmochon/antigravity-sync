@@ -41,7 +41,7 @@ elseif (Get-Command python -ErrorAction SilentlyContinue) { $pyExe = "python" }
 # equipo origen, historial git, cachés, y los desktop.ini que genera Drive.
 $excludeDirs  = @(".venv", "venv", ".git", "__pycache__", ".pytest_cache", "node_modules", ".ruff_cache", "*.bak*")
 $excludeFiles = @("desktop.ini", "*.pyc", "*.pyo", "Thumbs.db", ".DS_Store", "*.bak*")
-$localOnlyCore = @("synced", "skill-catalog")
+$localOnlyCore = @("synced", "skill-catalog", ".trash")
 # Datos propios de cada equipo dentro de config (los mismos que excluye .gitignore): rutas
 # absolutas de workspaces y estado local. No suben: sync-pull tampoco los trae.
 $localOnlyConfigDirs  = @("projects", "sidecars")

@@ -11,6 +11,7 @@ Subida: claude.ai → Ajustes → Capacidades → Skills → subir el `.zip` (un
 | `remove-ai-marks.zip` | **Sustituye** a la `remove-ai-marks` actual, que solo tiene `SKILL.md`; esta incluye los 6 ficheros de `references/`. Es la misma skill que la carpeta local `watermarks-remover`. Borra la antigua antes de subirla si la app no deja reemplazarla. |
 | `glyph.zip` | Nueva: SMILES a SVG/PNG y tipografía química. El script necesita RDKit (`pip install rdkit` en el entorno de ejecución). |
 | `ugr-courseware.zip` | Nueva: materiales docentes UGR. |
+| `agent-graph.zip` | **Sustituye** a la `agent-graph` subida el 2026-10-09: misma skill con el hook `scope-guard.py` en Python en lugar de bash. En la app el hook no se ejecuta; la sustitución es solo por coherencia con `agents_skills/agent-graph`. |
 
 `jev-system-one` no se incluye: necesita `py -3.13` con `typesafe-sdk`, la clave `TYPESAFE_API_KEY`
 de `~\.env` y acceso a la API de TypeSafe, que solo existen en tus equipos. En la app el pipeline

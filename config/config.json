@@ -1,10 +1,22 @@
 {
   "plugins": {
+    "android-cli-plugin": {
+      "installedFrom": {
+        "id": "antigravity-plugins-official/plugin/android-cli-plugin",
+        "marketplace": "antigravity-plugins-official",
+        "version": "1.0.16500706"
+      }
+    },
     "chrome-devtools-plugin": {
       "enabled": true
     },
     "gemini-api": {
-      "enabled": true
+      "enabled": true,
+      "installedFrom": {
+        "id": "antigravity-plugins-official/plugin/gemini-api",
+        "marketplace": "antigravity-plugins-official",
+        "version": "2.2.0"
+      }
     },
     "k-dense-skills": {
       "enabled": true

@@ -38,6 +38,9 @@ SKIP_NAMES = {"readme.md", "claude.md", "skill.md", "memory.md", "agents.md",
 
 GATEKEEPER = Path.home() / ".agents/skills/jev-system-one/scripts/jev_doc_gatekeeper.py"
 LAST_RESULT = Path.home() / ".claude/state/jev-last.json"
+# Jev necesita el Python que tiene typesafe-sdk (py -3.13). El hook lo lanza "python", que en
+# estos equipos es Anaconda: con sys.executable el gatekeeper caia siempre en fallo-abierto.
+JEV_PYTHON = ["py", "-3.13"] if sys.platform == "win32" else [sys.executable]
 
 LATEX_PATTERNS = [
     (re.compile(r"\\\(.+?\\\)"), r"\( ... \)"),
@@ -94,7 +97,7 @@ def mode_jev(path):
     if not GATEKEEPER.is_file():
         return 0
     try:
-        out = subprocess.run([sys.executable, str(GATEKEEPER), str(path), "--json"],
+        out = subprocess.run(JEV_PYTHON + [str(GATEKEEPER), str(path), "--json"],
                              capture_output=True, text=True, encoding="utf-8", timeout=90)
         res = json.loads(out.stdout)
     except Exception:

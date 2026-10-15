@@ -124,7 +124,7 @@ llevan rutas absolutas del equipo origen): `.venv`, `.git`, `__pycache__`, `node
 ### Después de un `sync-pull` en un equipo nuevo
 
 Las claves de API no viajan por Drive. Copia `.env.example` a `~\.env` en el equipo destino y
-rellena los valores (`TYPESAFE_API_KEY`, `ALPHAGENOME_API_KEY`, `GOOGLE_API_KEY`; la plantilla
+rellena los valores (`TYPESAFE_API_KEY`, `ALPHAGENOME_API_KEY`, `GEMINI_API_KEY`; la plantilla
 dice de dónde sale cada una). `sync-pull` compara `~\.env` con la plantilla y avisa de las que
 falten o estén vacías, sin mostrar nunca los valores.
 

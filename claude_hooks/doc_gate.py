@@ -111,6 +111,10 @@ def mode_jev(path):
                       % etapas["1_watermarks"].get("evidencia", []))
     if etapas.get("2_anti_slop", {}).get("ejecutar"):
         fallos.append("slop p=%.2f -> no-ai-slop" % etapas["2_anti_slop"].get("probabilidad", 0))
+    voz = etapas.get("3_voz", {})
+    if voz.get("ejecutar"):
+        fallos.append("voz p=%.2f -> %s" % (voz.get("probabilidad", 0),
+                                             voz.get("skill") or res.get("humanizer_skill") or "humanizer-juanjo"))
     save_last(path, res, fallos)
     if fallos:
         sys.stderr.write("Jev gate RECHAZA %s: %s\n" % (path.name, "; ".join(fallos)))

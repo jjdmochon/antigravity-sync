@@ -70,8 +70,8 @@ skill `jev-system-one` is installed in every workspace, so stages 0 and 4 always
    `true`, report that no changes are needed and stop. Use the `humanizer_skill` it returns.
    If `engine` reads `fallo-abierto (sin Jev)` (no API key or no network), run every stage and
    state that the document could not be certified.
-1. **Provenance/metadata hygiene** — `remove-ai-marks` (or `watermarks-remover` for images and
-   container metadata): invisible Unicode, zero-width markers, homoglyphs, EXIF/XMP/C2PA.
+1. **Provenance/metadata hygiene** — `watermarks-remover` (the same skill as `remove-ai-marks`,
+   which now lives in the library): invisible Unicode, zero-width markers, homoglyphs, EXIF/XMP/C2PA.
 2. **Anti-slop pass** — `no-ai-slop`: AI clichés, robotic cadence, rule-of-three, filler.
 3. **Voice calibration** — `humanizer-juanjo` (English) or `humanizer-juanjo-es` (Spanish),
    exactly the one Jev selected. Never run both.

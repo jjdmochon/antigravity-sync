@@ -224,6 +224,7 @@ skills are read on demand.
 | `workflow-skill-creator` | Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a... |
 | `skill-repair` | Use this to fix and re-install agent skills that have failed installation. This skill provides the necessary context and permissions to surgically update the `manifest... |
 | `paper2agent` | Convert research papers and associated files, research code, or both into a reviewed paper skill and tested MCP server. Use for paper-only, code-only, or combined conv... |
+| `smart-pna-probe-design` | Design DestiNA DGL / SMART PNA probe panels for Dynamic Chemical Labelling (DCL) PCR-free nucleic acid and microRNA detection, abasic monomer placement, and PNA.DNA duplex structural models. |
 | `juanjo-ugr-dev-agent` | Specialized AI pair programmer, scientific researcher, and academic assistant for Dr. Juan José Díaz-Mochón (Juanjo). Integrates full domain context across Biotech/DES... |
 
 #### Development, Python & safety

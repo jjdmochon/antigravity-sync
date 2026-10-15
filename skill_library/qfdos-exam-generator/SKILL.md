@@ -1,12 +1,12 @@
 ---
 name: qfdos-exam-generator
-description: Metodología oficial, pipeline de generación, calibración psicométrica y quimioinformática para la preparación de exámenes de Química Farmacéutica II (2627 QFDOS E · Grado en Farmacia, Universidad de Granada), impartida por el Dr. Juan José Díaz-Mochón. Cubre diseño por bloques temáticos (SAR, síntesis y retrosíntesis, farmacóforos, bioisostería, interacciones moleculares PDB), balanceo riguroso de claves (25% A/B/C/D), paridad de longitud anti-slop, estructuras químicas vectoriales RDKit y formatos duales (alumno/solucionario) en Markdown limpio y HTML5. Incluye mecanismo de auto-actualización progresiva desde 'Temas 2627/Presentaciones Finales'.
+description: Metodología oficial, pipeline de generación, calibración psicométrica y quimioinformática para la preparación de exámenes de Química Farmacéutica II (2627 QFDOS E · Grado en Farmacia, Universidad de Granada), impartida por el Dr. Juan José Díaz-Mochón. Cubre diseño por bloques temáticos (SAR, síntesis y retrosíntesis, farmacóforos, bioisostería, interacciones moleculares PDB), balanceo riguroso de claves (25% A/B/C/D), paridad de longitud anti-slop, estructuras químicas vectoriales RDKit y formatos duales (alumno/solucionario) en Markdown limpio y HTML5. Consolida cada pregunta contra los apuntes finales publicados de cada tema (fuente de verdad docente) e incluye mecanismo de auto-actualización progresiva desde '1. Temas 2627/Presentaciones Finales'.
 license: MIT
 metadata:
   author: Dr. Juan José Díaz-Mochón & Jev System-1
   institution: Universidad de Granada (UGR) · Dpto. Química Farmacéutica y Orgánica
   course: Química Farmacéutica II (2627 QFDOS E)
-  repository_source: "Temas 2627/Presentaciones Finales"
+  repository_source: "1. Temas 2627/Presentaciones Finales"
 ---
 
 # QFDOS Exam Generator · Química Farmacéutica II (UGR)
@@ -36,7 +36,8 @@ Cualquier agente (Claude Projects, Claude Cowork, Claude Desktop, Antigravity) q
 - **Prohibición de Spoilers Visuales en Exámenes:** **NUNCA incluir imágenes de presentaciones o esquemas que contengan la respuesta a la pregunta** (por ejemplo, infografías con flechas de reacción rotuladas con los reactivos o esquemas con los aminoácidos etiquetados). En un examen, la imagen debe ser la estructura de partida o el reto, nunca la resolución.
 - **Prohibición de Citas de Diapositivas:** **NUNCA mencionar "Diapositiva X", "impartido en clase" ni referencias a slides en el enunciado.** Es un modelo oficial de examen, por lo que la redacción debe ser formal, contextualizada y directa.
 - **Ruta Prioritaria para Estructuras Químicas (`Estructuras QFDOS/Tema X`):** Antes de generar estructuras con RDKit desde cero o buscar externamente, el agente DEBE revisar obligatoriamente si las moléculas ya están curadas en el repositorio institucional:  
-  `i:\Mi unidad\Classroom\2627 QFDOS E\Estructuras QFDOS\Tema X\` (ficheros `QFDOS-0xx_<nombre>.png`). Si no existieran o se requiere vector SVG limpio, generarlas con RDKit y enriquecerlas vía PubChem.
+  `<unidad>:\Mi unidad\Classroom\2627 QFDOS E\1. Temas 2627\Estructuras QFDOS\Tema X\` (ficheros `QFDOS-0xx_<nombre>.png`). Si no existieran o se requiere vector SVG limpio, generarlas con RDKit y enriquecerlas vía PubChem.
+- **Fidelidad a los apuntes finales:** Cada pregunta se consolida contra los apuntes finales publicados del tema (`QFDOS Tema X Apuntes.pdf`). Si no está en los apuntes, no se pregunta.
 - **Justificación mecanística en solucionarios:** Detallar siempre el porqué químico (pKa, estados de transición tetraédricos, grupos salientes, constantes dieléctricas locales, impedimento estérico vs resonancia).
 
 ---
@@ -46,18 +47,30 @@ Cualquier agente (Claude Projects, Claude Cowork, Claude Desktop, Antigravity) q
 Esta skill está diseñada para sincronizarse dinámicamente conforme avance el curso 2026/2027.
 
 ### Rutas Maestras de Fuentes Docentes
-1. **Repositorio Oficial de Estructuras Químicas (Prioridad 1 para Imágenes de Moléculas):**  
-   `i:\Mi unidad\Classroom\2627 QFDOS E\Estructuras QFDOS\Tema X\`  
-   Contiene los archivos curados en alta resolución (`QFDOS-001_acetilcolina.png`, `QFDOS-014_betanecol.png`, etc.) y el maestro `estructuras_qfdos.csv`.
-2. **Presentación de Diapositivas (Para Extraer Contenidos y Síntesis, NO para pegar como respuesta en test):**  
-   `Temas 2627\Presentaciones Finales\Tema X\Tema X QFDOS Final.md` (y su carpeta `chemdraw/`).
-3. **Apuntes Oficiales Publicados del Tema:**  
-   `Temas 2627\Presentaciones Finales\Apuntes\Publicados\QFDOS Tema X Apuntes.pdf` (y archivos complementarios en `Apuntes\Publicados\`).
 
-- **`Tema 1/`**: Acetilcolina y Sistema Colinérgico (COMPLETO ✅).
-  - Estructuras en: `Estructuras QFDOS\Tema 1\QFDOS-0xx_*.png`.
-  - Apuntes en: `Temas 2627\Presentaciones Finales\Apuntes\Publicados\QFDOS Tema 1 Apuntes.pdf`.
-- **`Tema 2/`, `Tema 3/`, ...**: Conforme se publiquen, el agente consultará `Estructuras QFDOS\Tema X\` para reutilizar las imágenes oficiales y los apuntes correspondientes para plantear preguntas con fidelidad docente absoluta.
+Raíz del curso: `<unidad>:\Mi unidad\Classroom\2627 QFDOS E\` (Google Drive para escritorio; `K:` en destina-onp, la letra puede variar en otro equipo). Todas las rutas siguientes son relativas a `1. Temas 2627\`.
+
+1. **Apuntes Finales Publicados del Tema (Fuente de Verdad para Consolidar Preguntas):**
+   `Presentaciones Finales\Apuntes\Publicados\QFDOS Tema X Apuntes.pdf`
+   Es el texto que estudia el alumno. Toda pregunta debe poder resolverse con lo que dicen estos apuntes (ver sección 8, LOOP 0).
+   Si el PDF no permite extraer texto limpio (`pdftotext -layout` o PyMuPDF), usar la versión fuente en `Presentaciones Finales\Apuntes\raw\` (ej. `Tema 3. QFDOS Completa.md`), comprobando que coincide con el PDF publicado.
+2. **Repositorio Oficial de Estructuras Químicas (Prioridad 1 para Imágenes de Moléculas):**
+   `Estructuras QFDOS\Tema X\`
+   Contiene los archivos curados en alta resolución (`QFDOS-001_acetilcolina.png`, `QFDOS-014_betanecol.png`, etc.) y el maestro `estructuras_qfdos.csv`.
+3. **Presentación de Diapositivas (Para Extraer Contenidos y Síntesis, NO para pegar como respuesta en test):**
+   `Presentaciones Finales\Tema X\Tema X QFDOS Final.md` (y su carpeta `chemdraw/`).
+4. **Transcripciones de Clase:**
+   `Transcripciones\` (y `Transcripciones\Apuntes limpios\`). Sirven para detectar énfasis, ejemplos y matices dichos en el aula, no como fuente de verdad.
+
+### Jerarquía de Fuentes ante Discrepancias
+**Apuntes finales publicados > Presentación final > Transcripciones > Fuentes externas (PubChem, ChEMBL, bibliografía).**
+Si una transcripción o la presentación contradicen los apuntes publicados (nombre de un reactivo, condiciones de una ruta, residuo del sitio activo, selectividad), la pregunta se redacta según los apuntes y la discrepancia se anota en el solucionario docente para revisión. Si un dato externo indica un error en los apuntes, ese punto no se pregunta hasta que el docente actualice los apuntes, y se avisa en el informe de la generación.
+
+### Estado de Publicación por Tema
+- **`Tema 1/`**: Acetilcolina y Sistema Colinérgico (COMPLETO ✅). Apuntes: `QFDOS Tema 1 Apuntes.pdf`.
+- **`Tema 2/`**: Apuntes publicados: `QFDOS Tema 2 Apuntes.pdf`.
+- **`Tema 3/`**: Dopamina, Parkinson y Antipsicóticos. Apuntes publicados: `QFDOS Tema 3 Apuntes.pdf`.
+- **`Tema 4/` en adelante**: Antes de generar un examen, el agente lista `Presentaciones Finales\Apuntes\Publicados\`. Si los apuntes del tema todavía no están publicados, lo indica al docente y genera el examen como **borrador provisional**, consolidado solo contra la presentación final y marcado así en la cabecera del solucionario.
 
 ---
 
@@ -220,6 +233,7 @@ Cuando se solicite un examen, se deben generar simultáneamente dos archivos mae
    - En cada pregunta: indicación explícita de `[CORRECTA]`.
    - Justificación química pormenorizada con mecanismos, flechas sintéticas o residuos aminoacídicos involucrados.
    - Desglose pedagógico de los 3 distractores para retroalimentación en clase de dudas o seminario.
+   - Referencia a la sección de los apuntes finales del tema que respalda cada respuesta, y lista de discrepancias detectadas entre apuntes, presentación y transcripciones.
 
 ---
 
@@ -265,7 +279,112 @@ Para preguntas de Relación Estructura-Actividad (SAR), selectividad de subtipo 
 
 ---
 
-## 8. Calibración y Calidad Final (Quality Gate)
+## 8. Grafo de Orquestación Multiagente (Plantilla Común a Todos los Temas)
+
+Todo examen de QFDOS se genera con el mismo grafo. La topología es fija; lo único que cambia de un tema a otro es la entrada (rango del catálogo `QFDOS-xxx`, apuntes finales publicados y transcripciones del tema) y la asignación de fármacos a cada subagente.
+
+### 8.1. Topología (instancia de referencia: Tema 3 · Dopamina, Parkinson y Antipsicóticos)
+
+```text
+[Input: Catálogo Maestro QFDOS-127 a QFDOS-169 + QFDOS Tema 3 Apuntes.pdf + Transcripciones Aula 7]
+        │
+        ▼
+┌───────────────────────────────────────────────────────────────────┐
+│  ORQUESTADOR CENTRAL (QFDOS Exam Generator · Grupo E · Modelo B)  │
+└───────┬─────────────────┬────────────────────┬────────────────────┘
+        │                 │                    │
+        ▼                 ▼                    ▼
+ [Subagente SAR]   [Subagente Síntesis]  [Subagente Bio/Metab]
+  · Prometazina     · Carfenazina         · Selegilina (R vs S)
+  · Levomepromazina · Amantadina (Ritter) · Rasagilina (Indano)
+  · Ortopramidas    · Haloperidol (Prins) · Tolcapona (pKa/COMT)
+  · Droperidol      · Tionación / Ullmann · MPTP → MPP+ (MAO-B)
+        │                 │                    │
+        └─────────────────┼────────────────────┘
+                          ▼
+        🔄 LOOP 0: Consolidación contra Apuntes Finales del Tema
+        (Cada ítem trazado a una sección de los apuntes · Apuntes > Presentación > Transcripción)
+                          │
+                          ▼
+        🔄 LOOP 1: Renderizado de Estructuras Químicas
+        (Diagramas estructurales ASCII/Unicode + SMILES validados)
+                          │
+                          ▼
+        🔄 LOOP 2: Auditoría Psicométrica JEV System-1
+        (Entropía 25%: 4A, 4B, 4C, 3D · Paridad de longitud ±15 car. · Cero LaTeX)
+                          │
+                          ▼
+        [Entregable Dual: Cuadernillo del Alumno + Solucionario Docente]
+```
+
+### 8.2. Plantilla genérica para cualquier Tema X
+
+```text
+[Input: Catálogo Maestro QFDOS-<inicio> a QFDOS-<fin> (Estructuras QFDOS\Tema X) + QFDOS Tema X Apuntes.pdf + Transcripciones del Tema X]
+        │
+        ▼
+  ORQUESTADOR CENTRAL (QFDOS Exam Generator · Grupo E · Modelo <A/B/…>)
+        │
+        ├──► [Subagente SAR]          fármacos con preguntas de estructura-actividad, selectividad, eudismia
+        ├──► [Subagente Síntesis]     fármacos con ruta sintética o retrosíntesis impartida (reacciones con nombre)
+        └──► [Subagente Bio/Metab]    enzimas, metabolismo, profármacos, estereoquímica de unión, pKa
+        │
+        ▼
+  LOOP 0 · Consolidación contra los apuntes finales publicados del Tema X
+        │
+        ▼
+  LOOP 1 · Renderizado de estructuras (SMILES validados con RDKit, PNG oficiales QFDOS-xxx si existen)
+        │
+        ▼
+  LOOP 2 · Auditoría psicométrica JEV System-1 (entropía de claves, paridad de longitud, cero LaTeX)
+        │
+        ▼
+  Entregable dual: Cuadernillo del Alumno + Solucionario Docente
+```
+
+### 8.3. Responsabilidades de cada nodo
+
+- **Orquestador central:**
+  - Lee primero los apuntes finales publicados del tema y extrae su índice de secciones; con él define los bloques y el peso de cada uno en el examen (un bloque que no aparece en los apuntes no se pregunta).
+  - Lee el rango del catálogo (`estructuras_qfdos.csv` filtrado por tema) y las transcripciones del tema.
+  - Reparte los fármacos entre los tres subagentes sin solapamientos y fija el número de preguntas por bloque (por defecto, reparto equilibrado: 5/5/5 para un examen de 15 preguntas).
+  - Fija el modelo de examen (A, B…) y el grupo (E); el orden de preguntas y la clave cambian entre modelos.
+- **Subagente SAR:** redacta preguntas de relación estructura-actividad, selectividad de subtipo y bioisostería (sección 7, datos ChEMBL cuando existan).
+- **Subagente Síntesis:** redacta preguntas de síntesis y retrosíntesis con reactivos concretos, intermedios y reacciones con nombre tal como se impartieron (ej. Ritter, Prins, Ullmann, tionación en Tema 3).
+- **Subagente Bio/Metab:** redacta preguntas de mecanismo enzimático, metabolismo, profármacos, estereoquímica de unión y pKa (ej. MAO-B, COMT, MPTP → MPP⁺ en Tema 3).
+- Cada subagente recibe el fragmento de los apuntes que corresponde a sus fármacos y entrega sus ítems en la plantilla de la sección 4, con SMILES por cada estructura citada, la referencia a la sección de los apuntes que respalda la respuesta y sin asignar todavía la letra correcta definitiva.
+
+### 8.4. Bucles de control (se repiten hasta pasar)
+
+- **LOOP 0 · Consolidación contra los apuntes finales del tema:**
+  - Cada ítem debe poder resolverse con el contenido de `QFDOS Tema X Apuntes.pdf`. En el solucionario se anota la sección o epígrafe de los apuntes que respalda la opción correcta (solo en el solucionario, nunca en el cuadernillo del alumno).
+  - Se contrastan con los apuntes: nombres de fármacos y reactivos, condiciones y orden de las etapas sintéticas, intermedios, residuos del sitio activo, selectividades, valores numéricos (pKa, Ki, distancias) y estereoquímica.
+  - Los distractores deben poder descartarse con claridad a partir de los apuntes; un distractor que los apuntes no permiten descartar invalida el ítem.
+  - Falla si: el ítem pregunta por contenido ausente de los apuntes, usa una nomenclatura o ruta distinta a la de los apuntes, o la respuesta correcta depende solo de algo dicho en una transcripción.
+  - Ante un fallo, el ítem vuelve a su subagente con el fragmento de los apuntes que debe usar. Las discrepancias entre fuentes se resuelven con la jerarquía de la sección 1.
+  - Cobertura: el orquestador comprueba que los bloques principales de los apuntes quedan representados y que ningún bloque acumula más preguntas de las que justifica su extensión en los apuntes.
+
+- **LOOP 1 · Renderizado de estructuras químicas:**
+  - Prioridad 1: PNG oficial `QFDOS-xxx_<nombre>.png` de `Estructuras QFDOS\Tema X\`.
+  - Si no existe: SVG con RDKit (sección 6) desde SMILES canónico validado; diagramas ASCII/Unicode solo como apoyo en texto plano.
+  - Falla si: SMILES no parsea, valencias imposibles, estereocentros sin asignar donde la pregunta depende de ellos, o la imagen contiene la respuesta (spoiler visual, sección 0).
+  - Ante un fallo, el ítem vuelve a su subagente de origen.
+- **LOOP 2 · Auditoría psicométrica JEV System-1:**
+  - El orquestador asigna las letras correctas para cumplir la entropía de la sección 3 (15 preguntas → 4A, 4B, 4C, 3D; 20 → 5/5/5/5).
+  - Comprueba paridad de longitud ±15 caracteres por pregunta, que la correcta no sea la más larga, ausencia de absolutos delatores ("nunca", "siempre") y cero delimitadores LaTeX.
+  - Si `jev_gate_text` / `jev_gate_file` están disponibles, se usan como gate automático; el ítem que no pasa vuelve a su subagente con el motivo.
+- **Salida:** solo cuando los tres bucles (0, 1 y 2) pasan se maquetan el Cuadernillo del Alumno y el Solucionario Docente (sección 5).
+
+### 8.5. Cómo instanciar el grafo para un tema nuevo
+
+1. Sustituir el rango `QFDOS-<inicio>` a `QFDOS-<fin>` por el del tema (consultar `estructuras_qfdos.csv`).
+2. Sustituir los apuntes finales y las transcripciones de entrada por los del tema (comprobar que `QFDOS Tema X Apuntes.pdf` existe en `Apuntes\Publicados\`).
+3. Reasignar los fármacos del tema a los tres subagentes según el tipo de pregunta que permiten.
+4. Mantener sin cambios los tres bucles, los criterios de la sección 3 y el entregable dual.
+
+---
+
+## 9. Calibración y Calidad Final (Quality Gate)
 
 Antes de dar por finalizado un set de examen de QFDOS, el agente debe validar:
 
@@ -276,3 +395,5 @@ Antes de dar por finalizado un set de examen de QFDOS, el agente debe validar:
 - [ ] ¿Hay cero delimitadores LaTeX crudos (`$...$`), empleando 100% tipografía Unicode nativa?
 - [ ] ¿Todos los nombres de fármacos, reactivos, enzimas y residuos (ej. Ser203, Trp84) están contrastados bibliográficamente?
 - [ ] ¿Se entregan por separado el cuadernillo del alumno y el solucionario con desglose de distractores?
+- [ ] ¿Cada pregunta se resuelve con los apuntes finales publicados del tema y el solucionario indica la sección que la respalda?
+- [ ] ¿Se ha seguido el grafo de la sección 8 (tres subagentes; LOOP 0 de consolidación con apuntes, LOOP 1 de estructuras y LOOP 2 psicométrico superados por todos los ítems)?

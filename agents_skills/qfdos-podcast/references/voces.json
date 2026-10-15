@@ -1,0 +1,219 @@
+{
+  "voices": [
+    {
+      "name": "Carmen",
+      "alias": "Sevilla",
+      "timbreDescription": "Medio-aguda, cálida y espontánea. Seseo suave.",
+      "geminiBaseVoice": "Kore",
+      "geminiStylePrompt": "Locutora andaluza sevillana, acento natural, cadencia alegre y expresiva, seseo suave, dicción clara."
+    },
+    {
+      "name": "Rocío",
+      "alias": "Cádiz",
+      "timbreDescription": "Enérgica y brillante, con temple.",
+      "geminiBaseVoice": "Aoede",
+      "geminiStylePrompt": "Locutora andaluza de Cádiz, voz enérgica y brillante, apertura vocálica, ritmo vivo."
+    },
+    {
+      "name": "Esperanza",
+      "alias": "Granada",
+      "timbreDescription": "Pausada, aterciopelada y precisa.",
+      "geminiBaseVoice": "Despina",
+      "geminiStylePrompt": "Locutora granadina, timbre aterciopelado, pausada y precisa, entonación melódica."
+    },
+    {
+      "name": "Manolo",
+      "alias": "Córdoba",
+      "timbreDescription": "Barítono sereno con autoridad amable.",
+      "geminiBaseVoice": "Fenrir",
+      "geminiStylePrompt": "Locutor andaluz de Córdoba, barítono cálido y sereno, acento natural, aplomado."
+    },
+    {
+      "name": "Álvaro",
+      "alias": "Estudiante",
+      "timbreDescription": "Joven, cercano, ritmo ágil de repaso.",
+      "geminiBaseVoice": "Puck",
+      "geminiStylePrompt": "Estudiante universitario español, tono cercano y ágil, curiosidad genuina, ritmo de conversación real."
+    },
+    {
+      "name": "Lucía",
+      "alias": "Estudiante",
+      "timbreDescription": "Clara, segura, explica con precisión.",
+      "geminiBaseVoice": "Leda",
+      "geminiStylePrompt": "Estudiante universitaria española, segura y clara, explica con precisión y buen humor."
+    },
+    {
+      "name": "Profesor",
+      "alias": "Castellano neutro",
+      "timbreDescription": "Didáctico, pausado y riguroso.",
+      "geminiBaseVoice": "Sadaltager",
+      "geminiStylePrompt": "Profesor universitario de química farmacéutica, castellano neutro, didáctico, pausado y riguroso."
+    },
+    {
+      "name": "Marina",
+      "alias": "Málaga",
+      "timbreDescription": "Cristalina y dinámica.",
+      "geminiBaseVoice": "Autonoe",
+      "geminiStylePrompt": "Locutora malagueña, acento costero natural, dicción viva y clara."
+    },
+    {
+      "name": "Francisco",
+      "alias": "Almería",
+      "timbreDescription": "Barítono sereno y didáctico.",
+      "geminiBaseVoice": "Charon",
+      "geminiStylePrompt": "Profesor andaluz, voz profunda y sosegada, tono reflexivo para simulacros de examen."
+    }
+  ],
+  "geminiBaseVoices": [
+    {
+      "name": "Kore",
+      "tono": "firme",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Aoede",
+      "tono": "ligera",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Leda",
+      "tono": "juvenil",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Callirrhoe",
+      "tono": "relajada",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Autonoe",
+      "tono": "brillante",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Despina",
+      "tono": "suave",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Erinome",
+      "tono": "clara",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Laomedeia",
+      "tono": "animada",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Achernar",
+      "tono": "delicada",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Gacrux",
+      "tono": "madura",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Pulcherrima",
+      "tono": "directa",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Vindemiatrix",
+      "tono": "amable",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Sulafat",
+      "tono": "cálida",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Zephyr",
+      "tono": "brillante",
+      "timbre": "femenina"
+    },
+    {
+      "name": "Puck",
+      "tono": "optimista",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Charon",
+      "tono": "informativa",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Fenrir",
+      "tono": "enérgica",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Orus",
+      "tono": "firme",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Enceladus",
+      "tono": "aspirada",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Iapetus",
+      "tono": "clara",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Umbriel",
+      "tono": "relajada",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Algieba",
+      "tono": "suave",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Algenib",
+      "tono": "grave",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Rasalgethi",
+      "tono": "informativa",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Alnilam",
+      "tono": "firme",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Schedar",
+      "tono": "equilibrada",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Achird",
+      "tono": "cercana",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Zubenelgenubi",
+      "tono": "informal",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Sadachbia",
+      "tono": "viva",
+      "timbre": "masculina"
+    },
+    {
+      "name": "Sadaltager",
+      "tono": "experta",
+      "timbre": "masculina"
+    }
+  ]
+}

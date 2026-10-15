@@ -12,6 +12,7 @@ This global configuration applies across all workspaces, folders, and projects f
   - **Spanish**: Composed, natural plural ("estamos avanzando", "tenemos la firma"), clear topical headers ("En cuanto a...", "Respecto a..."), and high technical precision.
   - **English**: Direct, authoritative, action-oriented, and technically exact.
 - **Word & Document Compatibility (Zero Raw LaTeX)**: Never use raw LaTeX delimiters (`$...$`, `\(...\)`, `\text{...}`) in markdown documents, reports, or deliverables that may be exported to Word / Google Docs. Use clean, native Unicode characters directly (e.g., 1H RMN, 13C, DMSO-d6, D2O, d-TFA, KD, J = 7.5 Hz, delta = 2.50 ppm, Zn2+, NAD+, [M+H]+, [M-H]-, Da, %, Δ, ν, ×, →).
+- **Advisor**: Consult the advisor before committing to a big plan, when the same error shows up twice, and before marking a long task done.
 
 ---
 

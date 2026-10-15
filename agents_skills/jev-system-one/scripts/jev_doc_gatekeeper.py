@@ -9,7 +9,7 @@ Reparto de responsabilidades:
   - Invisibles, homoglifos y metadatos -> deteccion DETERMINISTA local, sin API.
     Son preguntas mecanicas con respuesta exacta; no se delegan en un modelo.
   - Slop, voz y LaTeX                  -> Jev Noul con instrucciones especificadas.
-  - Idioma                             -> Jev Choice (--lang lo sobreescribe).
+  - Idioma                             -> heuristica local (--lang la sobreescribe).
 
 Uso:
   python jev_doc_gatekeeper.py documento.md
@@ -149,7 +149,7 @@ INSTR_SLOP = (
     "Responde verdadero solo si estas senales estan presentes de forma marcada."
 )
 
-INSTR_VOZ = (
+INSTR_VOZ_ES = (
     "El texto se DESVIA de la voz ejecutiva de Juanjo. Esa voz es: compuesta y "
     "tecnicamente precisa, con cifras y unidades concretas, plural natural en espanol "
     "('hemos cerrado', 'proponemos'), encabezados topicos ('En cuanto a...', "
@@ -159,12 +159,39 @@ INSTR_VOZ = (
     "falso si ya cumple esa voz."
 )
 
+# Voz inglesa: calibrada con el perfil de la skill humanizer-juanjo (SKILL.md).
+# INSTR_VOZ_ES describe la voz en espanol; aplicada a texto ingles lo suspendia casi
+# siempre (0.7-0.8 incluso sobre las frases de referencia de la propia skill).
+INSTR_VOZ_EN = (
+    "The English text DEVIATES from Juanjo's executive voice. That voice is: composed, "
+    "quietly confident and technically specific, as written by a scientist-CEO; "
+    "medium-to-long deliberate sentences rather than punchy fragments; 'we' as the "
+    "default subject for team and company work and 'I' for personal ownership; explicit "
+    "topic-led transitions ('Regarding...', 'On the ... front...', 'For the ...'); "
+    "practitioner technical terms woven into prose (assays, platforms, patents, ISO 13485, "
+    "IVDR) with concrete names, dates and figures; plain assertive statements ('the data "
+    "clearly shows', 'I am confident'); action-oriented closings; warm but restrained. "
+    "Slide fragments, short labels and table cells are acceptable in a presentation. "
+    "Answer true if the text sounds promotional, grandiloquent, impersonal, generic, "
+    "motivational, hedging, academically convoluted, or lacks technical concreteness; "
+    "answer false if it already matches that voice."
+)
+
+INSTR_VOZ = INSTR_VOZ_ES
+
 INSTR_LATEX = (
     "El texto contiene delimitadores LaTeX crudos que romperian una exportacion a Word "
     "o Google Docs: $...$, \\(...\\), \\[...\\], \\text{...}, \\frac, \\alpha y "
     "similares. Responde verdadero solo si aparecen delimitadores o macros LaTeX "
     "literales, no si simplemente hay simbolos matematicos Unicode."
 )
+
+
+def detectar_idioma_rapido(t):
+    words_es = {'en', 'de', 'la', 'el', 'los', 'las', 'un', 'una', 'con', 'por', 'para', 'como', 'este', 'esta'}
+    words_en = {'the', 'of', 'and', 'to', 'in', 'is', 'that', 'for', 'it', 'as', 'was', 'with', 'on', 'at'}
+    t_words = set(t.lower().split()[:300])
+    return 'en' if len(t_words & words_en) > len(t_words & words_es) else 'es'
 
 
 def muestrear(texto):
@@ -178,17 +205,16 @@ def muestrear(texto):
 
 
 def consultar_jev(texto, lang=None):
-    from typesafe_sdk import TypeSafeClient, Noul, Choice
+    from typesafe_sdk import TypeSafeClient, Noul
     cliente = TypeSafeClient(api_key=os.getenv("TYPESAFE_API_KEY"))
+    idioma_efectivo = lang if lang else detectar_idioma_rapido(texto)
+    instr_voz = INSTR_VOZ_EN if idioma_efectivo == "en" else INSTR_VOZ_ES
+
     preguntas = {
         "slop": Noul(instructions=INSTR_SLOP),
-        "voz": Noul(instructions=INSTR_VOZ),
+        "voz": Noul(instructions=instr_voz),
         "latex": Noul(instructions=INSTR_LATEX),
     }
-    if lang is None:
-        preguntas["idioma"] = Choice(
-            instructions="Idioma principal de redaccion del documento.",
-            criteria={"es": "Espanol", "en": "Ingles"})
 
     a = cliente.system_one(state={"documento": muestrear(texto)},
                            questions=preguntas).answers
@@ -196,7 +222,7 @@ def consultar_jev(texto, lang=None):
         "p_slop": round(float(a["slop"].noul), 3),
         "p_voz": round(float(a["voz"].noul), 3),
         "p_latex": round(float(a["latex"].noul), 3),
-        "idioma": lang if lang else a["idioma"].choice,
+        "idioma": idioma_efectivo,
     }
 
 

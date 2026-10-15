@@ -130,23 +130,26 @@ In parallel, dispatch dedicated subagents to generate a target dossier for [TARG
 ---
 
 ## Template 2: DestiNA DCL Chemistry & miRNA Biomarker Validation
-We use this template when we validate a Dynamic Chemical Labeling (DCL) assay for diagnostic microRNA detection.
+We use this template when we validate a Dynamic Chemical Labeling (DCL) assay for diagnostic microRNA detection, utilizing the core skill `smart-pna-probe-design`.
 
 ### Natural-language trigger
 ```text
-Run the local DCL calibration analysis on my CSV data in data/, and simultaneously spawn parallel subagents across isolated branches to evaluate clinical biomarker literature (PubMed MCP) and probe sequence specificity.
+Run the local DCL calibration analysis on my CSV data in data/, and simultaneously spawn parallel subagents across isolated branches to evaluate clinical biomarker literature (PubMed MCP) and probe sequence specificity using smart-pna-probe-design:
+1. Subagent A: Run smart-pna-probe-design to scan the miRNA target, place abasic blanks (*GL* / *L-Ser*), compute SMART adduct masses and duplex Tm.
+2. Subagent B: Query PubMed and GEO databases for clinical validation cohorts and expression ranges.
+3. Subagent C: Evaluate cross-hybridization penalties against closely related isoforms.
 ```
 
 ---
 
 ## Template 3: KRT10 Variant & PNA Probe Biophysics Campaign
-We use this template to design PNA or SMART probes that discriminate specific epidermal mutations.
+We use this template to design PNA or SMART probes that discriminate specific epidermal mutations using `smart-pna-probe-design` alongside biophysical modeling.
 
 ### Natural-language trigger
 ```text
 In parallel, launch subagents across isolated branches to design a PNA targeting strategy for [MUTATION, e.g., KRT10 R156C]:
-1. Subagent 1: Model PNA:RNA duplex melting temperatures (Tm) and the ΔTm discrimination penalty.
-2. Subagent 2: Evaluate steric accessibility using 3D conformers.
+1. Subagent 1: Model PNA:RNA duplex melting temperatures (Tm) and the ΔTm discrimination penalty via smart-pna-probe-design.
+2. Subagent 2: Evaluate steric accessibility using 3D conformers (pna_struct).
 3. Subagent 3: Search USPTO (library skill uspto-database) for patented PNA modifications targeting keratin genes.
 Compile a candidate ranking table to reports/pna/candidates.md.
 ```

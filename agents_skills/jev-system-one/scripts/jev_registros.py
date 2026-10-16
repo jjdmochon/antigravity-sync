@@ -37,7 +37,10 @@ REGISTROS = {
         "choice": (
             "Correspondencia de direccion de una empresa biotecnologica: emails o cartas a "
             "inversores, consejo, socios, clientes farmaceuticos o colaboradores industriales; "
-            "actualizaciones de estado de proyectos, hitos comerciales, patentes, financiacion."
+            "actualizaciones de estado de proyectos, hitos comerciales, patentes, financiacion. "
+            "Marcas formales: destinatario concreto (saludo 'Hola Paul', 'Dear board', 'Hope "
+            "you are well'), firma, referencias a reuniones, inversores, consejo, ronda o hitos "
+            "de la empresa."
         ),
         # Texto identico al INSTR_VOZ_ES / INSTR_VOZ_EN calibrados antes de los registros.
         "voz_es": (
@@ -74,7 +77,8 @@ REGISTROS = {
             "Mensajes de un profesor universitario a sus estudiantes: avisos del campus virtual "
             "(PRADO), emails a alumnos, convocatorias de examen o tutoria, instrucciones de "
             "practicas, normas de evaluacion continua, feedback a un TFG o TFM. Se dirige al "
-            "lector en segunda persona (tu, vosotros, you)."
+            "lector en segunda persona (tu, vosotros, you). Marcas formales: asignatura, "
+            "examen, fecha de entrega, aula, PRADO, nota, alumno o alumna nombrado."
         ),
         "voz_es": (
             "El texto se DESVIA de la voz de Juanjo como profesor que escribe a sus alumnos. Esa "
@@ -116,7 +120,10 @@ REGISTROS = {
             "Texto cientifico academico: articulo de investigacion, revision, tesis doctoral, "
             "TFG o TFM redactado por el autor, abstract, carta de respuesta a revisores. "
             "Secciones tipo Introduccion, Metodos, Resultados, Discusion; citas bibliograficas, "
-            "estadistica, condiciones experimentales."
+            "estadistica, condiciones experimentales. Marcas formales: encabezado de seccion de "
+            "articulo, referencias a figuras o tablas (Fig. 2, Tabla 1), citas [12] o (Autor, "
+            "ano), n, p, desviacion estandar. Un texto con estas marcas es 'manuscrito' aunque "
+            "su tono sea promocional o de email."
         ),
         "voz_es": (
             "El texto se DESVIA del registro de manuscrito cientifico de Juanjo. Ese registro es: "
@@ -162,7 +169,10 @@ REGISTROS = {
         "choice": (
             "Texto de una presentacion: titulos de diapositiva, vinetas cortas, etiquetas, "
             "llamadas a figuras, notas breves del ponente. Clases, congresos, pitch a inversores. "
-            "Lineas cortas, fragmentos sin verbo, muchas vinetas."
+            "Lineas cortas, fragmentos sin verbo, muchas vinetas. Marcas formales: un titulo "
+            "corto en la primera linea seguido de vinetas, numero o titulo de diapositiva, "
+            "'Diapositiva 4', notas del ponente. Una linea de titulo seguida de vinetas es "
+            "'diapositivas' aunque las vinetas sean largas o esten en prosa."
         ),
         "voz_es": (
             "El texto se DESVIA del registro de diapositiva de Juanjo. Ese registro es: titulos "
@@ -235,7 +245,10 @@ REGISTROS = {
         "choice": (
             "Documento tecnico o de calidad: informe de validacion, informe ISO 9001 o "
             "ISO 13485, CAPA, no conformidad, SOP, acta de reunion, informe de resultados de "
-            "laboratorio, documentacion regulatoria IVDR."
+            "laboratorio, documentacion regulatoria IVDR. Marcas formales: codigo de documento "
+            "(VAL-012, CAPA-018, NC-031), lote, version, apartados numerados ('4. Resultados'), "
+            "criterio de aceptacion, clausula de una norma. Un texto con estas marcas es "
+            "'informe' aunque su tono sea de email o comercial."
         ),
         "voz_es": (
             "El texto se DESVIA del registro de informe tecnico y de calidad de Juanjo. Ese "
@@ -268,7 +281,9 @@ REGISTROS = {
         "choice": (
             "Texto para publico general o no especialista: post de LinkedIn, nota de prensa, "
             "texto de pagina web, guion de podcast, articulo divulgativo, presentacion de "
-            "empresa o de grupo de investigacion para la sociedad."
+            "empresa o de grupo de investigacion para la sociedad. Marcas formales: sin "
+            "destinatario concreto, hashtags, menciones, titular de prensa, lenguaje para no "
+            "especialistas. Un email con saludo a una persona concreta no es divulgacion."
         ),
         "voz_es": (
             "El texto se DESVIA del registro divulgativo de Juanjo. Ese registro es: claro para "
@@ -358,12 +373,26 @@ TOLERANCIA_GENERICA = (
 )
 
 INSTR_CHOICE = (
-    "Clasifica el tipo de texto segun su destinatario y formato, no segun su tema: un email "
-    "a inversores sobre miR-122 es 'ceo'; un articulo sobre miR-122 es 'manuscrito'; un aviso "
-    "de examen es 'alumnos'; vinetas cortas y titulos de presentacion son 'diapositivas'; una "
-    "memoria para una convocatoria es 'propuesta'; un documento de calidad ISO o un SOP es "
-    "'informe'; un post o una nota de prensa para publico general es 'divulgacion'; una carta que "
-    "avala a una persona concreta para una plaza, beca o programa es 'recomendacion'."
+    "Clasifica el TIPO de texto por su destinatario y sus marcas formales, NO por su tono, su "
+    "calidad ni su tema. Un texto mal escrito, promocional o con el tono de otro tipo sigue "
+    "perteneciendo a su tipo: un manuscrito redactado como un email sigue siendo 'manuscrito'. "
+    "Criterios, en este orden: "
+    "1) codigo de documento, lote, apartados numerados, criterio de aceptacion o clausula de "
+    "norma -> 'informe'; "
+    "2) linea de titulo corta seguida de vinetas, o numero de diapositiva -> 'diapositivas'; "
+    "3) secciones de articulo, figuras o tablas citadas, referencias bibliograficas o "
+    "estadistica -> 'manuscrito'; "
+    "4) hipotesis, objetivos, paquetes de trabajo, entregables o convocatoria -> 'propuesta'; "
+    "5) carta que avala a una persona concreta para una plaza, beca o programa -> "
+    "'recomendacion'; "
+    "6) mensaje en segunda persona a estudiantes sobre asignatura, examen, practica o "
+    "TFG/TFM -> 'alumnos'; "
+    "7) email o carta con destinatario concreto del mundo empresarial (inversor, consejo, "
+    "socio, cliente) -> 'ceo'; "
+    "8) texto sin destinatario concreto para publico general, redes o prensa -> "
+    "'divulgacion'. "
+    "El tema no decide: un email a inversores sobre miR-122 es 'ceo' y un articulo sobre "
+    "miR-122 es 'manuscrito'."
 )
 
 # --------------------------------------------------------------------------
@@ -474,6 +503,10 @@ def registro_heuristico(texto, ruta=None):
     p_vin, p_cortas = densidad_vinetas(texto)
     if p_vin > 0.5 and p_cortas > 0.7:
         return "diapositivas", 0.7
+    lineas = [l for l in texto.splitlines() if l.strip()]
+    # Titulo corto + mayoria de vinetas: diapositiva aunque las vinetas esten en prosa.
+    if (2 <= len(lineas) <= 15 and len(lineas[0].split()) <= 10 and p_vin >= 0.5):
+        return "diapositivas", 0.65
     puntos = {r: sum(len(re.findall(p, texto, re.I)) for p in ps) for r, ps in PISTAS.items()}
     mejor = max(puntos, key=puntos.get)
     if puntos[mejor] == 0:

@@ -1,5 +1,5 @@
 {
-  "_nota": "Pares de contraste para calibrar_registros.py. 'ok' cumple el registro; 'mal' es del mismo tipo de texto pero falla la voz (slop, registro equivocado o vaguedad). Cifras ilustrativas.",
+  "_nota": "Pares de contraste para calibrar_registros.py. 'ok' cumple el registro; 'mal' es del mismo tipo de texto, con sus marcas formales (saludo, secciones, lote, titulo de diapositiva), pero falla la voz: slop, registro equivocado o vaguedad. Cifras ilustrativas.",
   "ceo": {
     "ok": [
       {
@@ -14,11 +14,11 @@
     "mal": [
       {
         "lang": "es",
-        "texto": "¡Estamos increíblemente emocionados de compartir avances revolucionarios! Nuestra plataforma transformadora redefine por completo el panorama del diagnóstico, impulsando sinergias sin precedentes y abriendo un futuro lleno de posibilidades para todos nuestros stakeholders."
+        "texto": "Hola Paul:\n\n¡Estamos increíblemente emocionados de compartir avances revolucionarios con el consejo! Nuestra plataforma transformadora redefine por completo el panorama del diagnóstico, impulsando sinergias sin precedentes y abriendo un futuro lleno de posibilidades para todos nuestros inversores.\n\nUn abrazo,\nJuanjo"
       },
       {
         "lang": "en",
-        "texto": "We are thrilled to share game-changing progress! Our transformative platform is revolutionizing the diagnostics landscape, unlocking unparalleled synergies and paving the way for a brighter future for all our stakeholders."
+        "texto": "Dear Board members,\n\nWe are thrilled to share game-changing progress ahead of our next meeting! Our transformative platform is revolutionizing the diagnostics landscape, unlocking unparalleled synergies and paving the way for a brighter future for all our investors.\n\nBest,\nJuanjo"
       }
     ]
   },
@@ -58,11 +58,11 @@
     "mal": [
       {
         "lang": "en",
-        "texto": "Our groundbreaking DCL platform revolutionizes miRNA detection, showing unprecedented sensitivity that will transform the future of liver diagnostics. Regarding the clinical data, we are pushing hard and the results are looking really promising."
+        "texto": "3. Results\n\nOur groundbreaking DCL platform revolutionizes miRNA detection, showing unprecedented sensitivity (Fig. 2) that will transform the future of liver diagnostics [14]. Regarding the clinical data (Table 1), we are pushing hard and the results are looking really promising."
       },
       {
         "lang": "es",
-        "texto": "Los resultados podrían potencialmente sugerir que, en cierta medida, las sondas posiblemente muestran un comportamiento que tal vez sea mejor en algunos casos. En cuanto a la estabilidad, estamos empujando fuerte y tiene muy buena pinta."
+        "texto": "3. Resultados\n\nLos resultados de la Figura 3 podrían potencialmente sugerir que, en cierta medida, las sondas posiblemente muestran un comportamiento que tal vez sea mejor en algunos casos (Tabla 2). En cuanto a la estabilidad, estamos empujando fuerte y tiene muy buena pinta [8]."
       }
     ]
   },
@@ -80,11 +80,11 @@
     "mal": [
       {
         "lang": "es",
-        "texto": "Resultados\n- Es importante destacar que los resultados obtenidos a lo largo del estudio muestran claramente un incremento muy significativo de los niveles de miR-122 en los pacientes que fueron incluidos en la cohorte de DILI temprana en comparación con los controles sanos.\n- Como podemos ver, esto abre un panorama revolucionario."
+        "texto": "Diapositiva 6. Resultados\n- Es importante destacar que los resultados obtenidos a lo largo del estudio muestran claramente un incremento muy significativo de los niveles de miR-122 en los pacientes que fueron incluidos en la cohorte de DILI temprana en comparación con los controles sanos.\n- Como podemos ver, esto abre un panorama revolucionario."
       },
       {
         "lang": "en",
-        "texto": "Introduction\nIn today's rapidly evolving diagnostics landscape, it is crucial to recognize that nucleic acid detection plays a pivotal role, and our innovative approach seamlessly addresses the many challenges that researchers and clinicians face every day."
+        "texto": "Slide 2. Introduction\n- In today's rapidly evolving diagnostics landscape, it is crucial to recognize that nucleic acid detection plays a pivotal role in modern medicine.\n- Our innovative approach seamlessly addresses the many challenges that researchers and clinicians face every day."
       }
     ]
   },
@@ -112,7 +112,7 @@
     "mal": [
       {
         "lang": "es",
-        "texto": "Los resultados han sido excelentes y el equipo ha hecho un trabajo fantástico. En cuanto a la precisión, todo ha ido muy bien y estamos muy contentos con cómo está quedando el kit, que sin duda será un éxito comercial."
+        "texto": "Informe de validación VAL-012. Lote LA-2409, kit LiverAce v1.2.\n\n4. Resultados de precisión. Los resultados han sido excelentes y el equipo ha hecho un trabajo fantástico. En cuanto a la precisión, todo ha ido muy bien y estamos muy contentos con cómo está quedando el kit, que sin duda será un éxito comercial."
       }
     ]
   },

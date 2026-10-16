@@ -127,8 +127,16 @@ automática se añade una tolerancia genérica que reúne las anteriores.
 py -3.13 "$HOME/.agents/skills/jev-system-one/scripts/calibrar_registros.py"
 ```
 
-Exige `p_voz(ok) < 0.35`, `p_voz(mal) > 0.65`, separación media ≥ 0.60 y acierto del `Choice`;
-imprime además la matriz cruzada (muestras de un registro puntuadas con la voz de los demás).
+Exige `p_voz(ok) < 0.35`, `p_voz(mal) > 0.65`, separación media ≥ 0.60 y acierto del `Choice`
+en las muestras buenas. Para las malas no exige que el `Choice` acierte (un texto mal escrito
+puede parecer de otro tipo), sino que no quede **enmascarada**: si se enruta a otro registro, la
+voz de ese registro debe seguir rechazándola. Imprime además la matriz cruzada (muestras de un
+registro puntuadas con la voz de los demás).
+
+El `Choice` clasifica por destinatario y marcas formales (código de documento, título más
+viñetas, secciones y figuras, saludo y firma), nunca por el tono, con criterios enumerados y
+ordenados en `INSTR_CHOICE`. Para manuscritos, informes y diapositivas el registro explícito
+(`--registro`, marcador o `.jev-registro`) sigue siendo la opción más segura.
 Si un registro falla, se ajusta su instrucción en `jev_registros.py`, no el umbral.
 
 ### Reparto de responsabilidades

@@ -40,4 +40,12 @@ carácter las instrucciones calibradas. Los otros siete están escritos con la m
 (criterios enumerados) pero **no se han medido todavía contra la API**: hay que ejecutar
 `calibrar_registros.py` en un equipo con `TYPESAFE_API_KEY` y ajustar el que no separe.
 
+Primera calibración real (2026-10-16): el Noul de voz separa en los 8 registros (ok 0.04–0.18,
+mal 0.95–0.98). Falló solo el `Choice` en ceo, manuscrito, diapositivas e informe: las 7
+muestras mal enrutadas eran exactamente las 'mal', que no llevaban marcas formales de su tipo,
+así que Jev las clasificó por el tono. Corregido con `INSTR_CHOICE` enumerado por marcas
+formales, muestras 'mal' con esas marcas, y una calibración que exige acierto del Choice solo
+en las 'ok' y bloquea las 'mal' enmascaradas (mal enrutadas y aprobadas). Pendiente de
+recalibrar.
+
 Relacionado: [[skills-duplicados-claude-y-agents]]

@@ -74,7 +74,8 @@ skill `jev-system-one` is installed in every workspace, so stages 0 and 4 always
    container metadata): invisible Unicode, zero-width markers, homoglyphs, EXIF/XMP/C2PA.
 2. **Anti-slop pass** — `no-ai-slop`: AI clichés, robotic cadence, rule-of-three, filler.
 3. **Voice calibration** — `humanizer-juanjo` (English) or `humanizer-juanjo-es` (Spanish),
-   exactly the one Jev selected. Never run both.
+   exactly the one Jev selected, applying the register Jev returns (`registro`: ceo, alumnos,
+   manuscrito, diapositivas, propuesta, informe, divulgacion). Never run both.
 4. **Certification (post-check)** — re-run the gatekeeper on the edited file. Sign-off requires
    `quality_gate_passed == true`; quote Jev's probabilities in the final report.
 

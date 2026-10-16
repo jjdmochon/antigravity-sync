@@ -18,10 +18,10 @@ This global configuration applies across all workspaces, folders, and projects o
 
 ## 3. Mandatory Document Production & Review Pipeline:
 Whenever any document, manuscript, report, presentation, syllabus, or web copy is created or edited, it MUST undergo a review pipeline governed by Jev System-1:
-0. **Jev System-1 Gatekeeper & Routing (`jev-system-one` / `jev_doc_gatekeeper.py`)**: Ultra-fast (<250ms) non-autoregressive triage to detect AI slop density, raw LaTeX violations, and voice divergence before finalization.
+0. **Jev System-1 Gatekeeper & Routing (`jev-system-one` / `jev_doc_gatekeeper.py`)**: Ultra-fast (<250ms) non-autoregressive triage to detect AI slop density, raw LaTeX violations, and voice divergence per register (`ceo`, `alumnos`, `manuscrito`, `diapositivas`, `propuesta`, `informe`, `divulgacion`) before finalization.
 1. **Layer A & File Provenance (`watermarks-remover`)**: Run `wm-text` / `wm-clean` to strip invisible Unicode, zero-width tracking markers, homoglyphs, and remove C2PA/EXIF/XMP metadata.
 2. **Slop Stripping (`no-ai-slop`)**: Remove AI filler words, formulaic transitions, superficial -ing clauses, rule-of-three cadence, and corporate padding.
-3. **Voice Calibration (`humanizer-juanjo` / `humanizer-juanjo-es`)**: Rewrite into Juanjo's executive voice (English: composed, authoritative, action-oriented; Spanish: natural plural, clear topical headers, high domain precision).
+3. **Voice Calibration (`humanizer-juanjo` / `humanizer-juanjo-es`)**: Rewrite into Juanjo's voice for the register Jev returns, following `jev-system-one/references/registros.md`. The executive voice (English: composed, authoritative, action-oriented; Spanish: natural plural, clear topical headers, high domain precision) is the `ceo` register.
 4. **Word & Document Compatibility (Zero Raw LaTeX)**: Never use raw LaTeX delimiters (`$...$`, `\(...\)`, `\text{...}`) in markdown documents, reports, or deliverables that may be exported to Word / Google Docs. Use clean, native Unicode characters directly (e.g., 1H RMN, 13C, DMSO-d6, D2O, d-TFA, KD, J = 7.5 Hz, delta = 2.50 ppm, Zn2+, NAD+, [M+H]+, [M-H]-, Da, %, Δ, ν, ×, →).
 5. **Jev Final Quality Gate Certification**: The document is certified when Jev System-1 passes `quality_gate_passed == True`.
 For multi-page or complex documents, spawn a dedicated review subagent to execute this pipeline before finalizing.

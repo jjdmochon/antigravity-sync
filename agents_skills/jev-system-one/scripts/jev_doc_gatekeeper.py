@@ -10,11 +10,14 @@ Reparto de responsabilidades:
     Son preguntas mecanicas con respuesta exacta; no se delegan en un modelo.
   - Slop, voz y LaTeX                  -> Jev Noul con instrucciones especificadas.
   - Idioma                             -> heuristica local (--lang la sobreescribe).
+  - Registro (alumnos, manuscrito...)  -> flag, marcador, .jev-registro o Jev Choice
+                                          (ver jev_registros.py).
 
 Uso:
   python jev_doc_gatekeeper.py documento.md
   python jev_doc_gatekeeper.py informe.docx --json
-  python jev_doc_gatekeeper.py tesis.pdf --lang es --json
+  python jev_doc_gatekeeper.py tesis.pdf --lang es --registro manuscrito --json
+  python jev_doc_gatekeeper.py --listar-registros
   echo "texto" | python jev_doc_gatekeeper.py -
 """
 
@@ -26,6 +29,9 @@ import time
 import argparse
 import unicodedata
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import jev_registros as reg  # noqa: E402
 
 # Asegurar encoding UTF-8 en consola de Windows
 if sys.platform == "win32":
@@ -149,34 +155,12 @@ INSTR_SLOP = (
     "Responde verdadero solo si estas senales estan presentes de forma marcada."
 )
 
-INSTR_VOZ_ES = (
-    "El texto se DESVIA de la voz ejecutiva de Juanjo. Esa voz es: compuesta y "
-    "tecnicamente precisa, con cifras y unidades concretas, plural natural en espanol "
-    "('hemos cerrado', 'proponemos'), encabezados topicos ('En cuanto a...', "
-    "'Respecto a...'), afirmaciones verificables y orientadas a la accion, calida pero "
-    "controlada. Responde verdadero si el texto suena promocional, grandilocuente, "
-    "impersonal, academicamente farragoso, o carece de concrecion tecnica; responde "
-    "falso si ya cumple esa voz."
-)
-
-# Voz inglesa: calibrada con el perfil de la skill humanizer-juanjo (SKILL.md).
-# INSTR_VOZ_ES describe la voz en espanol; aplicada a texto ingles lo suspendia casi
-# siempre (0.7-0.8 incluso sobre las frases de referencia de la propia skill).
-INSTR_VOZ_EN = (
-    "The English text DEVIATES from Juanjo's executive voice. That voice is: composed, "
-    "quietly confident and technically specific, as written by a scientist-CEO; "
-    "medium-to-long deliberate sentences rather than punchy fragments; 'we' as the "
-    "default subject for team and company work and 'I' for personal ownership; explicit "
-    "topic-led transitions ('Regarding...', 'On the ... front...', 'For the ...'); "
-    "practitioner technical terms woven into prose (assays, platforms, patents, ISO 13485, "
-    "IVDR) with concrete names, dates and figures; plain assertive statements ('the data "
-    "clearly shows', 'I am confident'); action-oriented closings; warm but restrained. "
-    "Slide fragments, short labels and table cells are acceptable in a presentation. "
-    "Answer true if the text sounds promotional, grandiloquent, impersonal, generic, "
-    "motivational, hedging, academically convoluted, or lacks technical concreteness; "
-    "answer false if it already matches that voice."
-)
-
+# Voz por registro: las instrucciones calibradas viven en jev_registros.py (una por
+# registro e idioma). Estos nombres se conservan como alias del registro 'ceo', que era la
+# unica voz antes de los registros. La inglesa sigue el perfil de humanizer-juanjo: la
+# espanola aplicada a texto ingles lo suspendia casi siempre (0.7-0.8).
+INSTR_VOZ_ES = reg.REGISTROS["ceo"]["voz_es"]
+INSTR_VOZ_EN = reg.REGISTROS["ceo"]["voz_en"]
 INSTR_VOZ = INSTR_VOZ_ES
 
 INSTR_LATEX = (
@@ -204,25 +188,75 @@ def muestrear(texto):
             + "\n\n[...]\n\n" + texto[-t:])
 
 
-def consultar_jev(texto, lang=None):
-    from typesafe_sdk import TypeSafeClient, Noul
+def resolver_registro(texto, ruta, registro=None):
+    """Registro fijado por el usuario o el documento, sin llamar a Jev.
+    Devuelve (registro, origen); (None, None) si hay que detectarlo."""
+    if registro:
+        r = reg.normalizar(registro)
+        if r is None:
+            raise ValueError("registro desconocido '%s' (validos: %s)"
+                             % (registro, ", ".join(reg.REGISTROS)))
+        return r, "parametro"
+    r = reg.registro_marcado(texto)
+    if r:
+        return r, "marcador en el documento"
+    r, fichero = reg.registro_carpeta(ruta)
+    if r:
+        return r, "carpeta (%s)" % fichero
+    return None, None
+
+
+# Por debajo de esta confianza del Choice manda la heuristica local si es clara.
+CONF_CHOICE_MIN = 0.40
+
+
+def consultar_jev(texto, lang=None, registro=None, ruta=None):
+    """Una sola llamada a Jev. Con registro conocido: slop + voz + LaTeX. Sin registro:
+    ademas un Choice de registro y el Noul de voz de todos los registros, para no pagar
+    una segunda llamada; la voz se lee del registro elegido."""
+    from typesafe_sdk import TypeSafeClient, Noul, Choice
     cliente = TypeSafeClient(api_key=os.getenv("TYPESAFE_API_KEY"))
     idioma_efectivo = lang if lang else detectar_idioma_rapido(texto)
-    instr_voz = INSTR_VOZ_EN if idioma_efectivo == "en" else INSTR_VOZ_ES
 
-    preguntas = {
-        "slop": Noul(instructions=INSTR_SLOP),
-        "voz": Noul(instructions=instr_voz),
-        "latex": Noul(instructions=INSTR_LATEX),
-    }
+    if registro:
+        tolerancia = reg.REGISTROS[registro]["tolerancia_slop"]
+        preguntas = {"voz_" + registro: Noul(instructions=reg.instr_voz(registro, idioma_efectivo))}
+    else:
+        tolerancia = reg.TOLERANCIA_GENERICA
+        preguntas = {"voz_" + k: Noul(instructions=reg.instr_voz(k, idioma_efectivo))
+                     for k in reg.REGISTROS}
+        preguntas["registro"] = Choice(
+            instructions=reg.INSTR_CHOICE,
+            criteria={k: v["choice"] for k, v in reg.REGISTROS.items()})
+    preguntas["slop"] = Noul(instructions=(INSTR_SLOP + " " + tolerancia).strip())
+    preguntas["latex"] = Noul(instructions=INSTR_LATEX)
 
     a = cliente.system_one(state={"documento": muestrear(texto)},
                            questions=preguntas).answers
+
+    voz_por_registro = None
+    if registro:
+        origen, confianza = None, None
+    else:
+        voz_por_registro = {k: round(float(a["voz_" + k].noul), 3) for k in reg.REGISTROS}
+        elegido = reg.normalizar(a["registro"].choice) or reg.POR_DEFECTO
+        confianza = round(float(getattr(a["registro"], "confidence", 0.0) or 0.0), 3)
+        origen = "jev choice"
+        if confianza < CONF_CHOICE_MIN:
+            h, hc = reg.registro_heuristico(texto, ruta)
+            if hc >= 0.6:
+                elegido, confianza, origen = h, hc, "heuristica local (choice dudoso)"
+        registro = elegido
+
     return {
         "p_slop": round(float(a["slop"].noul), 3),
-        "p_voz": round(float(a["voz"].noul), 3),
+        "p_voz": round(float(a["voz_" + registro].noul), 3),
         "p_latex": round(float(a["latex"].noul), 3),
         "idioma": idioma_efectivo,
+        "registro": registro,
+        "registro_origen": origen,
+        "registro_confianza": confianza,
+        "voz_por_registro": voz_por_registro,
     }
 
 
@@ -244,24 +278,53 @@ def extraer_texto(ruta):
         import fitz
         with fitz.open(str(ruta)) as doc:
             return "\n".join(pg.get_text() for pg in doc)
+    if ext == ".pptx":
+        try:
+            from pptx import Presentation
+        except ImportError:
+            raise RuntimeError("para .pptx instala python-pptx: py -3.13 -m pip install --user python-pptx")
+        partes = []
+        for diapo in Presentation(str(ruta)).slides:
+            for forma in diapo.shapes:
+                if forma.has_text_frame:
+                    partes.extend(par.text for par in forma.text_frame.paragraphs if par.text)
+            if diapo.has_notes_slide:
+                partes.append(diapo.notes_slide.notes_text_frame.text)
+        return "\n".join(partes)
     t = ruta.read_text(encoding="utf-8", errors="replace")
     # Limpiar payloads base64 embebidos (data:image/...;base64,...) para evitar muestreo de ruido binario
     return re.sub(r'data:image/[^;]+;base64,[A-Za-z0-9+/=]+', '[IMAGEN_BASE64]', t)
 
 
-def auditar(texto, ruta, lang=None):
+GUIA_REGISTROS = Path(__file__).resolve().parent.parent / "references" / "registros.md"
+
+
+def auditar(texto, ruta, lang=None, registro=None):
     t0 = time.perf_counter()
     marcas = escanear_marcas(texto, ruta)
     latex_local = latex_literal(texto)
+    # Un registro desconocido es un error del llamante, no de Jev: se propaga.
+    registro_fijo, origen_fijo = resolver_registro(texto, ruta, registro)
 
     try:
-        jev = consultar_jev(texto, lang)
+        jev = consultar_jev(texto, lang, registro_fijo, ruta)
+        if registro_fijo:
+            jev["registro_origen"] = origen_fijo
         motor = "jev-native (typesafe-ai)"
         aviso = None
         degradado = False
     except Exception as e:
         # Sin veredicto de Jev no se descarta ninguna etapa NI se certifica nada.
-        jev = {"p_slop": 1.0, "p_voz": 1.0, "p_latex": 1.0, "idioma": lang or "es"}
+        # El registro si se resuelve en local: el humanizador necesita saber cual aplicar.
+        if registro_fijo:
+            r, r_origen, r_conf = registro_fijo, origen_fijo, None
+        else:
+            r, r_conf = reg.registro_heuristico(texto, ruta)
+            r_origen = "heuristica local (sin Jev)"
+        jev = {"p_slop": 1.0, "p_voz": 1.0, "p_latex": 1.0,
+               "idioma": lang or detectar_idioma_rapido(texto), "registro": r,
+               "registro_origen": r_origen, "registro_confianza": r_conf,
+               "voz_por_registro": None}
         motor = "fallo-abierto (sin Jev)"
         aviso = ("Jev no disponible (%s: %s). Se ejecutan todas las etapas y se "
                  "deniega la certificacion." % (type(e).__name__, e))
@@ -269,6 +332,8 @@ def auditar(texto, ruta, lang=None):
 
     latex_final = bool(latex_local or jev["p_latex"] >= UMBRAL)
     humanizer = "humanizer-juanjo-es" if jev["idioma"] == "es" else "humanizer-juanjo"
+    registro_final = jev["registro"]
+    guia = "%s#%s" % (GUIA_REGISTROS, registro_final)
 
     etapas = {
         "1_watermarks": {"ejecutar": bool(marcas), "motivo": "deteccion determinista",
@@ -276,7 +341,8 @@ def auditar(texto, ruta, lang=None):
         "2_anti_slop": {"ejecutar": jev["p_slop"] >= UMBRAL,
                         "probabilidad": jev["p_slop"], "motivo": "Jev Noul"},
         "3_voz": {"ejecutar": jev["p_voz"] >= UMBRAL, "probabilidad": jev["p_voz"],
-                  "motivo": "Jev Noul", "skill": humanizer},
+                  "motivo": "Jev Noul (registro %s)" % registro_final, "skill": humanizer,
+                  "registro": registro_final, "guia_registro": guia},
         "4_latex": {"ejecutar": latex_final, "probabilidad": jev["p_latex"],
                     "motivo": "regex literal + Jev Noul"},
     }
@@ -309,8 +375,16 @@ def auditar(texto, ruta, lang=None):
         "etapas": etapas,
         "etapas_a_ejecutar": pendientes,
         "humanizer_skill": humanizer,
+        # --- registro de voz ---
+        "registro": registro_final,
+        "registro_nombre": reg.REGISTROS[registro_final]["nombre"],
+        "registro_origen": jev.get("registro_origen"),
+        "registro_confianza": jev.get("registro_confianza"),
+        "guia_registro": guia,
         "latencia_ms": round((time.perf_counter() - t0) * 1000),
     }
+    if jev.get("voz_por_registro"):
+        res["voz_por_registro"] = jev["voz_por_registro"]
     if aviso:
         res["warning"] = aviso
     return res
@@ -319,14 +393,30 @@ def auditar(texto, ruta, lang=None):
 def main():
     global UMBRAL
     ap = argparse.ArgumentParser(description="Jev Document Pipeline Gatekeeper")
-    ap.add_argument("target", help="Ruta del documento, o '-' para leer de stdin")
+    ap.add_argument("target", nargs="?", help="Ruta del documento, o '-' para leer de stdin")
     ap.add_argument("--lang", choices=["es", "en"], default=None,
                     help="Forzar idioma (por defecto lo detecta Jev)")
+    ap.add_argument("--registro", default=None,
+                    help="Registro de voz: %s (o alias: students, manuscript, slides, "
+                         "grant, report, outreach). Por defecto se detecta."
+                         % ", ".join(reg.REGISTROS))
+    ap.add_argument("--listar-registros", action="store_true",
+                    help="Muestra los registros disponibles y sale")
     ap.add_argument("--json", action="store_true", help="Salida JSON")
     ap.add_argument("--umbral", type=float, default=UMBRAL,
                     help="Umbral de decision (def. 0.50)")
     args = ap.parse_args()
     UMBRAL = args.umbral
+
+    if args.listar_registros:
+        for r in reg.listar():
+            print("%-13s %s" % (r["registro"], r["nombre"]))
+        return
+    if not args.target:
+        ap.error("falta el documento (ruta o '-')")
+    if args.registro and reg.normalizar(args.registro) is None:
+        ap.error("registro desconocido '%s' (validos: %s)"
+                 % (args.registro, ", ".join(reg.REGISTROS)))
 
     if args.target == "-":
         texto, ruta = sys.stdin.read(), None
@@ -337,7 +427,7 @@ def main():
             sys.exit(2)
         texto = extraer_texto(ruta)
 
-    res = auditar(texto, ruta, args.lang)
+    res = auditar(texto, ruta, args.lang, args.registro)
 
     if args.json:
         print(json.dumps(res, indent=2, ensure_ascii=False))
@@ -352,6 +442,10 @@ def main():
           % (res["documento"], res["caracteres"],
              ", muestreado" if res["muestreado"] else ""))
     print("Idioma:        %s" % res["language"])
+    conf = res["registro_confianza"]
+    print("Registro:      %s - %s  (%s%s)"
+          % (res["registro"], res["registro_nombre"], res["registro_origen"],
+             ", conf. %s" % conf if conf is not None else ""))
     print("Etapa 1:       %s  watermarks/metadatos  (%d hallazgos deterministas)"
           % (marca(e["1_watermarks"]["ejecutar"]), len(e["1_watermarks"]["evidencia"])))
     for h in e["1_watermarks"]["evidencia"]:
@@ -359,9 +453,12 @@ def main():
         print("                 - %s%s x%d" % (h["detalle"], cp, h["ocurrencias"]))
     print("Etapa 2:       %s  anti-slop  (p=%s)"
           % (marca(e["2_anti_slop"]["ejecutar"]), e["2_anti_slop"]["probabilidad"]))
-    print("Etapa 3:       %s  voz -> %s  (p=%s)"
-          % (marca(e["3_voz"]["ejecutar"]), e["3_voz"]["skill"],
+    print("Etapa 3:       %s  voz -> %s, registro %s  (p=%s)"
+          % (marca(e["3_voz"]["ejecutar"]), e["3_voz"]["skill"], e["3_voz"]["registro"],
              e["3_voz"]["probabilidad"]))
+    if res.get("voz_por_registro"):
+        print("               p_voz por registro: %s"
+              % ", ".join("%s=%s" % kv for kv in res["voz_por_registro"].items()))
     print("LaTeX crudo:   %s  (p=%s)"
           % (marca(e["4_latex"]["ejecutar"]), e["4_latex"]["probabilidad"]))
     print("Quality Gate:  %s" % ("APROBADO" if res["quality_gate_passed"] else "RECHAZADO"))

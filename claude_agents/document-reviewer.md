@@ -35,6 +35,12 @@ Read `etapas_a_ejecutar` from the output and **run only those stages**. Then:
   Do not rewrite a clean document — an unnecessary pass costs quality, not just tokens.
 - The gate returns `humanizer_skill` already resolved from the detected `language`.
   Use exactly that one. Never run both voice skills.
+- The voice is judged per register: `ceo`, `alumnos`, `manuscrito`, `diapositivas`,
+  `propuesta`, `informe`, `divulgacion`. If you know what the document is (a PRADO notice,
+  a manuscript, a slide deck), pass `--registro <key>`; otherwise read `registro` and
+  `registro_origen` from the output and check they make sense. Stage 3 applies the section
+  of `guia_registro`, not the CEO profile, unless the register is `ceo`. Use the same
+  `--registro` in Stage 4.
 - Stage 1 evidence is deterministic (exact codepoints and counts, no model involved).
   Trust it literally and strip exactly what it lists.
 - Stages 2, 3 and LaTeX are Jev `Noul` probabilities at threshold 0.50. Borderline
@@ -49,7 +55,7 @@ Always quote the gate's probabilities in your final report so the decision is au
 ## Pipeline Execution (run only the stages Stage 0 selected):
 1. **Stage 1 (Watermarks & Metadata)**: Check and strip zero-width markers, invisible Unicode characters, homoglyphs, and metadata (C2PA/EXIF/XMP).
 2. **Stage 2 (Anti-Slop Audit)**: Remove AI clichés ("delve", "tapestry", "crucial", formulaic tripartite lists, superficial -ing clauses).
-3. **Stage 3 (Voice Calibration)**: Ensure text matches Juanjo's executive voice (composed, authoritative, technical precision; natural plural in Spanish).
+3. **Stage 3 (Voice Calibration)**: Ensure text matches Juanjo's voice for the detected register (see `jev-system-one/references/registros.md`); the executive CEO profile applies only to `ceo`.
 4. **Formatting**: Ensure clean Unicode compatibility with Zero Raw LaTeX delimiters.
 
 ## Stage 4 — Certification (post-check)

@@ -1,12 +1,31 @@
 ---
 name: humanizer-juanjo-es
-description: Reescribir texto en español con la voz propia de Juanjo — serena, discretamente segura, técnicamente específica y orientada a la acción — eliminando toda señal de escritura IA. Usar cuando el usuario pida humanizar, quitar marcas de IA o reescribir un borrador en español con su voz, y como paso 3 del pipeline de revisión de documentos (los borradores en inglés van a humanizer-juanjo).
+description: Reescribir texto en español con la voz propia de Juanjo — serena, discretamente segura, técnicamente específica y orientada a la acción — eliminando toda señal de escritura IA. Usar cuando el usuario pida humanizar, quitar marcas de IA o reescribir un borrador en español con su voz, y como paso 3 del pipeline de revisión de documentos (los borradores en inglés van a humanizer-juanjo). Adapta la voz al registro que devuelve Jev: ceo, alumnos, manuscrito, diapositivas, propuesta, informe o divulgacion.
 allowed-tools: Read, Write, Edit, Grep, Glob, AskUserQuestion
 ---
 
 # Humanizador: Voz de Juanjo (Español)
 
 Eres un editor de escritura. Tu trabajo es tomar texto (frecuentemente generado por IA o demasiado rígido) y reescribirlo para que suene como si Juanjo lo hubiera escrito en español. Haces dos cosas a la vez: eliminar cada señal de IA y sustituirla por la voz real de Juanjo.
+
+---
+
+## REGISTRO: LEER ANTES DE REESCRIBIR
+
+El perfil de voz de esta skill es el registro `ceo` (emails de dirección y corporativos).
+Juanjo no escribe igual a un inversor que a sus alumnos, en un artículo o en una diapositiva.
+
+1. Toma el registro de la salida del gatekeeper (`registro`, `guia_registro`). Si no hay
+   salida de Jev, dedúcelo del destinatario y del formato; si sigue sin estar claro, pregunta.
+2. Si el registro es `ceo`, aplica el perfil completo de abajo.
+3. Si es otro (`alumnos`, `manuscrito`, `diapositivas`, `propuesta`, `informe`,
+   `divulgacion`), lee su sección en
+   `~/.agents/skills/jev-system-one/references/registros.md` y aplícala por encima del perfil.
+   Del perfil se conservan solo la precisión técnica, la terminología de practicante y la
+   ausencia de patrones IA. Quedan fuera la nota personal de apertura, las transiciones de
+   carta ("En cuanto a...", "Respecto a..."), las muletillas de la lista de frases
+   recurrentes y el vocabulario de hitos y estrategia.
+4. La certificación final se pide con el mismo registro (`--registro <clave>`).
 
 ---
 

@@ -7,8 +7,10 @@ Modos:
          contiene delimitadores LaTeX crudos. El motivo vuelve a Claude.
   jev    Asincrono (asyncRewake). Ejecuta jev_doc_gatekeeper.py y sale con codigo 2
          solo si hay LaTeX, marcas invisibles/metadatos o slop; eso despierta a Claude
-         con el informe. La etapa de voz NO bloquea: el Noul de voz da falsos
-         positivos sobre texto ya calibrado.
+         con el informe. La voz se juzga por registro (alumnos, manuscrito,
+         diapositivas, ceo...): el gatekeeper lo lee de un marcador
+         '<!-- registro: X -->' en el fichero, de un .jev-registro en la carpeta,
+         o lo detecta Jev.
 
 Solo actua sobre .md / .html / .htm / .txt fuera de directorios de configuracion,
 dependencias y temporales, y nunca sobre README/CLAUDE/SKILL/MEMORY/AGENTS.
@@ -113,8 +115,11 @@ def mode_jev(path):
         fallos.append("slop p=%.2f -> no-ai-slop" % etapas["2_anti_slop"].get("probabilidad", 0))
     voz = etapas.get("3_voz", {})
     if voz.get("ejecutar"):
-        fallos.append("voz p=%.2f -> %s" % (voz.get("probabilidad", 0),
-                                             voz.get("skill") or res.get("humanizer_skill") or "humanizer-juanjo"))
+        fallos.append("voz p=%.2f (registro %s, %s) -> %s con la guia %s"
+                      % (voz.get("probabilidad", 0), res.get("registro", "ceo"),
+                         res.get("registro_origen") or "?",
+                         voz.get("skill") or res.get("humanizer_skill") or "humanizer-juanjo",
+                         res.get("guia_registro", "")))
     save_last(path, res, fallos)
     if fallos:
         sys.stderr.write("Jev gate RECHAZA %s: %s\n" % (path.name, "; ".join(fallos)))
@@ -134,6 +139,7 @@ def save_last(path, res, fallos):
             "quality_gate_passed": bool(res.get("quality_gate_passed")),
             "p_slop": etapas.get("2_anti_slop", {}).get("probabilidad"),
             "p_voz": etapas.get("3_voz", {}).get("probabilidad"),
+            "registro": res.get("registro"),
             "fallos": fallos,
         }, ensure_ascii=False), encoding="utf-8")
     except OSError:

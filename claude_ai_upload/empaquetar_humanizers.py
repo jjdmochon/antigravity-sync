@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 r"""
-empaquetar_humanizers.py - Genera humanizer-juanjo.zip y humanizer-juanjo-es.zip para claude.ai.
+empaquetar_humanizers.py - Genera humanizer-juanjo.zip y humanizer-juanjo-es.zip para claude.ai,
+y los ficheros de conocimiento del Gem de Gemini en ../gemini_gem/conocimiento/.
 
 La app de Claude y claude.ai no ven ~/.agents ni ejecutan el gatekeeper Jev. Este script toma
 las skills de agents_skills/, mete dentro de cada una la guia de registros
@@ -19,6 +20,7 @@ from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
 RAIZ = AQUI.parent
+GEM = RAIZ / "gemini_gem" / "conocimiento"
 SKILLS = RAIZ / "agents_skills"
 GUIA = SKILLS / "jev-system-one" / "references" / "registros.md"
 
@@ -76,8 +78,17 @@ def sustituir(texto, pares, origen):
     return texto
 
 
+def para_gem(texto):
+    """En el Gem la guia es un fichero adjunto, no una carpeta de la skill."""
+    return (texto.replace("`references/registros.md` (incluido en esta skill)", "`registros.md` (adjunto)")
+                 .replace("`references/registros.md` (bundled with this skill)", "`registros.md` (attached)")
+                 .replace("references/registros.md", "registros.md"))
+
+
 def main():
+    GEM.mkdir(parents=True, exist_ok=True)
     guia = sustituir(GUIA.read_text(encoding="utf-8"), SUSTITUCIONES_GUIA, GUIA.name)
+    (GEM / "registros.md").write_text(guia, encoding="utf-8")
     for skill, pares in SUSTITUCIONES.items():
         fuente = SKILLS / skill / "SKILL.md"
         texto = sustituir(fuente.read_text(encoding="utf-8"), pares, "%s/SKILL.md" % skill)
@@ -88,6 +99,8 @@ def main():
             z.writestr("%s/SKILL.md" % skill, texto)
             z.writestr("%s/references/registros.md" % skill, guia)
         print("[+] %s  (%d bytes)" % (destino.name, destino.stat().st_size))
+        (GEM / ("%s.md" % skill)).write_text(para_gem(texto), encoding="utf-8")
+    print("[+] gemini_gem/conocimiento: %s" % ", ".join(sorted(f.name for f in GEM.iterdir())))
 
 
 if __name__ == "__main__":

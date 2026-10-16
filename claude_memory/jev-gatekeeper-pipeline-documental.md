@@ -55,4 +55,4 @@ texto bueno enrutado a uno de esos vecinos también pasa, así que no hay daño;
 es que ninguna muestra mala quede enmascarada, y ninguna lo queda. `propuesta` es el registro
 con menos margen: es el primero que hay que revisar si aparecen falsos negativos.
 
-Relacionado: [[skills-duplicados-claude-y-agents]]
+Relacionado: [[skills-duplicados-claude-y-agents]], [[humanizers-fuera-de-claude-code]]

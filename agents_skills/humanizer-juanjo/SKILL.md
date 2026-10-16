@@ -1,6 +1,6 @@
 ---
 name: humanizer-juanjo
-description: Rewrite English text in Juanjo's own voice — composed, quietly confident, technically specific, action-oriented — while stripping every AI writing tell. Use when the user asks to humanize, de-AI, or rewrite an English draft in his voice, and as step 3 of the document review pipeline (Spanish drafts go to humanizer-juanjo-es). Adapts the voice to the register Jev returns: ceo, alumnos (students), manuscrito, diapositivas (slides), propuesta (grant), informe (report) or divulgacion (outreach).
+description: Rewrite English text in Juanjo's own voice — composed, quietly confident, technically specific, action-oriented — while stripping every AI writing tell. Use when the user asks to humanize, de-AI, or rewrite an English draft in his voice, and as step 3 of the document review pipeline (Spanish drafts go to humanizer-juanjo-es). Adapts the voice to the register Jev returns: ceo, alumnos (students), manuscrito, diapositivas (slides), propuesta (grant), informe (report), divulgacion (outreach) or recomendacion (recommendation letter).
 allowed-tools: Read, Write, Edit, Grep, Glob, AskUserQuestion
 ---
 
@@ -19,7 +19,7 @@ Juanjo does not write to an investor the way he writes to students, in a paper o
    result, infer it from the reader and the format; if it is still unclear, ask.
 2. For `ceo`, apply the full profile below.
 3. For any other register (`alumnos`, `manuscrito`, `diapositivas`, `propuesta`, `informe`,
-   `divulgacion`), read its section in
+   `divulgacion`, `recomendacion`), read its section in
    `~/.agents/skills/jev-system-one/references/registros.md` and let it override the profile.
    Keep only technical precision, practitioner terminology and the absence of AI patterns.
    Drop the personal opener, the dropped apostrophes ("Ive", "Im"), the letter-style

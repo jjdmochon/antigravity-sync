@@ -297,6 +297,55 @@ REGISTROS = {
             "divulgacion, no relleno."
         ),
     },
+
+    "recomendacion": {
+        "nombre": "Cartas de recomendación",
+        "choice": (
+            "Carta de recomendacion o de referencia firmada por Juanjo sobre una persona "
+            "concreta: alumno, doctorando, postdoc o colega que solicita un master, doctorado, "
+            "beca, contrato, plaza, promocion o premio. Habla de la relacion con el candidato, "
+            "sus logros y su idoneidad para el puesto."
+        ),
+        "voz_es": (
+            "El texto se DESVIA del registro de carta de recomendacion de Juanjo. Ese registro "
+            "es: primera persona del singular ('le dirijo el TFM', 'he supervisado'); relacion "
+            "con el candidato explicita al principio (en que calidad, desde cuando, durante "
+            "cuanto tiempo); cada cualidad respaldada por un hecho observado y concreto "
+            "(proyecto, tecnica dominada, resultado, publicacion, problema que resolvio sola o "
+            "solo); comparacion calibrada con un grupo de referencia ('entre los tres mejores "
+            "alumnos que he dirigido en quince anos'); idoneidad para el puesto o programa "
+            "concreto al que aspira; elogio firme pero creible; cierre con una recomendacion "
+            "clara y disponibilidad para ampliar informacion. Responde verdadero si el texto "
+            "acumula adjetivos sin hechos ('brillante, apasionada, dedicada'), es generico y "
+            "serviria para cualquier candidato, no dice como ni desde cuando se conoce al "
+            "candidato, usa superlativos absolutos sin referencia ('el mejor alumno de la "
+            "historia'), introduce reservas que siembran duda ('aunque a veces', 'pese a') sin "
+            "necesidad, valora solo el esfuerzo y no la capacidad, o suena a email de CEO, a "
+            "informe o a nota de prensa; responde falso si ya cumple ese registro."
+        ),
+        "voz_en": (
+            "The English text DEVIATES from Juanjo's recommendation letter register. That "
+            "register is: first person singular ('I supervised her MSc thesis', 'I have "
+            "worked with him'); the relationship stated up front (in what capacity, since when, "
+            "for how long); every quality backed by a concrete observed fact (a project, a "
+            "technique mastered, a result, a publication, a problem solved independently); a "
+            "calibrated comparison with a reference group ('among the top three students I have "
+            "supervised in fifteen years'); fit for the specific position or programme applied "
+            "to; firm but credible praise; a clear recommendation in the closing and an offer "
+            "to provide further information. Answer true if the text stacks adjectives without "
+            "facts ('brilliant, passionate, dedicated'), is generic enough to fit any "
+            "candidate, does not say how or since when the candidate is known, uses absolute "
+            "superlatives with no reference group ('the best student ever'), adds unnecessary "
+            "doubt raisers ('although at times', 'despite'), praises only effort and not "
+            "ability, or sounds like a CEO email, a report or a press release; answer false if "
+            "it already matches that register."
+        ),
+        "tolerancia_slop": (
+            "Las formulas convencionales del genero ('es un placer recomendar', 'I recommend "
+            "her without reservation', 'top 5 %') no cuentan como slop si aparecen una vez y "
+            "van acompanadas de hechos concretos."
+        ),
+    },
 }
 
 # Tolerancia usada cuando el registro aun no se conoce (deteccion automatica en la misma
@@ -313,7 +362,8 @@ INSTR_CHOICE = (
     "a inversores sobre miR-122 es 'ceo'; un articulo sobre miR-122 es 'manuscrito'; un aviso "
     "de examen es 'alumnos'; vinetas cortas y titulos de presentacion son 'diapositivas'; una "
     "memoria para una convocatoria es 'propuesta'; un documento de calidad ISO o un SOP es "
-    "'informe'; un post o una nota de prensa para publico general es 'divulgacion'."
+    "'informe'; un post o una nota de prensa para publico general es 'divulgacion'; una carta que "
+    "avala a una persona concreta para una plaza, beca o programa es 'recomendacion'."
 )
 
 # --------------------------------------------------------------------------
@@ -337,6 +387,9 @@ ALIAS = {
     "divulgacion": "divulgacion", "divulgación": "divulgacion", "outreach": "divulgacion",
     "web": "divulgacion", "linkedin": "divulgacion", "prensa": "divulgacion",
     "press": "divulgacion",
+    "recomendacion": "recomendacion", "recomendación": "recomendacion",
+    "recommendation": "recomendacion", "referencia": "recomendacion",
+    "reference": "recomendacion", "carta": "recomendacion", "aval": "recomendacion",
 }
 
 
@@ -394,6 +447,11 @@ PISTAS = {
                 r"\blote\b|\blot\b", r"\bcl[aá]usula\b|\bclause\b"],
     "divulgacion": [r"#\w+", r"\bLinkedIn\b", r"\bnota de prensa\b|\bpress release\b",
                     r"\bpodcast\b", r"\borgullos[oa] de\b|\bthrilled\b|\bexcited to\b"],
+    "recomendacion": [r"\brecomiendo\b|\brecommend (?:him|her|them)\b",
+                      r"\bcarta de (?:recomendaci[oó]n|referencia)\b|\bletter of (?:recommendation|reference)\b",
+                      r"\bTo whom it may concern\b|\bA quien corresponda\b",
+                      r"\bwithout reservation\b|\bsin reservas\b",
+                      r"\bcandidat[oa]\b|\bcandidate\b", r"\bI have known\b|\bconozco a\b"],
     "ceo": [r"\binversor|\binvestor", r"\bhito|\bmilestone", r"\bEn cuanto a\b|\bRegarding\b",
             r"\bHope you are well\b|\bEspero que est[eé]s bien\b", r"\bboard\b|\bconsejo\b",
             r"\bDestina\b", r"\bRUO\b|\bIVD\b"],

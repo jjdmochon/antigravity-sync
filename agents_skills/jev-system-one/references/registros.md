@@ -174,3 +174,43 @@ Rasgos:
 Evitar: hype ("revolucionario", "el futuro ya está aquí"), clichés de LinkedIn
 ("orgulloso de anunciar", "thrilled to share"), emojis o exclamaciones en serie, jerga
 sin explicar, promesas clínicas que los datos no respaldan.
+
+---
+
+<a id="recomendacion"></a>
+## recomendacion: cartas de recomendación
+
+Cartas para máster, doctorado, becas (FPU, FPI, Marie Skłodowska-Curie), contratos, plazas,
+promociones y premios, sobre alumnos, doctorandos, postdocs o colegas.
+
+Rasgos:
+- Primera persona del singular: es Juanjo quien avala, no el equipo. "He dirigido",
+  "he supervisado"; en inglés "I supervised", "I have worked with".
+- Primer párrafo: relación con el candidato, en qué calidad, desde cuándo y durante cuánto
+  tiempo, y para qué plaza o programa escribe.
+- Cada cualidad con un hecho observado: el proyecto, la técnica que dominó, el problema que
+  resolvió sin ayuda, el resultado, la publicación, la nota.
+- Comparación calibrada con un grupo de referencia: "entre los tres mejores alumnos de
+  máster que he dirigido en quince años", "top 5 % for experimental design".
+- Idoneidad para el puesto concreto: qué capacidad del candidato encaja con qué exigencia
+  del programa.
+- Elogio firme y creíble; capacidad, no solo esfuerzo.
+- Cierre: recomendación explícita ("la recomiendo sin reservas") y disponibilidad para
+  ampliar información. Las fórmulas del género se usan una vez.
+- Las cifras, notas, fechas y logros salen del CV o de los datos que dé Juanjo. Si faltan,
+  se dejan marcados como [pendiente] y se piden; nunca se inventan.
+
+Evitar: listas de adjetivos sin hechos ("brillante, apasionada, dedicada"), cartas que
+servirían para cualquier candidato, superlativos absolutos sin referencia ("la mejor alumna
+de la historia"), reservas que siembran duda ("aunque a veces le cuesta"), elogiar solo el
+esfuerzo ("muy trabajadora") cuando hay capacidad que destacar, adjetivos distintos según
+el género del candidato, tono de email de CEO o de informe.
+
+Antes: "Es un auténtico placer recomendar a Ana, una alumna brillante, apasionada y
+dedicada. Aunque a veces le cuesta organizarse, será una gran incorporación."
+
+Después: "Conozco a Ana Martínez desde 2022, cuando realizó en mi grupo el TFM del Máster
+TRANSMED, que dirigí. En doce meses diseñó seis sondas PNA y puso a punto por su cuenta el
+ensayo de desplazamiento de banda que hoy usa todo el laboratorio. Entre los alumnos de
+máster que he dirigido en quince años, la sitúo entre los tres mejores, y la recomiendo sin
+reservas para el programa de doctorado en química biológica."

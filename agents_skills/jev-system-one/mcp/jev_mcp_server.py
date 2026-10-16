@@ -35,7 +35,7 @@ ejecuta SOLO las etapas de 'etapas_a_ejecutar': 1_watermarks -> remove-ai-marks;
 la seccion del registro devuelto en 'registro' (guia en 'guia_registro');
 4_latex -> sustituir LaTeX crudo por Unicode.
 Registro de voz: si sabes que tipo de texto es (aviso a alumnos, manuscrito, diapositivas,
-email de CEO, propuesta, informe ISO, divulgacion), pasalo en 'registro'; si no, Jev lo
+email de CEO, propuesta, informe ISO, divulgacion, carta de recomendacion), pasalo en 'registro'; si no, Jev lo
 detecta. Usa el mismo registro en todas las rondas de un texto. Lista: jev_registros.
 Etapa 4: vuelve a llamar a la herramienta con el texto final. Solo se entrega como
 certificado si quality_gate_passed es true; cita slop_probability y las probabilidades.
@@ -100,7 +100,7 @@ def _lang(lang):
         "Gatekeeper Jev (etapas 0 y 4 del pipeline) sobre un texto: detecta marcas invisibles "
         "y homoglifos, y estima con Jev la probabilidad de slop, voz no calibrada y LaTeX crudo. "
         "La voz se juzga segun el registro: ceo, alumnos, manuscrito, diapositivas, propuesta, "
-        "informe o divulgacion; pasalo en 'registro' si lo conoces, o dejalo vacio y Jev lo "
+        "informe, divulgacion o recomendacion; pasalo en 'registro' si lo conoces, o dejalo vacio y Jev lo "
         "detecta. Devuelve etapas_a_ejecutar, humanizer_skill, registro, guia_registro, "
         "quality_gate_passed y siguiente_paso. "
         "OBLIGATORIO: tras editar el texto, vuelve a llamarla con la version final y ronda+1; "

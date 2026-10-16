@@ -34,8 +34,9 @@ Las constantes ya calibradas viven en `jev_doc_gatekeeper.py` (`INSTR_SLOP`, `IN
 **Registros de voz (2026-10-16).** La voz única de CEO daba falsos positivos sobre
 manuscritos, diapositivas y avisos a alumnos. Desde esta fecha `jev_registros.py` define
 siete registros (ceo, alumnos, manuscrito, diapositivas, propuesta, informe, divulgacion),
+ampliados a ocho con `recomendacion` (cartas de recomendación) ese mismo día,
 cada uno con su Noul de voz en español e inglés. El registro `ceo` conserva carácter a
-carácter las instrucciones calibradas. Los otros seis están escritos con la misma regla
+carácter las instrucciones calibradas. Los otros siete están escritos con la misma regla
 (criterios enumerados) pero **no se han medido todavía contra la API**: hay que ejecutar
 `calibrar_registros.py` en un equipo con `TYPESAFE_API_KEY` y ajustar el que no separe.
 

@@ -18,7 +18,7 @@ This global configuration applies across all workspaces, folders, and projects o
 
 ## 3. Mandatory Document Production & Review Pipeline:
 Whenever any document, manuscript, report, presentation, syllabus, or web copy is created or edited, it MUST undergo a review pipeline governed by Jev System-1:
-0. **Jev System-1 Gatekeeper & Routing (`jev-system-one` / `jev_doc_gatekeeper.py`)**: Ultra-fast (<250ms) non-autoregressive triage to detect AI slop density, raw LaTeX violations, and voice divergence per register (`ceo`, `alumnos`, `manuscrito`, `diapositivas`, `propuesta`, `informe`, `divulgacion`) before finalization.
+0. **Jev System-1 Gatekeeper & Routing (`jev-system-one` / `jev_doc_gatekeeper.py`)**: Ultra-fast (<250ms) non-autoregressive triage to detect AI slop density, raw LaTeX violations, and voice divergence per register (`ceo`, `alumnos`, `manuscrito`, `diapositivas`, `propuesta`, `informe`, `divulgacion`, `recomendacion`) before finalization.
 1. **Layer A & File Provenance (`watermarks-remover`)**: Run `wm-text` / `wm-clean` to strip invisible Unicode, zero-width tracking markers, homoglyphs, and remove C2PA/EXIF/XMP metadata.
 2. **Slop Stripping (`no-ai-slop`)**: Remove AI filler words, formulaic transitions, superficial -ing clauses, rule-of-three cadence, and corporate padding.
 3. **Voice Calibration (`humanizer-juanjo` / `humanizer-juanjo-es`)**: Rewrite into Juanjo's voice for the register Jev returns, following `jev-system-one/references/registros.md`. The executive voice (English: composed, authoritative, action-oriented; Spanish: natural plural, clear topical headers, high domain precision) is the `ceo` register.

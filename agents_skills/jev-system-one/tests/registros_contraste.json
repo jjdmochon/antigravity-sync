@@ -2,66 +2,154 @@
   "_nota": "Pares de contraste para calibrar_registros.py. 'ok' cumple el registro; 'mal' es del mismo tipo de texto pero falla la voz (slop, registro equivocado o vaguedad). Cifras ilustrativas.",
   "ceo": {
     "ok": [
-      {"lang": "es", "texto": "Espero que estés bien. En cuanto a LiverAce, hemos cerrado la validación analítica del kit de miR-122 con 120 muestras de suero y un CV interensayo del 6 %. Respecto a la patente de miR-451a, la fecha de prioridad queda fijada el 3 de marzo y estamos preparando la extensión PCT. Seguimos centrados en la transición a IVD y espero poder comentarlo contigo en la reunión del consejo del día 20."},
-      {"lang": "en", "texto": "Hope you are well. Regarding LiverAce, we have closed the analytical validation of the miR-122 kit on 120 serum samples with a 6 % inter-assay CV. On the IP front, the miR-451a priority date is now set for 3 March and we are preparing the PCT extension. Im confident we will hit the IVDR milestone in Q2, and I am happy to walk you through the data at the board meeting on the 20th."}
+      {
+        "lang": "es",
+        "texto": "Espero que estés bien. En cuanto a LiverAce, hemos cerrado la validación analítica del kit de miR-122 con 120 muestras de suero y un CV interensayo del 6 %. Respecto a la patente de miR-451a, la fecha de prioridad queda fijada el 3 de marzo y estamos preparando la extensión PCT. Seguimos centrados en la transición a IVD y espero poder comentarlo contigo en la reunión del consejo del día 20."
+      },
+      {
+        "lang": "en",
+        "texto": "Hope you are well. Regarding LiverAce, we have closed the analytical validation of the miR-122 kit on 120 serum samples with a 6 % inter-assay CV. On the IP front, the miR-451a priority date is now set for 3 March and we are preparing the PCT extension. Im confident we will hit the IVDR milestone in Q2, and I am happy to walk you through the data at the board meeting on the 20th."
+      }
     ],
     "mal": [
-      {"lang": "es", "texto": "¡Estamos increíblemente emocionados de compartir avances revolucionarios! Nuestra plataforma transformadora redefine por completo el panorama del diagnóstico, impulsando sinergias sin precedentes y abriendo un futuro lleno de posibilidades para todos nuestros stakeholders."},
-      {"lang": "en", "texto": "We are thrilled to share game-changing progress! Our transformative platform is revolutionizing the diagnostics landscape, unlocking unparalleled synergies and paving the way for a brighter future for all our stakeholders."}
+      {
+        "lang": "es",
+        "texto": "¡Estamos increíblemente emocionados de compartir avances revolucionarios! Nuestra plataforma transformadora redefine por completo el panorama del diagnóstico, impulsando sinergias sin precedentes y abriendo un futuro lleno de posibilidades para todos nuestros stakeholders."
+      },
+      {
+        "lang": "en",
+        "texto": "We are thrilled to share game-changing progress! Our transformative platform is revolutionizing the diagnostics landscape, unlocking unparalleled synergies and paving the way for a brighter future for all our stakeholders."
+      }
     ]
   },
   "alumnos": {
     "ok": [
-      {"lang": "es", "texto": "Hola a todos. El parcial de QFDOS (temas 1 a 4) es el martes 14 de enero a las 9:00 en el aula B2 y cuenta un 30 % de la nota final. Traed el DNI; sin él no podréis entrar. Si tenéis un solapamiento con otro examen, escribidme a través de PRADO antes del 10 de enero y buscamos otra fecha. Un saludo."},
-      {"lang": "es", "texto": "Laura, he revisado el capítulo 2 del TFG. La búsqueda bibliográfica está bien planteada y la tabla 3 resume con claridad los inhibidores de la quinasa. Falla la discusión del apartado 2.4: comparas valores de IC50 de ensayos con concentraciones de ATP distintas sin decirlo. Añade la concentración de ATP de cada referencia y comenta cómo afecta a la comparación. Envíame la versión corregida antes del viernes 22."}
+      {
+        "lang": "es",
+        "texto": "Hola a todos. El parcial de QFDOS (temas 1 a 4) es el martes 14 de enero a las 9:00 en el aula B2 y cuenta un 30 % de la nota final. Traed el DNI; sin él no podréis entrar. Si tenéis un solapamiento con otro examen, escribidme a través de PRADO antes del 10 de enero y buscamos otra fecha. Un saludo."
+      },
+      {
+        "lang": "es",
+        "texto": "Laura, he revisado el capítulo 2 del TFG. La búsqueda bibliográfica está bien planteada y la tabla 3 resume con claridad los inhibidores de la quinasa. Falla la discusión del apartado 2.4: comparas valores de IC50 de ensayos con concentraciones de ATP distintas sin decirlo. Añade la concentración de ATP de cada referencia y comenta cómo afecta a la comparación. Envíame la versión corregida antes del viernes 22."
+      }
     ],
     "mal": [
-      {"lang": "es", "texto": "Se comunica a los interesados que la prueba de evaluación tendrá lugar próximamente en las dependencias habituales. Es crucial prepararse adecuadamente para alcanzar el éxito académico. ¡Mucho ánimo a todos, sé que lo vais a hacer genial! 😊"},
-      {"lang": "es", "texto": "En cuanto al TFG, estamos avanzando bien y el proyecto está empezando a coger forma. Seguimos centrados en cumplir los hitos y estoy seguro de que alcanzaremos una ventaja técnica clara. Buen trabajo en general, aunque hay aspectos mejorables."}
+      {
+        "lang": "es",
+        "texto": "Se comunica a los interesados que la prueba de evaluación tendrá lugar próximamente en las dependencias habituales. Es crucial prepararse adecuadamente para alcanzar el éxito académico. ¡Mucho ánimo a todos, sé que lo vais a hacer genial! 😊"
+      },
+      {
+        "lang": "es",
+        "texto": "En cuanto al TFG, estamos avanzando bien y el proyecto está empezando a coger forma. Seguimos centrados en cumplir los hitos y estoy seguro de que alcanzaremos una ventaja técnica clara. Buen trabajo en general, aunque hay aspectos mejorables."
+      }
     ]
   },
   "manuscrito": {
     "ok": [
-      {"lang": "en", "texto": "The DCL assay detected miR-122 at 10 fM in human serum without amplification (LOD = 8.4 fM, n = 3). Serum miR-122 was 40-fold higher in patients with early DILI than in matched controls (median 412 vs 10 copies/µL, p < 0.001, Mann-Whitney U test). These results suggest that miR-122 rises before ALT, although the sampling interval of 24 h does not allow us to define the lead time precisely."},
-      {"lang": "es", "texto": "Hemos diseñado cuatro sondas PNA con un espaciador abásico en la posición 7. La sonda P3 discriminó la variante rs1042522 con un ΔTm de 9,1 °C frente a la secuencia complementaria (tampón fosfato 10 mM, NaCl 100 mM, pH 7,0). Este resultado es compatible con una desestabilización local del dúplex, en línea con lo descrito para análogos acíclicos [12]."}
+      {
+        "lang": "en",
+        "texto": "The DCL assay detected miR-122 at 10 fM in human serum without amplification (LOD = 8.4 fM, n = 3). Serum miR-122 was 40-fold higher in patients with early DILI than in matched controls (median 412 vs 10 copies/µL, p < 0.001, Mann-Whitney U test). These results suggest that miR-122 rises before ALT, although the sampling interval of 24 h does not allow us to define the lead time precisely."
+      },
+      {
+        "lang": "es",
+        "texto": "Hemos diseñado cuatro sondas PNA con un espaciador abásico en la posición 7. La sonda P3 discriminó la variante rs1042522 con un ΔTm de 9,1 °C frente a la secuencia complementaria (tampón fosfato 10 mM, NaCl 100 mM, pH 7,0). Este resultado es compatible con una desestabilización local del dúplex, en línea con lo descrito para análogos acíclicos [12]."
+      }
     ],
     "mal": [
-      {"lang": "en", "texto": "Our groundbreaking DCL platform revolutionizes miRNA detection, showing unprecedented sensitivity that will transform the future of liver diagnostics. Regarding the clinical data, we are pushing hard and the results are looking really promising."},
-      {"lang": "es", "texto": "Los resultados podrían potencialmente sugerir que, en cierta medida, las sondas posiblemente muestran un comportamiento que tal vez sea mejor en algunos casos. En cuanto a la estabilidad, estamos empujando fuerte y tiene muy buena pinta."}
+      {
+        "lang": "en",
+        "texto": "Our groundbreaking DCL platform revolutionizes miRNA detection, showing unprecedented sensitivity that will transform the future of liver diagnostics. Regarding the clinical data, we are pushing hard and the results are looking really promising."
+      },
+      {
+        "lang": "es",
+        "texto": "Los resultados podrían potencialmente sugerir que, en cierta medida, las sondas posiblemente muestran un comportamiento que tal vez sea mejor en algunos casos. En cuanto a la estabilidad, estamos empujando fuerte y tiene muy buena pinta."
+      }
     ]
   },
   "diapositivas": {
     "ok": [
-      {"lang": "es", "texto": "miR-122 sube 40 veces en DILI temprana\n- 24 pacientes, 18 controles\n- Detección 48 h antes que ALT\n- p < 0,001 (Mann-Whitney)"},
-      {"lang": "en", "texto": "PNA probes resolve single-nucleotide variants\n- ΔTm 9.1 °C for rs1042522\n- No amplification step\n- Read-out in 30 min"}
+      {
+        "lang": "es",
+        "texto": "miR-122 sube 40 veces en DILI temprana\n- 24 pacientes, 18 controles\n- Detección 48 h antes que ALT\n- p < 0,001 (Mann-Whitney)"
+      },
+      {
+        "lang": "en",
+        "texto": "PNA probes resolve single-nucleotide variants\n- ΔTm 9.1 °C for rs1042522\n- No amplification step\n- Read-out in 30 min"
+      }
     ],
     "mal": [
-      {"lang": "es", "texto": "Resultados\n- Es importante destacar que los resultados obtenidos a lo largo del estudio muestran claramente un incremento muy significativo de los niveles de miR-122 en los pacientes que fueron incluidos en la cohorte de DILI temprana en comparación con los controles sanos.\n- Como podemos ver, esto abre un panorama revolucionario."},
-      {"lang": "en", "texto": "Introduction\nIn today's rapidly evolving diagnostics landscape, it is crucial to recognize that nucleic acid detection plays a pivotal role, and our innovative approach seamlessly addresses the many challenges that researchers and clinicians face every day."}
+      {
+        "lang": "es",
+        "texto": "Resultados\n- Es importante destacar que los resultados obtenidos a lo largo del estudio muestran claramente un incremento muy significativo de los niveles de miR-122 en los pacientes que fueron incluidos en la cohorte de DILI temprana en comparación con los controles sanos.\n- Como podemos ver, esto abre un panorama revolucionario."
+      },
+      {
+        "lang": "en",
+        "texto": "Introduction\nIn today's rapidly evolving diagnostics landscape, it is crucial to recognize that nucleic acid detection plays a pivotal role, and our innovative approach seamlessly addresses the many challenges that researchers and clinicians face every day."
+      }
     ]
   },
   "propuesta": {
     "ok": [
-      {"lang": "es", "texto": "Hipótesis: un panel de tres miRNA circulantes (miR-451a, miR-1246 y miR-21) discrimina el cáncer colorrectal del sangrado benigno en pacientes FIT positivos. Objetivo 1: validar el panel en 200 muestras de la cohorte FIBAO antes del mes 18, con una especificidad mínima del 85 %. Nuestro grupo ha obtenido un AUC de 0,89 en un estudio piloto con 60 pacientes. Riesgo: reclutamiento lento; contingencia: incorporación del biobanco del Hospital Virgen de las Nieves a partir del mes 9."}
+      {
+        "lang": "es",
+        "texto": "Hipótesis: un panel de tres miRNA circulantes (miR-451a, miR-1246 y miR-21) discrimina el cáncer colorrectal del sangrado benigno en pacientes FIT positivos. Objetivo 1: validar el panel en 200 muestras de la cohorte FIBAO antes del mes 18, con una especificidad mínima del 85 %. Nuestro grupo ha obtenido un AUC de 0,89 en un estudio piloto con 60 pacientes. Riesgo: reclutamiento lento; contingencia: incorporación del biobanco del Hospital Virgen de las Nieves a partir del mes 9."
+      }
     ],
     "mal": [
-      {"lang": "es", "texto": "Este proyecto altamente innovador y transformador cambiará radicalmente la medicina del futuro, generando un enorme impacto social y económico. Nuestro equipo, líder a nivel mundial, desarrollará soluciones disruptivas que revolucionarán el diagnóstico y beneficiarán a toda la sociedad."}
+      {
+        "lang": "es",
+        "texto": "Este proyecto altamente innovador y transformador cambiará radicalmente la medicina del futuro, generando un enorme impacto social y económico. Nuestro equipo, líder a nivel mundial, desarrollará soluciones disruptivas que revolucionarán el diagnóstico y beneficiarán a toda la sociedad."
+      }
     ]
   },
   "informe": {
     "ok": [
-      {"lang": "es", "texto": "4. Resultados de precisión. Lote LA-2409, kit LiverAce v1.2. Repetibilidad: CV = 4,2 % (n = 20; criterio ≤ 10 %): conforme. Precisión intermedia: CV = 7,8 % (3 operadores, 5 días; criterio ≤ 15 %): conforme. 5. Acciones. NC-031 (temperatura del congelador F2 fuera de rango el 12/09): CAPA-018 abierta, responsable J. Ruiz, cierre previsto el 30/10. Referencia: ISO 13485:2016, cláusula 7.5.6."}
+      {
+        "lang": "es",
+        "texto": "4. Resultados de precisión. Lote LA-2409, kit LiverAce v1.2. Repetibilidad: CV = 4,2 % (n = 20; criterio ≤ 10 %): conforme. Precisión intermedia: CV = 7,8 % (3 operadores, 5 días; criterio ≤ 15 %): conforme. 5. Acciones. NC-031 (temperatura del congelador F2 fuera de rango el 12/09): CAPA-018 abierta, responsable J. Ruiz, cierre previsto el 30/10. Referencia: ISO 13485:2016, cláusula 7.5.6."
+      }
     ],
     "mal": [
-      {"lang": "es", "texto": "Los resultados han sido excelentes y el equipo ha hecho un trabajo fantástico. En cuanto a la precisión, todo ha ido muy bien y estamos muy contentos con cómo está quedando el kit, que sin duda será un éxito comercial."}
+      {
+        "lang": "es",
+        "texto": "Los resultados han sido excelentes y el equipo ha hecho un trabajo fantástico. En cuanto a la precisión, todo ha ido muy bien y estamos muy contentos con cómo está quedando el kit, que sin duda será un éxito comercial."
+      }
     ]
   },
   "divulgacion": {
     "ok": [
-      {"lang": "es", "texto": "Cuando un fármaco daña el hígado, los análisis habituales tardan días en mostrarlo. Para entonces el daño ya está hecho. En Destina medimos una pequeña molécula, el miR-122, que el hígado libera a la sangre en cuanto sufre. Es como oír la alarma antes de ver el humo: en nuestros estudios la señal aparece hasta dos días antes que con las pruebas actuales."}
+      {
+        "lang": "es",
+        "texto": "Cuando un fármaco daña el hígado, los análisis habituales tardan días en mostrarlo. Para entonces el daño ya está hecho. En Destina medimos una pequeña molécula, el miR-122, que el hígado libera a la sangre en cuanto sufre. Es como oír la alarma antes de ver el humo: en nuestros estudios la señal aparece hasta dos días antes que con las pruebas actuales."
+      }
     ],
     "mal": [
-      {"lang": "es", "texto": "🚀 ¡Orgullosos de anunciar un hito revolucionario! 🎉 Nuestra tecnología disruptiva está cambiando las reglas del juego del diagnóstico. ¡El futuro ya está aquí! 💪 #innovación #biotech #disrupción"}
+      {
+        "lang": "es",
+        "texto": "🚀 ¡Orgullosos de anunciar un hito revolucionario! 🎉 Nuestra tecnología disruptiva está cambiando las reglas del juego del diagnóstico. ¡El futuro ya está aquí! 💪 #innovación #biotech #disrupción"
+      }
+    ]
+  },
+  "recomendacion": {
+    "ok": [
+      {
+        "lang": "es",
+        "texto": "Conozco a Ana Martínez desde 2022, cuando se incorporó a mi grupo de la Universidad de Granada para realizar el TFM del Máster TRANSMED, que dirigí. Durante doce meses diseñó y sintetizó una serie de seis sondas PNA y puso a punto por su cuenta el ensayo de desplazamiento de banda que hoy usa todo el laboratorio. Cuando la purificación por HPLC de la sonda P4 falló dos veces, identificó ella sola la agregación por la secuencia rica en guanina y propuso el cambio de gradiente que lo resolvió. Su TFM obtuvo un 9,6 y sus datos forman parte de un manuscrito en revisión. Entre los alumnos de máster que he dirigido en quince años, la sitúo entre los tres mejores. Tiene la autonomía y el rigor experimental que exige el programa de doctorado en química biológica al que aspira, y la recomiendo sin reservas. Quedo a su disposición para ampliar cualquier información."
+      },
+      {
+        "lang": "en",
+        "texto": "I have known Dr. Pablo Ruiz since 2020, first as my PhD student and since 2024 as a postdoctoral researcher in my group at the University of Granada. Pablo led the development of our DCL assay for miR-122 in serum, from probe design to the analytical validation on 120 clinical samples, and he is first author of the resulting paper. He also wrote the Python pipeline that processes our MALDI-TOF data, which three other group members now use. Among the roughly twenty doctoral researchers I have supervised, he is in the top 10 % for independence and in the top 5 % for experimental design. He is well prepared for the Marie Skłodowska-Curie fellowship he is applying for, and I recommend him without reservation. I would be glad to provide further details."
+      }
+    ],
+    "mal": [
+      {
+        "lang": "es",
+        "texto": "Es un auténtico placer recomendar a Ana, una alumna brillante, apasionada, dedicada y trabajadora. Su entusiasmo es contagioso y siempre ha demostrado un compromiso excepcional. Aunque a veces le cuesta organizarse, estoy seguro de que será una gran incorporación para cualquier equipo. Sin duda alguna, es la mejor alumna que ha pasado por la universidad."
+      },
+      {
+        "lang": "en",
+        "texto": "It is with great pleasure that I wholeheartedly recommend Pablo, a truly exceptional, passionate and hard-working researcher. His dedication is unparalleled and he consistently goes above and beyond. Despite occasional delays, he is a valuable asset who will undoubtedly thrive in any environment and make a transformative impact."
+      }
     ]
   }
 }

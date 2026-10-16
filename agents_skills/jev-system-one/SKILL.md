@@ -1,6 +1,6 @@
 ---
 name: jev-system-one
-description: Ultrarrápido motor de decisiones "System 1" no autoregresivo (TypeSafe AI Jev) para enrutamiento de subagentes (<100ms), circuit breakers, filtrado de slop de IA y triaje de tareas docentes y biotecnológicas con primitivas Choice, Noul y Score. Juzga la voz por registro (ceo, alumnos, manuscrito, diapositivas, propuesta, informe, divulgacion).
+description: Ultrarrápido motor de decisiones "System 1" no autoregresivo (TypeSafe AI Jev) para enrutamiento de subagentes (<100ms), circuit breakers, filtrado de slop de IA y triaje de tareas docentes y biotecnológicas con primitivas Choice, Noul y Score. Juzga la voz por registro (ceo, alumnos, manuscrito, diapositivas, propuesta, informe, divulgacion, recomendacion).
 ---
 
 # Jev System-1 Fast Decision Engine
@@ -68,7 +68,7 @@ documentos largos muestrea cabeza, centro y cola para no perder slop enterrado a
 | `quality_gate_passed` | Certificación. `true` únicamente con veredicto real de Jev. |
 | `humanizer_skill` | `humanizer-juanjo-es` o `humanizer-juanjo`, ya resuelto por idioma. |
 | `slop_probability` | Noul de slop, umbral 0.50. |
-| `registro` | Registro de voz aplicado: `ceo`, `alumnos`, `manuscrito`, `diapositivas`, `propuesta`, `informe`, `divulgacion`. |
+| `registro` | Registro de voz aplicado: `ceo`, `alumnos`, `manuscrito`, `diapositivas`, `propuesta`, `informe`, `divulgacion`, `recomendacion`. |
 | `registro_origen` | De dónde sale: `parametro`, `marcador en el documento`, `carpeta (...)`, `jev choice`, `heuristica local`. |
 | `guia_registro` | Sección de `references/registros.md` que debe aplicar el humanizador. |
 | `voz_por_registro` | Solo en detección automática: p de voz con cada registro, para ver si el elegido es el que mejor encaja. |
@@ -90,8 +90,10 @@ voz se elige por registro, en español y en inglés:
 | `propuesta` | ISCIII, AEI, Horizon, FIBAO, EQC, CDTI. |
 | `informe` | Validaciones, ISO 9001/13485, CAPA, SOP, actas, IVDR. |
 | `divulgacion` | LinkedIn, notas de prensa, web, podcast. |
+| `recomendacion` | Cartas de recomendación y de referencia: máster, doctorado, becas, plazas, premios. |
 
 Alias admitidos: `students`, `manuscript`, `paper`, `slides`, `grant`, `report`, `outreach`,
+`recommendation`, `referencia`,
 `corporativo`, entre otros (`jev_registros.ALIAS`).
 
 **Cómo se decide**, de mayor a menor prioridad:

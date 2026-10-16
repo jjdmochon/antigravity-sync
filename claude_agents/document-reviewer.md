@@ -36,7 +36,7 @@ Read `etapas_a_ejecutar` from the output and **run only those stages**. Then:
 - The gate returns `humanizer_skill` already resolved from the detected `language`.
   Use exactly that one. Never run both voice skills.
 - The voice is judged per register: `ceo`, `alumnos`, `manuscrito`, `diapositivas`,
-  `propuesta`, `informe`, `divulgacion`. If you know what the document is (a PRADO notice,
+  `propuesta`, `informe`, `divulgacion`, `recomendacion`. If you know what the document is (a PRADO notice,
   a manuscript, a slide deck), pass `--registro <key>`; otherwise read `registro` and
   `registro_origen` from the output and check they make sense. Stage 3 applies the section
   of `guia_registro`, not the CEO profile, unless the register is `ceo`. Use the same

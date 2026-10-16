@@ -1,7 +1,7 @@
 - [Google Drive breaks Node tooling](google-drive-breaks-node-tooling.md) — npm/Vite/Gradle fail on K:/G:; keep sources on Drive, build from a C: mirror
 - [.agents\skills es la copia canónica](skills-duplicados-claude-y-agents.md) — .claude\skills y .gemini\config\skills son junctions; no recrearlas como carpetas reales
 - [Eulerna AlphaGenome MCP returns fake data](eulerna-alphagenome-mcp-returns-fake-data.md) — hardcoded numbers, never model predictions; use the DeepMind AVI client
-- [Jev Noul necesita instrucciones enumeradas](jev-gatekeeper-pipeline-documental.md) — instrucciones vagas → 0.63 sobre slop evidente, sin error; 8 registros de voz pendientes de calibrar
+- [Jev Noul necesita instrucciones enumeradas](jev-gatekeeper-pipeline-documental.md) — instrucciones vagas → 0.63 sobre slop evidente, sin error; 8 registros de voz calibrados (2026-10-16)
 - [Juanjo profile](juanjo-profile.md) — UGR Pharmacy academic, GENYO, DestiNA; teaching load; bilingual
 - [Juanjo scientific work](juanjo-scientific-work.md) — DCL/PNA diagnostics, miRNA biomarkers, GDL-PNA, AI drug discovery, KRT10, ISO 13485
 - [Doc gate hook](doc-gate-hook.md) — PostToolUse hook enforcing zero-LaTeX + Jev gate; voice judged per register (marker or .jev-registro)

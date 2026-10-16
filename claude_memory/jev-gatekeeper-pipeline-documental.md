@@ -45,7 +45,14 @@ mal 0.95–0.98). Falló solo el `Choice` en ceo, manuscrito, diapositivas e inf
 muestras mal enrutadas eran exactamente las 'mal', que no llevaban marcas formales de su tipo,
 así que Jev las clasificó por el tono. Corregido con `INSTR_CHOICE` enumerado por marcas
 formales, muestras 'mal' con esas marcas, y una calibración que exige acierto del Choice solo
-en las 'ok' y bloquea las 'mal' enmascaradas (mal enrutadas y aprobadas). Pendiente de
-recalibrar.
+en las 'ok' y bloquea las 'mal' enmascaradas (mal enrutadas y aprobadas).
+
+Segunda calibración (2026-10-16): los 8 registros en OK. p_voz ok 0.05–0.19, mal 0.95–0.98,
+separación 0.77 (propuesta) a 0.93 (informe). En la matriz cruzada, los valores bajos fuera de
+la diagonal están entre registros técnicos afines: informe y propuesta bajo la voz de
+manuscrito (0.25 y 0.29), diapositivas bajo manuscrito (0.45), alumnos bajo ceo (0.34). Un
+texto bueno enrutado a uno de esos vecinos también pasa, así que no hay daño; lo que importa
+es que ninguna muestra mala quede enmascarada, y ninguna lo queda. `propuesta` es el registro
+con menos margen: es el primero que hay que revisar si aparecen falsos negativos.
 
 Relacionado: [[skills-duplicados-claude-y-agents]]

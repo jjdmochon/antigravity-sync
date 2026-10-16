@@ -11,4 +11,6 @@ metadata:
 
 **Why (original):** the voice stage was deliberately non-blocking — on 2026-10-05 the voice Noul scored 0.81 "needs rewrite" on a sentence already written in Juanjo's voice, so blocking on it would nag on every save. Same fragility as [[jev-gatekeeper-pipeline-documental]].
 
+**Superseded by the register-aware update above (this machine's local fix was dropped on merge; the manuscrito register should cover technical reports).** Earlier 2026-10-16 note: the code did NOT match that intent: `mode_jev` still appended "voz p=..." to `fallos` and exited 2, so a peer-review report was rejected twice (p=0.85, then 0.73) because the voice classifier is calibrated for correspondence, not technical reports. The voice rejection was removed from `mode_jev` (p_voz is still saved in `~/.claude/state/jev-last.json`); backup at `doc_gate.py.bak-20261015-195359`. Do not rewrite technical reports to force Juanjo's voice; apply humanizer-juanjo only to correspondence or on request.
+
 **How to apply:** if the hook misfires on a file type or path, adjust EXTS/SKIP_DIRS in the script rather than disabling it. Wiring lives in ~/.claude/settings.json under hooks.PostToolUse.

@@ -5,3 +5,4 @@
 - [Juanjo profile](juanjo-profile.md) — UGR Pharmacy academic, GENYO, DestiNA; teaching load; bilingual
 - [Juanjo scientific work](juanjo-scientific-work.md) — DCL/PNA diagnostics, miRNA biomarkers, GDL-PNA, AI drug discovery, KRT10, ISO 13485
 - [Doc gate hook](doc-gate-hook.md) — PostToolUse hook enforcing zero-LaTeX + Jev gate; voice judged per register (marker or .jev-registro)
+- [teamwork_preview vs Claude Workflow](teamwork-preview-vs-claude-workflow.md) — manuscript-review comparison (Claude ~6 min vs Antigravity ~50 min) and when to use each

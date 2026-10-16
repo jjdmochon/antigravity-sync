@@ -62,6 +62,7 @@ For the LiverAce work, *"Usa tooluniverse para validar [diana] en hepatotoxicida
 | `molmim-nim`, `genmol-nim` | Library | Generative small-molecule design (NVIDIA BioNeMo). |
 | `kermt-finetune` / `kermt-infer` | Library | Train a KERMT molecular property model on your SMILES/assay CSV, then predict. |
 | `rfdiffusion-nim` → `proteinmpnn-nim` → `boltz2-nim` | Library (`bionemo` pack) | De novo binder design; template 19 runs the chain. |
+| `rfd3-designer`, `rfd3-paper` + `rfd3-expert` subagent | Core / Library + subagent | De novo all-atom biopolymer scaffolding (RFdiffusion3), unindexed catalytic theozymes, metalloenzymes (Zn2+, carbamylated Lys), targeted amyloid proteases, RNA codesign and hybrid ribonucleoprotein catalysts. |
 | `esm` | Library | Protein language models (ESM3 / ESM C). |
 
 ## 4. Nucleic acids, PNA, miRNA & variants (DestiNA, KRT10)

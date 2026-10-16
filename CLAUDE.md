@@ -44,10 +44,10 @@ This global configuration applies across all workspaces, folders, and projects f
 ## 3. Mandatory Document Production & Review Pipeline
 Applies to **deliverables**: manuscripts, reports, grant texts, presentations, syllabi, exams, and published web copy, whenever they are created or edited. It does not apply to chat replies, code, code comments, READMEs, or configuration files.
 The PostToolUse hook `~\.claude\hooks\doc_gate.py` enforces the mechanical part on `.md` / `.html` / `.txt` files: it blocks raw LaTeX at once and runs the Jev gate in the background (LaTeX, invisible marks, slop, voice). A rejection names the skill to run (`watermarks-remover`, `no-ai-slop`, `humanizer-juanjo` / `humanizer-juanjo-es`); apply it and save again.
-0. **Jev System-1 Gatekeeper & Routing (`jev-system-one` / `jev_doc_gatekeeper.py`)**: Sub-250ms non-autoregressive triage to score AI slop density, raw LaTeX violations, and voice alignment.
+0. **Jev System-1 Gatekeeper & Routing (`jev-system-one` / `jev_doc_gatekeeper.py`)**: Sub-250ms non-autoregressive triage to score AI slop density, raw LaTeX violations, and voice alignment per register (`ceo`, `alumnos`, `manuscrito`, `diapositivas`, `propuesta`, `informe`, `divulgacion`, `recomendacion`). Pass `--registro` when the text type is known, or mark the file with `<!-- registro: X -->` or a `.jev-registro` file in its folder.
 1. **Provenance & Watermarks (`watermarks-remover`)**: Strip invisible Unicode, zero-width tracking markers, homoglyphs, and remove C2PA/EXIF/XMP metadata from files.
 2. **Anti-Slop Audit (`no-ai-slop`)**: Remove AI filler words, formulaic transitions, superficial -ing clauses, rule-of-three cadence, and corporate padding.
-3. **Voice Calibration (`humanizer-juanjo` / `humanizer-juanjo-es`)**: Rewrite into Juanjo's executive voice.
+3. **Voice Calibration (`humanizer-juanjo` / `humanizer-juanjo-es`)**: Rewrite into Juanjo's voice for the register Jev returns (`jev-system-one/references/registros.md`); the executive CEO voice applies only to `ceo`.
 4. **Jev Quality Gate Certification**: Validate with Jev System-1 (`quality_gate_passed == True`) before deliverable sign-off.
 5. **Auto-Ingestion Rule**: Whenever the user uses the word "ingest" (e.g., "ingest this file", "ingest new thesis"), automatically execute the document/thesis ingestion workflow for the JJD-LLM-Wiki.
 

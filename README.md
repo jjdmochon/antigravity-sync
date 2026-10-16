@@ -174,7 +174,7 @@ la cubren la skill router `tooluniverse` y las sub-skills de la biblioteca.
 La app de escritorio no ejecuta los scripts de las skills, así que `sync-pull` (paso 14) registra
 en `%APPDATA%\Claude\claude_desktop_config.json` el servidor `jev`
 (`agents_skills\jev-system-one\mcp\jev_mcp_server.py`, con `py -3.13`). Expone
-`jev_gate_text`, `jev_gate_file` y `jev_route`, de modo que la app puede ejecutar las etapas 0 y 4
+`jev_gate_text`, `jev_gate_file` (ambas con `registro` opcional), `jev_registros` y `jev_route`, de modo que la app puede ejecutar las etapas 0 y 4
 del pipeline con las skills de la cuenta (`remove-ai-marks`, `no-ai-slop`, `humanizer-juanjo(-es)`).
 Requiere `mcp>=2` en Python 3.13 y reiniciar la app. Solo afecta a la app de escritorio de cada
 equipo; claude.ai web y el móvil no ven MCP locales. Las skills subidas a la cuenta están en

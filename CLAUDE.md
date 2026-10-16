@@ -57,7 +57,7 @@ The PostToolUse hook `~\.claude\hooks\doc_gate.py` enforces the mechanical part 
 
 Skills are split in two tiers to stay within the context budget (paths relative to `%USERPROFILE%` / `$HOME`; never hardcode a user name):
 
-- **Core** (`~\.agents\skills`, also visible as `~\.claude\skills` and `~\.gemini\config\skills`): ~38 always-loaded skills — `juanjo-copilot`, `jev-system-one`, the humanizers, `no-ai-slop`, `watermarks-remover`, `document-pipeline`, `tooluniverse` (router), `skill-catalog`, etc.
+- **Core** (`~\.agents\skills`, also visible as `~\.claude\skills` and `~\.gemini\config\skills`): ~44 always-loaded skills — `juanjo-copilot`, `jev-system-one`, the humanizers, `no-ai-slop`, `watermarks-remover`, `document-pipeline`, `tooluniverse` (router), `skill-catalog`, etc.
 - **Library** (`~\.agents\skill-library`): ~235 domain skills (ToolUniverse, AlphaGenome, Albatross, biomedical databases, literature search, Google Cloud/BigQuery, UGR teaching). Not auto-loaded, but available from **any** folder.
 
 ### Skill Discovery & Usage:
